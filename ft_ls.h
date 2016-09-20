@@ -6,7 +6,7 @@
 /*   By: bngo <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/20 15:28:46 by bngo              #+#    #+#             */
-/*   Updated: 2016/09/20 15:36:34 by bngo             ###   ########.fr       */
+/*   Updated: 2016/09/20 16:57:11 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,13 @@
 # include <sys/xattr.h>
 # include <pwd.h>
 # include <time.h>
+
+typedef struct		s_file
+{
+	char			*name;
+	int				date_create;
+	int				size;
+	struct s_file	*next;
+}					t_file;
 
 #endif

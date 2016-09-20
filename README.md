@@ -13,7 +13,7 @@ Partie Obligatoire:
 -a	Include directory entries whose names begin with a dot (.)
 
 -r	Reverse the order of the sort to get reverse lexicographical order or the
-	older entries first (or largest files lastm if combined with sort by size)
+	older entries first (or largest files last, if combined with sort by size)
 
 -t	Sort by time modified (most recently modified first) before sorting the
 	operands by lexicographical order.
