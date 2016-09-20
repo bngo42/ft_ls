@@ -6,12 +6,13 @@
 /*   By: bngo <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/20 15:28:46 by bngo              #+#    #+#             */
-/*   Updated: 2016/09/20 15:33:52 by bngo             ###   ########.fr       */
+/*   Updated: 2016/09/20 15:36:34 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_LS_H
 # define FT_LS_H
+# include "libft/libft.h"
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
