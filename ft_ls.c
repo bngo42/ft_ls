@@ -6,7 +6,7 @@
 /*   By: bngo <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/20 14:56:54 by bngo              #+#    #+#             */
-/*   Updated: 2016/09/20 18:56:19 by bngo             ###   ########.fr       */
+/*   Updated: 2016/09/21 17:30:31 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,15 +53,31 @@ int		ft_get_param(char *str)
 */
 char	*ft_combine_param(int count, char **argv)
 {
-	char *result;
-	int i;
+	char		*result;
+	char		*flag;
+	int			i;
+	int			j;
 
-	i = 1;
-	ft_putendl("DEBUG");
-	result = "";
-	while (i < count)
-		result = ft_strjoin(result, argv[i++]);
-	printf("<|%s|>\n", result);
+	i = 0;
+	flag = "lRart";
+	result = "-";
+	while (++i < count)
+	{
+		if (argv[i][0] != '-')
+			return (NULL);
+		j = 0;
+		while (argv[i][j])
+		{
+			if (argv[i][j] == '-' && (argv[i][j - 1] == ' ' || argv[i][j + 1] == '-'))
+				return (NULL);
+			else if (argv[i][j] != '-' && !ft_strchr(flag, argv[i][j]))
+				return (NULL);
+			else
+				ft_strjoin(result, argv[i][j]);
+			j++;
+		}
+	}
+	printf("arguments found: <|%s|>\n", result);
 	return (result);
 }
 
