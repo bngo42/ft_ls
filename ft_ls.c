@@ -6,7 +6,7 @@
 /*   By: bngo <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/20 14:56:54 by bngo              #+#    #+#             */
-/*   Updated: 2016/09/21 17:30:31 by bngo             ###   ########.fr       */
+/*   Updated: 2016/09/22 13:27:32 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,25 +55,40 @@ char	*ft_combine_param(int count, char **argv)
 {
 	char		*result;
 	char		*flag;
+	char		*arg;
 	int			i;
 	int			j;
 
 	i = 0;
 	flag = "lRart";
 	result = "-";
-	while (++i < count)
+	arg = ft_strnew(1);
+	while (++i < count && !ft_strstr(result, "--"))
 	{
 		if (argv[i][0] != '-')
 			return (NULL);
 		j = 0;
 		while (argv[i][j])
 		{
-			if (argv[i][j] == '-' && (argv[i][j - 1] == ' ' || argv[i][j + 1] == '-'))
+			if (argv[i][j] == '-' && j > 0 && (argv[i][j - 1] != ' ' || argv[i][j + 1] == '-'))
+			{
+				ft_putendl("cond1");
 				return (NULL);
+			}
 			else if (argv[i][j] != '-' && !ft_strchr(flag, argv[i][j]))
+			{
+				ft_putendl("cond2");
 				return (NULL);
+			}
 			else
-				ft_strjoin(result, argv[i][j]);
+			{
+				ft_putendl("cond3");
+				if (argv[i][j] != '-')
+				{
+					arg[0] = argv[i][j];
+					result = ft_strjoin(result, arg);
+				}
+			}
 			j++;
 		}
 	}
@@ -112,4 +127,4 @@ int		main(int argc, char **argv)
 		
 	}*/
 	return (0);
-}
+}	
