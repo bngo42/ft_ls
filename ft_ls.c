@@ -6,7 +6,7 @@
 /*   By: bngo <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/20 14:56:54 by bngo              #+#    #+#             */
-/*   Updated: 2016/09/22 13:27:32 by bngo             ###   ########.fr       */
+/*   Updated: 2016/09/22 15:53:46 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,55 +51,79 @@ int		ft_get_param(char *str)
 	return (0);
 }
 */
-char	*ft_combine_param(int count, char **argv)
+char	*ft_combine_param(char **argv)
 {
-	char		*result;
-	char		*flag;
-	char		*arg;
-	int			i;
-	int			j;
+	char	*result;
+	char	*flag;
+	char	*arg;
+	int		i;
+	int		j;
 
 	i = 0;
+	result = "";
 	flag = "lRart";
-	result = "-";
-	arg = ft_strnew(1);
-	while (++i < count && !ft_strstr(result, "--"))
+	arg = ft_strnew(0);
+	while (argv[++i] && !ft_strstr(result, "--"))
 	{
-		if (argv[i][0] != '-')
-			return (NULL);
 		j = 0;
+		if (argv[i][0] != '-')
+			return (NULL);//Pas de '-' avant les options
 		while (argv[i][j])
 		{
-			if (argv[i][j] == '-' && j > 0 && (argv[i][j - 1] != ' ' || argv[i][j + 1] == '-'))
-			{
-				ft_putendl("cond1");
-				return (NULL);
-			}
-			else if (argv[i][j] != '-' && !ft_strchr(flag, argv[i][j]))
+			if (argv[i][j] != '-' && !ft_strchr(flag, argv[i][j]))
 			{
 				ft_putendl("cond2");
+				return (NULL);// Options non supporte
+			}
+			else if (argv[i][j] == '-' && j > 0 && (argv[i][j - 1] != ' ' && argv[i][j - 1] != '-'))
+			{
+				ft_putendl("cond3");// Pas d'espace avant '-'
 				return (NULL);
 			}
 			else
 			{
-				ft_putendl("cond3");
-				if (argv[i][j] != '-')
-				{
-					arg[0] = argv[i][j];
-					result = ft_strjoin(result, arg);
-				}
+				ft_putendl("cond4");
+				arg[0] = argv[i][j];
+				result = ft_strjoin(result, arg);
 			}
 			j++;
 		}
 	}
+	j = 0;
+	if (result == NULL)
+		return (NULL);
 	printf("arguments found: <|%s|>\n", result);
 	return (result);
 }
 
-int		ft_check_param(int count, char **argv)
+int		ft_check_param(char **argv)
 {
-	char *result;
-	result = ft_combine_param(count, argv);
+	char	*result;
+	char	*flag;
+	int		state[5];
+	int		i;
+	int		j;
+
+
+	result = ft_combine_param(argv);
+	flag = "lRart";
+	i = 0;
+	while (i < 5)
+		state[i++] = 0;
+	i = 0;
+	while (result[i++])
+	{
+		j = 0;
+		while (result[i] != '-' && flag[j++])
+		{
+			if (result[i] == flag[j])
+				state[j] = 1;
+		}
+	}
+	j = 0;
+	while (j < 5)
+		ft_putnbr(state[j++]);
+	ft_putchar('\n');
 	return (1);
 }
 /*
@@ -117,8 +141,8 @@ int		ft_list_file(DIR *rep)
 */
 int		main(int argc, char **argv)
 {
-	
-	if (!(ft_check_param(argc, argv)))
+	(void)argc;
+	if (!(ft_check_param(argv)))
 		return(-1);
 	/*if (argc > 0)
 	{
