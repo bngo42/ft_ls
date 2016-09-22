@@ -6,7 +6,7 @@
 /*   By: bngo <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/20 14:56:54 by bngo              #+#    #+#             */
-/*   Updated: 2016/09/22 15:53:46 by bngo             ###   ########.fr       */
+/*   Updated: 2016/09/22 15:55:58 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,10 +114,11 @@ int		ft_check_param(char **argv)
 	while (result[i++])
 	{
 		j = 0;
-		while (result[i] != '-' && flag[j++])
+		while (result[i] != '-' && flag[j])
 		{
 			if (result[i] == flag[j])
 				state[j] = 1;
+			j++;
 		}
 	}
 	j = 0;
