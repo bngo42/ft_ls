@@ -6,7 +6,7 @@
 /*   By: bngo <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/20 14:56:54 by bngo              #+#    #+#             */
-/*   Updated: 2016/09/22 15:55:58 by bngo             ###   ########.fr       */
+/*   Updated: 2016/09/22 16:28:14 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,49 +51,46 @@ int		ft_get_param(char *str)
 	return (0);
 }
 */
-char	*ft_combine_param(char **argv)
+int		ft_combine_param(char **argv, char **result)
 {
-	char	*result;
 	char	*flag;
 	char	*arg;
 	int		i;
 	int		j;
 
 	i = 0;
-	result = "";
+	(*result) = "";
 	flag = "lRart";
 	arg = ft_strnew(0);
-	while (argv[++i] && !ft_strstr(result, "--"))
+	while (argv[++i] && !ft_strstr((*result), "--"))
 	{
 		j = 0;
 		if (argv[i][0] != '-')
-			return (NULL);//Pas de '-' avant les options
+			return (-1);//Pas de '-' avant les options
 		while (argv[i][j])
 		{
 			if (argv[i][j] != '-' && !ft_strchr(flag, argv[i][j]))
 			{
 				ft_putendl("cond2");
-				return (NULL);// Options non supporte
+				return (-1);// Options non supporte
 			}
 			else if (argv[i][j] == '-' && j > 0 && (argv[i][j - 1] != ' ' && argv[i][j - 1] != '-'))
 			{
 				ft_putendl("cond3");// Pas d'espace avant '-'
-				return (NULL);
+				return (-1);
 			}
 			else
 			{
 				ft_putendl("cond4");
 				arg[0] = argv[i][j];
-				result = ft_strjoin(result, arg);
+				(*result) = ft_strjoin((*result), arg);
 			}
 			j++;
 		}
 	}
 	j = 0;
-	if (result == NULL)
-		return (NULL);
-	printf("arguments found: <|%s|>\n", result);
-	return (result);
+	printf("arguments found: <|%s|>\n", (*result));
+	return (0);
 }
 
 int		ft_check_param(char **argv)
@@ -104,8 +101,8 @@ int		ft_check_param(char **argv)
 	int		i;
 	int		j;
 
-
-	result = ft_combine_param(argv);
+	if ((ft_combine_param(argv, &result)) == -1)
+		return (-1);
 	flag = "lRart";
 	i = 0;
 	while (i < 5)
@@ -127,6 +124,7 @@ int		ft_check_param(char **argv)
 	ft_putchar('\n');
 	return (1);
 }
+
 /*
 int		ft_list_file(DIR *rep)
 {
@@ -142,9 +140,10 @@ int		ft_list_file(DIR *rep)
 */
 int		main(int argc, char **argv)
 {
+
 	(void)argc;
 	if (!(ft_check_param(argv)))
-		return(-1);
+		return (1);
 	/*if (argc > 0)
 	{
 		if(!(rep = opendir(argv[1])))
