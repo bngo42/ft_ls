@@ -6,7 +6,7 @@
 /*   By: bngo <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/20 14:56:54 by bngo              #+#    #+#             */
-/*   Updated: 2016/09/26 13:29:25 by bngo             ###   ########.fr       */
+/*   Updated: 2016/09/26 13:31:36 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ int		ft_list_file(DIR *rep)
 	while ((data = readdir(rep)) != NULL)
 	{
 		ft_putstr(data->d_name);
-		ft_putchar('\t');
+		ft_putchar('\n');
 	}
 	return (0);
 }
@@ -135,7 +135,7 @@ int		main(int argc, char **argv)
 	{
 		if (value[i] != NULL)
 		{
-			if(!(rep = opendir(argv[i])))
+			if(!(rep = opendir(value[i])))
 				return (-1);
 			ft_list_file(rep);
 		}
