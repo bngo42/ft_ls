@@ -6,7 +6,7 @@
 /*   By: bngo <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/20 14:56:54 by bngo              #+#    #+#             */
-/*   Updated: 2016/09/26 18:20:55 by bngo             ###   ########.fr       */
+/*   Updated: 2016/09/26 18:38:05 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ void	ft_show_list(t_file *lst)
 	{
 		if (lst->name[0] != '.')
 		{
-			ft_putstr("\x1B[34m");
+			ft_putstr(RED);
 			ft_putendl(lst->name);
-			ft_putstr("\x1B[0m");
+			ft_putstr(END);
 		}
 		lst = lst->next;
 	}

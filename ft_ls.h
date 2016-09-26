@@ -6,7 +6,7 @@
 /*   By: bngo <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/20 15:28:46 by bngo              #+#    #+#             */
-/*   Updated: 2016/09/26 18:10:05 by bngo             ###   ########.fr       */
+/*   Updated: 2016/09/26 18:38:01 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@
 # include <sys/xattr.h>
 # include <pwd.h>
 # include <time.h>
+
+# define RED "\x1B[34m"
+# define END "\x1B[0m"
 
 typedef struct		s_file
 {
