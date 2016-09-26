@@ -6,7 +6,7 @@
 /*   By: bngo <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/20 15:28:46 by bngo              #+#    #+#             */
-/*   Updated: 2016/09/21 16:10:32 by bngo             ###   ########.fr       */
+/*   Updated: 2016/09/26 18:02:33 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,10 @@
 typedef struct		s_file
 {
 	char			*name;
-	int				date_create;
+	time_t			*date_change;
 	int				size;
 	struct s_file	*next;
+	struct s_file	*prev;
 }					t_file;
 
 #endif
