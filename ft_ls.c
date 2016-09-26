@@ -6,7 +6,7 @@
 /*   By: bngo <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/20 14:56:54 by bngo              #+#    #+#             */
-/*   Updated: 2016/09/26 14:55:54 by bngo             ###   ########.fr       */
+/*   Updated: 2016/09/26 16:43:57 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,9 @@ int		ft_combine_param(char **argv, char **result)
 	(*result) = "";
 	flag = "lRart";
 	arg = ft_strnew(0);
-	ft_putendl("caca");
-	while (argv[i++] && !ft_strstr((*result), "--") && argv[i][0] == '-')
+	while (argv[i] && !ft_strstr((*result), "--") && argv[i][0] == '-')
 	{
 		j = 0;
-		ft_putendl("caca");
 		while (argv[i][j])
 		{
 			if (argv[i][j] != '-' && !ft_strchr(flag, argv[i][j]))
@@ -66,9 +64,9 @@ int		ft_combine_param(char **argv, char **result)
 			}
 			j++;
 		}
-		ft_strdel(&argv[i]);
+		ft_strclr(argv[i]);
+		i++;
 	}
-	ft_putendl("caca");
 	return (0);
 }
 
@@ -81,6 +79,7 @@ int		ft_check_param(char **argv, int *arg)
 
 	if ((ft_combine_param(argv, &result)) == -1)
 		return (-1);
+	printf("Combined param: %s\n", result);
 	flag = "lRart";
 	i = 0;
 	while (i < 5)
@@ -91,19 +90,14 @@ int		ft_check_param(char **argv, int *arg)
 		j = 0;
 		while (result[i] != '-' && flag[j])
 		{
-			ft_putendl("juju");
 			if (result[i] == flag[j])
 				arg[j] = 1;
 			j++;
 		}
 	}
 	j = 0;
-	while (j < 5)
-		ft_putnbr(arg[j++]);
-	ft_putchar('\n');
 	return (1);
 }
-
 
 int		ft_list_file(DIR *rep)
 {
@@ -124,18 +118,20 @@ int		main(int argc, char **argv)
 	int		i;
 	DIR		*rep;
 
-	i = -1;
+	i = 0;
 	value = (char**)malloc(sizeof(char*) * (argc - 1));
 	arg = (int*)malloc(sizeof(int) * 5);
-	while (++i < (argc - 1))
+	while (i < (argc - 1))
+	{
 		value[i] = ft_strdup(argv[i + 1]);
+		i++;
+	}
 	if (!(ft_check_param(value, arg)))
 	{
 		ft_putendl("invalid param");
 		return (1);
 	}
-	for(int p = 0; p < argc - 1; p++)
-		printf("argv[%i] = %s\n", p, value[p]);
+	printf("l: %i R: %i a: %i r: %i t: %i\n",arg[0],arg[1],arg[2],arg[3],arg[4]);
 	i = 0;
 	(void)rep;
 	/*while (i < (argc - 1))
