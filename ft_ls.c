@@ -6,7 +6,7 @@
 /*   By: bngo <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/20 14:56:54 by bngo              #+#    #+#             */
-/*   Updated: 2016/09/26 18:05:27 by bngo             ###   ########.fr       */
+/*   Updated: 2016/09/26 18:20:55 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,22 @@ void	ft_show_list(t_file *lst)
 	lst = tmp;
 }
 
+void	ft_add_elem(t_file **lst, t_file **elem, char *name)
+{
+	t_file *tmp;
+
+	tmp = *lst;
+	while ((*lst)->next && !ft_strequ(name, (*lst)->name))
+		*lst = (*lst)->next;
+	if (ft_strequ(name, (*lst)->name))
+	{
+		(*elem)->next = (*lst)->next;
+		(*elem)->prev = (*lst);
+		(*lst)->next = (*elem);
+	}
+	*lst = tmp;
+}
+
 void	ft_push_back(t_file **lst, t_file **elem)
 {
 	t_file *tmp;
@@ -49,7 +65,7 @@ t_file	*ft_new_elem(char *name)
 	if(!(new = (t_file*)malloc(sizeof(t_file))))
 		return (NULL);
 	new->name = name;
-	new->date_change = 0;
+	new->date = NULL;
 	new->prev = NULL;
 	new->next = NULL;
 	return (new);
