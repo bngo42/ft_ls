@@ -6,7 +6,7 @@
 /*   By: bngo <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/20 14:56:54 by bngo              #+#    #+#             */
-/*   Updated: 2016/09/22 16:28:14 by bngo             ###   ########.fr       */
+/*   Updated: 2016/09/26 13:29:25 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,36 +21,15 @@ t_file	*ft_new_elem(char *name)
 {
 	t_file *new;
 
+	if(!(new = (t_file*)malloc(sizeof(t_file))))
+		return (NULL);
+	new->name = name;
+	new->date_create = 0;
+	new->next = NULL;
 	return (new);
 }
-
-int		ft_get_param(char *str)
-{
-	//0 ERROR
-	//1 -l
-	//2 -R
-	//3 -a
-	//4 -r
-	//5 -t
-	int state[6];
-	const char flag[6] = {'l','R','a','r','t'};
-	int i;
-	int	j;
-
-	i = 0;
-	while (i < 4)
-		state[0] = 0;
-	i = 0;
-	while (str[i])
-	{
-		while (str[i] != ' ' && str[i] != '\t' && str[i] != '\n' && str[i])
-			i++;
-
-		i++;
-	}
-	return (0);
-}
 */
+
 int		ft_combine_param(char **argv, char **result)
 {
 	char	*flag;
@@ -87,17 +66,15 @@ int		ft_combine_param(char **argv, char **result)
 			}
 			j++;
 		}
+		ft_strdel(&argv[i]);
 	}
-	j = 0;
-	printf("arguments found: <|%s|>\n", (*result));
 	return (0);
 }
 
-int		ft_check_param(char **argv)
+int		ft_check_param(char **argv, int *arg)
 {
 	char	*result;
 	char	*flag;
-	int		state[5];
 	int		i;
 	int		j;
 
@@ -106,7 +83,7 @@ int		ft_check_param(char **argv)
 	flag = "lRart";
 	i = 0;
 	while (i < 5)
-		state[i++] = 0;
+		arg[i++] = 0;
 	i = 0;
 	while (result[i++])
 	{
@@ -114,18 +91,18 @@ int		ft_check_param(char **argv)
 		while (result[i] != '-' && flag[j])
 		{
 			if (result[i] == flag[j])
-				state[j] = 1;
+				arg[j] = 1;
 			j++;
 		}
 	}
 	j = 0;
 	while (j < 5)
-		ft_putnbr(state[j++]);
+		ft_putnbr(arg[j++]);
 	ft_putchar('\n');
 	return (1);
 }
 
-/*
+
 int		ft_list_file(DIR *rep)
 {
 	struct dirent *data;
@@ -137,18 +114,33 @@ int		ft_list_file(DIR *rep)
 	}
 	return (0);
 }
-*/
 int		main(int argc, char **argv)
 {
+	int		*arg;
+	char	**value;
+	int		i;
+	DIR		*rep;
 
-	(void)argc;
-	if (!(ft_check_param(argv)))
+	i = 0;
+	value = (char**)malloc(sizeof(char*) * (argc - 1));
+	while (++i < argc)
+		value[i - 1] = ft_strdup(argv[i]);
+	arg = (int*)malloc(sizeof(int) * 5);
+	if (!(ft_check_param(value, arg)))
 		return (1);
-	/*if (argc > 0)
+	for(int p = 0; p < argc - 1; p++)
+		printf("argv[%i] = %s\n", p, value[p]);
+	i = 1;
+	while (i < (argc - 1))
 	{
-		if(!(rep = opendir(argv[1])))
-			return (-1);
+		if (value[i] != NULL)
+		{
+			if(!(rep = opendir(argv[i])))
+				return (-1);
+			ft_list_file(rep);
+		}
+		i++;
+	}
 		
-	}*/
 	return (0);
 }	
