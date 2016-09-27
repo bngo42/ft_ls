@@ -6,7 +6,7 @@
 /*   By: bngo <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/20 14:56:54 by bngo              #+#    #+#             */
-/*   Updated: 2016/09/27 12:39:05 by bngo             ###   ########.fr       */
+/*   Updated: 2016/09/27 18:00:52 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,12 @@ void	ft_swap_link(t_file **a, t_file **b)
 	t_file *tmp;
 
 	tmp = *b;
+	printf("swaping %s with %s\n", (*a)->name, (*b)->name);
 	(*b)->next = (*a)->next;
 	(*b)->prev = (*a)->prev;
 	(*a)->next = tmp->next;
 	(*a)->prev = tmp->prev;
+	printf("result to %s and %s\n", (*b)->name, (*a)->name);
 }
 
 void	ft_show_list(t_file *lst)
@@ -28,7 +30,7 @@ void	ft_show_list(t_file *lst)
 	t_file	*tmp;
 
 	tmp = lst;
-	while (lst->next)
+	while (lst)
 	{
 		ft_putstr(RED);
 		ft_putendl(lst->name);
@@ -54,18 +56,86 @@ void	ft_add_elem(t_file **lst, t_file **elem, char *name)
 	*lst = tmp;
 }
 
-void	ft_push_back(t_file **lst, t_file **elem)
+void	ft_sort_lst(t_file **lst)
 {
-	t_file *tmp;
+	int		i;
+	int		len;
+	t_file	*tmp;
 
 	tmp = *lst;
+	i = 0;
+	len = 0;
 	while ((*lst)->next)
+	{
 		*lst = (*lst)->next;
-	(*lst)->next = (*elem);
-	(*elem)->prev = (*lst);
+		len++;
+	}
 	*lst = tmp;
+	while (i < (len - 1))
+	{
+		if (ft_strcmp((*lst)->name, (*lst)->next->name) < 0)
+			ft_swap_link(&(*lst), &(*lst)->next);
+		*lst = (*lst)->next;
+		i++;
+	}
 }
+/*
+   void	ft_push_back(t_file **lst, t_file *elem)
+   {
+   t_file *tmp;
 
+   tmp = *lst;
+//printf("start = %s\n", (*lst)->name);
+//printf("elem = %s\n\n", (*elem)->name);
+printf("--------------START--------------------\n");
+ft_show_list(*lst);
+printf("---------------END-----------------\n");
+printf("#####################################\n");
+if (ft_strcmp(elem->name, (*lst)->name) < 0)
+{
+elem->next = *lst;
+(*lst)->prev = elem;
+ *lst = elem;
+ }
+ else
+ {
+ while ((*lst)->next && ft_strcmp(elem->name, (*lst)->name) > 0)
+ {
+ *lst = (*lst)->next;
+ }
+//	printf("cur lst = %s\n", (*lst)->name);
+//	printf("fdp = %s\n", (*elem)->name);
+elem->next = (*lst)->next;
+(*lst)->next = elem;
+elem->prev = (*lst);
+ *lst = tmp;
+ }
+ }
+ */
+
+void ft_push_back(t_file **start, t_file *new)
+{
+	t_file	*tmp;
+	t_file	*tmp2;
+
+	if (ft_strcmp((*start)->name, new->name) < 0)
+	{
+		tmp = *start;
+		while (*start && ft_strcmp((*start)->name, new->name) < 0)
+		{
+			tmp2 = *start;
+			*start = (*start)->next;
+		}
+		new->next = tmp2->next;
+		tmp2->next = new;
+		*start = tmp;
+	}
+	else
+	{
+		new->next = *start;
+		*start = new;
+	}
+}
 t_file	*ft_new_elem(char *name)
 {
 	t_file *new;
@@ -97,18 +167,14 @@ int		ft_combine_param(char **argv, char **result)
 		while (argv[i][j])
 		{
 			if (argv[i][j] != '-' && !ft_strchr(flag, argv[i][j]))
-			{
-				//ft_putendl("cond2");
 				return (-1);// Options non supporte
-			}
-			else if (argv[i][j] == '-' && j > 0 && (argv[i][j - 1] != ' ' && argv[i][j - 1] != '-'))
+			else if (argv[i][j] == '-' && j > 0 && (argv[i][j - 1] != ' ' &&
+						argv[i][j - 1] != '-'))
 			{
-				//ft_putendl("cond3");// Pas d'espace avant '-'
 				return (-1);
 			}
 			else
 			{
-				//ft_putendl("cond4");
 				arg[0] = argv[i][j];
 				(*result) = ft_strjoin((*result), arg);
 			}
@@ -156,9 +222,9 @@ int		ft_list_file(DIR *rep, int *arg)//lRart
 	//struct stat		*buf;
 	t_file			*lst;
 	t_file			*file;
-	
+
 	if ((data = readdir(rep)) == NULL)
-			return (-1);
+		return (-1);
 	while (!arg[2] && data->d_name[0] == '.')
 	{
 		if ((data = readdir(rep)) == NULL)
@@ -167,11 +233,10 @@ int		ft_list_file(DIR *rep, int *arg)//lRart
 	lst = ft_new_elem(data->d_name);
 	while ((data = readdir(rep)) != NULL)
 	{
-		//ft_putendl(data->d_name);
 		if ((arg[2] && data->d_name[0] == '.') || data->d_name[0] != '.')
 		{
 			file = ft_new_elem(data->d_name);
-			ft_push_back(&lst, &file);
+			ft_push_back(&lst, file);
 		}
 	}
 	ft_show_list(lst);
@@ -199,7 +264,7 @@ int		main(int argc, char **argv)
 		return (1);
 	}
 	i = 0;
-	while (i < (argc - 1))
+	while (i < (argc))
 	{
 		if (value[i] != NULL)
 		{
