@@ -6,7 +6,7 @@
 /*   By: bngo <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/20 15:28:46 by bngo              #+#    #+#             */
-/*   Updated: 2016/09/26 18:38:01 by bngo             ###   ########.fr       */
+/*   Updated: 2016/09/27 11:52:41 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@
 # include <pwd.h>
 # include <time.h>
 
-# define RED "\x1B[34m"
+# define RED "\x1B[31m"
+# define GRN "\x1B[32m"
+# define YEL "\x1B[33m"
+# define BLU "\x1B[34m"
 # define END "\x1B[0m"
 
 typedef struct		s_file

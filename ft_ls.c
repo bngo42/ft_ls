@@ -6,11 +6,22 @@
 /*   By: bngo <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/20 14:56:54 by bngo              #+#    #+#             */
-/*   Updated: 2016/09/26 18:38:05 by bngo             ###   ########.fr       */
+/*   Updated: 2016/09/27 12:39:05 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
+
+void	ft_swap_link(t_file **a, t_file **b)
+{
+	t_file *tmp;
+
+	tmp = *b;
+	(*b)->next = (*a)->next;
+	(*b)->prev = (*a)->prev;
+	(*a)->next = tmp->next;
+	(*a)->prev = tmp->prev;
+}
 
 void	ft_show_list(t_file *lst)
 {
@@ -19,12 +30,9 @@ void	ft_show_list(t_file *lst)
 	tmp = lst;
 	while (lst->next)
 	{
-		if (lst->name[0] != '.')
-		{
-			ft_putstr(RED);
-			ft_putendl(lst->name);
-			ft_putstr(END);
-		}
+		ft_putstr(RED);
+		ft_putendl(lst->name);
+		ft_putstr(END);
 		lst = lst->next;
 	}
 	lst = tmp;
@@ -142,21 +150,29 @@ int		ft_check_param(char **argv, int *arg)
 	return (1);
 }
 
-int		ft_list_file(DIR *rep)
+int		ft_list_file(DIR *rep, int *arg)//lRart
 {
 	struct dirent	*data;
 	//struct stat		*buf;
 	t_file			*lst;
 	t_file			*file;
-
+	
 	if ((data = readdir(rep)) == NULL)
-		return (-1);
+			return (-1);
+	while (!arg[2] && data->d_name[0] == '.')
+	{
+		if ((data = readdir(rep)) == NULL)
+			return (-1);
+	}
 	lst = ft_new_elem(data->d_name);
 	while ((data = readdir(rep)) != NULL)
 	{
 		//ft_putendl(data->d_name);
-		file = ft_new_elem(data->d_name);
-		ft_push_back(&lst, &file);
+		if ((arg[2] && data->d_name[0] == '.') || data->d_name[0] != '.')
+		{
+			file = ft_new_elem(data->d_name);
+			ft_push_back(&lst, &file);
+		}
 	}
 	ft_show_list(lst);
 	ft_putchar('\n');
@@ -189,11 +205,11 @@ int		main(int argc, char **argv)
 		{
 			if ((rep = opendir(value[i])))
 			{
-				ft_putstr("\x1B[31m");
+				ft_putstr(BLU);
 				ft_putstr(value[i]);
 				ft_putendl(":");
-				ft_putstr("\x1B[0m");
-				ft_list_file(rep);
+				ft_putstr(END);
+				ft_list_file(rep, arg);
 			}
 			else
 			{
