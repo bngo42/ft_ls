@@ -6,7 +6,7 @@
 /*   By: bngo <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/20 14:56:54 by bngo              #+#    #+#             */
-/*   Updated: 2016/09/27 18:00:52 by bngo             ###   ########.fr       */
+/*   Updated: 2016/09/27 19:04:59 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,41 +79,7 @@ void	ft_sort_lst(t_file **lst)
 		i++;
 	}
 }
-/*
-   void	ft_push_back(t_file **lst, t_file *elem)
-   {
-   t_file *tmp;
-
-   tmp = *lst;
-//printf("start = %s\n", (*lst)->name);
-//printf("elem = %s\n\n", (*elem)->name);
-printf("--------------START--------------------\n");
-ft_show_list(*lst);
-printf("---------------END-----------------\n");
-printf("#####################################\n");
-if (ft_strcmp(elem->name, (*lst)->name) < 0)
-{
-elem->next = *lst;
-(*lst)->prev = elem;
- *lst = elem;
- }
- else
- {
- while ((*lst)->next && ft_strcmp(elem->name, (*lst)->name) > 0)
- {
- *lst = (*lst)->next;
- }
-//	printf("cur lst = %s\n", (*lst)->name);
-//	printf("fdp = %s\n", (*elem)->name);
-elem->next = (*lst)->next;
-(*lst)->next = elem;
-elem->prev = (*lst);
- *lst = tmp;
- }
- }
- */
-
-void ft_push_back(t_file **start, t_file *new)
+void ft_push_elem(t_file **start, t_file *new)
 {
 	t_file	*tmp;
 	t_file	*tmp2;
@@ -236,7 +202,7 @@ int		ft_list_file(DIR *rep, int *arg)//lRart
 		if ((arg[2] && data->d_name[0] == '.') || data->d_name[0] != '.')
 		{
 			file = ft_new_elem(data->d_name);
-			ft_push_back(&lst, file);
+			ft_push_elem(&lst, file);
 		}
 	}
 	ft_show_list(lst);
