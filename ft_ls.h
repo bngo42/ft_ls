@@ -6,7 +6,7 @@
 /*   By: bngo <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/20 15:28:46 by bngo              #+#    #+#             */
-/*   Updated: 2016/09/27 11:52:41 by bngo             ###   ########.fr       */
+/*   Updated: 2016/09/28 12:06:53 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,17 @@
 # define BLU "\x1B[34m"
 # define END "\x1B[0m"
 
+# define DBUG write(1, "DEBUG1\n", 7);
+# define DBUG2 write(1, "DEBUG2\n", 7);
+# define DBUG3 write(1, "DEBUG3\n", 7);
+
 typedef struct		s_file
 {
 	char			*name;
 	time_t			*date;
 	dev_t			*dev_info;
 	int				size;
+	unsigned char	type;
 	struct s_file	*next;
 	struct s_file	*prev;
 }					t_file;

@@ -6,7 +6,7 @@
 /*   By: bngo <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/20 14:56:54 by bngo              #+#    #+#             */
-/*   Updated: 2016/09/27 19:04:59 by bngo             ###   ########.fr       */
+/*   Updated: 2016/09/28 14:20:21 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,60 +25,36 @@ void	ft_swap_link(t_file **a, t_file **b)
 	printf("result to %s and %s\n", (*b)->name, (*a)->name);
 }
 
-void	ft_show_list(t_file *lst)
+void	ft_show_list(t_file *lst, int state)
 {
 	t_file	*tmp;
 
 	tmp = lst;
-	while (lst)
+	if (!state)
 	{
-		ft_putstr(RED);
-		ft_putendl(lst->name);
-		ft_putstr(END);
-		lst = lst->next;
+		while (lst)
+		{
+			ft_putstr(RED);
+			ft_putendl(lst->name);
+			ft_putstr(END);
+			lst = lst->next;
+		}
+	}
+	else
+	{
+		while (lst->next)
+			lst = lst->next;
+		while (lst)
+		{
+			ft_putstr(RED);
+			ft_putendl(lst->name);
+			ft_putstr(END);
+			lst = lst->prev;
+		}
 	}
 	lst = tmp;
 }
 
-void	ft_add_elem(t_file **lst, t_file **elem, char *name)
-{
-	t_file *tmp;
-
-	tmp = *lst;
-	while ((*lst)->next && !ft_strequ(name, (*lst)->name))
-		*lst = (*lst)->next;
-	if (ft_strequ(name, (*lst)->name))
-	{
-		(*elem)->next = (*lst)->next;
-		(*elem)->prev = (*lst);
-		(*lst)->next = (*elem);
-	}
-	*lst = tmp;
-}
-
-void	ft_sort_lst(t_file **lst)
-{
-	int		i;
-	int		len;
-	t_file	*tmp;
-
-	tmp = *lst;
-	i = 0;
-	len = 0;
-	while ((*lst)->next)
-	{
-		*lst = (*lst)->next;
-		len++;
-	}
-	*lst = tmp;
-	while (i < (len - 1))
-	{
-		if (ft_strcmp((*lst)->name, (*lst)->next->name) < 0)
-			ft_swap_link(&(*lst), &(*lst)->next);
-		*lst = (*lst)->next;
-		i++;
-	}
-}
 void ft_push_elem(t_file **start, t_file *new)
 {
 	t_file	*tmp;
@@ -93,6 +69,7 @@ void ft_push_elem(t_file **start, t_file *new)
 			*start = (*start)->next;
 		}
 		new->next = tmp2->next;
+		new->prev = tmp2;
 		tmp2->next = new;
 		*start = tmp;
 	}
@@ -205,7 +182,7 @@ int		ft_list_file(DIR *rep, int *arg)//lRart
 			ft_push_elem(&lst, file);
 		}
 	}
-	ft_show_list(lst);
+	ft_show_list(lst, arg[3]);
 	ft_putchar('\n');
 	return (0);
 }
@@ -230,7 +207,7 @@ int		main(int argc, char **argv)
 		return (1);
 	}
 	i = 0;
-	while (i < (argc))
+	while (i < (argc - 1))
 	{
 		if (value[i] != NULL)
 		{

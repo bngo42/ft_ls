@@ -1,0 +1,53 @@
+==22511== Memcheck, a memory error detector
+==22511== Copyright (C) 2002-2015, and GNU GPL'd, by Julian Seward et al.
+==22511== Using Valgrind-3.11.0 and LibVEX; rerun with -h for copyright info
+==22511== Command: ./a.out .
+==22511== 
+--22511-- run: /usr/bin/dsymutil "./a.out"
+warning: no debug symbols in executable (-arch x86_64)
+==22511== Invalid read of size 8
+==22511==    at 0x1000016FA: main (in ./a.out)
+==22511==  Address 0x100a8d638 is 0 bytes after a block of size 8 alloc'd
+==22511==    at 0x10000AAAB: malloc (in /nfs/2015/b/bngo/.brew/Cellar/valgrind/3.11.0/lib/valgrind/vgpreload_memcheck-amd64-darwin.so)
+==22511==    by 0x100001651: main (in ./a.out)
+==22511== 
+==22511== 
+==22511== HEAP SUMMARY:
+==22511==     in use at exit: 27,037 bytes in 205 blocks
+==22511==   total heap usage: 290 allocs, 85 frees, 33,293 bytes allocated
+==22511== 
+==22511== 1 bytes in 1 blocks are definitely lost in loss record 1 of 74
+==22511==    at 0x10000AAAB: malloc (in /nfs/2015/b/bngo/.brew/Cellar/valgrind/3.11.0/lib/valgrind/vgpreload_memcheck-amd64-darwin.so)
+==22511==    by 0x100001C04: ft_strnew (in ./a.out)
+==22511==    by 0x1000011CB: ft_combine_param (in ./a.out)
+==22511==    by 0x1000013BF: ft_check_param (in ./a.out)
+==22511==    by 0x1000016BD: main (in ./a.out)
+==22511== 
+==22511== 10 (8 direct, 2 indirect) bytes in 1 blocks are definitely lost in loss record 4 of 74
+==22511==    at 0x10000AAAB: malloc (in /nfs/2015/b/bngo/.brew/Cellar/valgrind/3.11.0/lib/valgrind/vgpreload_memcheck-amd64-darwin.so)
+==22511==    by 0x100001651: main (in ./a.out)
+==22511== 
+==22511== 20 bytes in 1 blocks are definitely lost in loss record 8 of 74
+==22511==    at 0x10000AAAB: malloc (in /nfs/2015/b/bngo/.brew/Cellar/valgrind/3.11.0/lib/valgrind/vgpreload_memcheck-amd64-darwin.so)
+==22511==    by 0x100001661: main (in ./a.out)
+==22511== 
+==22511== 528 (48 direct, 480 indirect) bytes in 1 blocks are definitely lost in loss record 63 of 74
+==22511==    at 0x10000AAAB: malloc (in /nfs/2015/b/bngo/.brew/Cellar/valgrind/3.11.0/lib/valgrind/vgpreload_memcheck-amd64-darwin.so)
+==22511==    by 0x10000112A: ft_new_elem (in ./a.out)
+==22511==    by 0x1000015E0: ft_list_file (in ./a.out)
+==22511==    by 0x100001765: main (in ./a.out)
+==22511== 
+==22511== 4,296 (160 direct, 4,136 indirect) bytes in 1 blocks are definitely lost in loss record 74 of 74
+==22511==    at 0x10000AAAB: malloc (in /nfs/2015/b/bngo/.brew/Cellar/valgrind/3.11.0/lib/valgrind/vgpreload_memcheck-amd64-darwin.so)
+==22511==    by 0x1001D16A6: __opendir_common (in /usr/lib/system/libsystem_c.dylib)
+==22511==    by 0x100001715: main (in ./a.out)
+==22511== 
+==22511== LEAK SUMMARY:
+==22511==    definitely lost: 237 bytes in 5 blocks
+==22511==    indirectly lost: 4,618 bytes in 13 blocks
+==22511==      possibly lost: 0 bytes in 0 blocks
+==22511==    still reachable: 0 bytes in 0 blocks
+==22511==         suppressed: 22,182 bytes in 187 blocks
+==22511== 
+==22511== For counts of detected and suppressed errors, rerun with: -v
+==22511== ERROR SUMMARY: 6 errors from 6 contexts (suppressed: 19 from 19)
