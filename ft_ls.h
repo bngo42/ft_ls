@@ -6,7 +6,7 @@
 /*   By: bngo <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/20 15:28:46 by bngo              #+#    #+#             */
-/*   Updated: 2016/09/28 12:06:53 by bngo             ###   ########.fr       */
+/*   Updated: 2016/09/28 16:55:08 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 # include <stdio.h>
 # include <dirent.h>
 # include <sys/stat.h>
+# include <grp.h>
+# include <sys/types.h>
 # include <sys/xattr.h>
 # include <pwd.h>
 # include <time.h>
@@ -35,10 +37,8 @@
 typedef struct		s_file
 {
 	char			*name;
-	time_t			*date;
-	dev_t			*dev_info;
-	int				size;
 	unsigned char	type;
+	struct stat		info;
 	struct s_file	*next;
 	struct s_file	*prev;
 }					t_file;

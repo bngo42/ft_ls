@@ -6,7 +6,7 @@
 /*   By: bngo <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/20 14:56:54 by bngo              #+#    #+#             */
-/*   Updated: 2016/09/28 14:20:21 by bngo             ###   ########.fr       */
+/*   Updated: 2016/09/28 18:07:47 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,18 +25,68 @@ void	ft_swap_link(t_file **a, t_file **b)
 	printf("result to %s and %s\n", (*b)->name, (*a)->name);
 }
 
+void	ft_get_mode(mode_t file)
+{
+	ft_putstr(YEL);
+	ft_putchar(S_ISDIR(file) ? 'd' : '-');
+
+	ft_putchar((file & S_IRUSR) ? 'r' : '-');
+	ft_putchar((file & S_IWUSR) ? 'w' : '-');
+	ft_putchar((file & S_IXUSR) ? 'x' : '-');
+	
+	ft_putchar((file & S_IRGRP) ? 'r' : '-');
+	ft_putchar((file & S_IWGRP) ? 'w' : '-');
+	ft_putchar((file & S_IXGRP) ? 'x' : '-');
+
+	ft_putchar((file & S_IROTH) ? 'r' : '-');
+	ft_putchar((file & S_IWOTH) ? 'w' : '-');
+	ft_putchar((file & S_IXOTH) ? 'x' : '-');
+
+}
+
+void	ft_get_date(time_t date)
+{
+	char *format;
+
+	ft_putstr(GRN);
+
+	format = ctime(&date);
+	ft_putstr(ft_strsub(format, 4,4));
+	ft_putstr(ft_strsub(format, 9,7));
+	ft_putchar(' ');
+
+}
+
+void	ft_show_inf(t_file *lst)
+{
+	struct group *grp;
+	struct passwd *pswd;
+
+	pswd = getpwuid(lst->info.st_uid);
+	grp = getgrgid(lst->info.st_gid);
+	ft_putstr(RED);
+	ft_get_mode(lst->info.st_mode);
+	ft_putchar(' ');
+	ft_putnbr(lst->info.st_nlink);
+	ft_putchar(' ');
+	ft_putstr(pswd->pw_name);
+	ft_putchar(' ');
+	ft_putstr(grp->gr_name);
+	ft_putchar(' ');
+	ft_putnbr(lst->info.st_size);
+	ft_putchar(' ');
+	ft_get_date(lst->info.st_mtime);
+	ft_putendl(lst->name);
+	ft_putstr(END);
+}
+
 void	ft_show_list(t_file *lst, int state)
 {
-	t_file	*tmp;
-
-	tmp = lst;
 	if (!state)
 	{
 		while (lst)
 		{
-			ft_putstr(RED);
-			ft_putendl(lst->name);
-			ft_putstr(END);
+			ft_show_inf(lst);
 			lst = lst->next;
 		}
 	}
@@ -46,13 +96,10 @@ void	ft_show_list(t_file *lst, int state)
 			lst = lst->next;
 		while (lst)
 		{
-			ft_putstr(RED);
-			ft_putendl(lst->name);
-			ft_putstr(END);
+			ft_show_inf(lst);
 			lst = lst->prev;
 		}
 	}
-	lst = tmp;
 }
 
 void ft_push_elem(t_file **start, t_file *new)
@@ -86,7 +133,6 @@ t_file	*ft_new_elem(char *name)
 	if(!(new = (t_file*)malloc(sizeof(t_file))))
 		return (NULL);
 	new->name = name;
-	new->date = NULL;
 	new->prev = NULL;
 	new->next = NULL;
 	return (new);
@@ -174,11 +220,13 @@ int		ft_list_file(DIR *rep, int *arg)//lRart
 			return (-1);
 	}
 	lst = ft_new_elem(data->d_name);
+	stat(data->d_name, &lst->info);
 	while ((data = readdir(rep)) != NULL)
 	{
 		if ((arg[2] && data->d_name[0] == '.') || data->d_name[0] != '.')
 		{
 			file = ft_new_elem(data->d_name);
+			stat(data->d_name, &lst->info);
 			ft_push_elem(&lst, file);
 		}
 	}
