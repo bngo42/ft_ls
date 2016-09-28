@@ -6,7 +6,7 @@
 /*   By: bngo <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/20 14:56:54 by bngo              #+#    #+#             */
-/*   Updated: 2016/09/28 18:07:47 by bngo             ###   ########.fr       */
+/*   Updated: 2016/09/28 18:26:34 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,13 @@ void	ft_get_mode(mode_t file)
 	ft_putchar((file & S_IWOTH) ? 'w' : '-');
 	ft_putchar((file & S_IXOTH) ? 'x' : '-');
 
+	ft_putchar(' ');
+}
+
+void	ft_get_link(nlink_t dir)
+{
+	ft_putnbr(dir);
+	ft_putchar(' ');
 }
 
 void	ft_get_date(time_t date)
@@ -57,24 +64,38 @@ void	ft_get_date(time_t date)
 
 }
 
-void	ft_show_inf(t_file *lst)
+void	ft_get_owner(uid_t owner)
 {
-	struct group *grp;
 	struct passwd *pswd;
 
-	pswd = getpwuid(lst->info.st_uid);
-	grp = getgrgid(lst->info.st_gid);
-	ft_putstr(RED);
-	ft_get_mode(lst->info.st_mode);
-	ft_putchar(' ');
-	ft_putnbr(lst->info.st_nlink);
-	ft_putchar(' ');
+	pswd = getpwuid(owner);
 	ft_putstr(pswd->pw_name);
 	ft_putchar(' ');
+}
+
+void	ft_get_group(gid_t groups)
+{
+	struct group *grp;
+
+	grp = getgrgid(groups);
 	ft_putstr(grp->gr_name);
 	ft_putchar(' ');
-	ft_putnbr(lst->info.st_size);
+}
+
+void	ft_get_size(off_t size)
+{
+	ft_putnbr(size);
 	ft_putchar(' ');
+}
+
+void	ft_show_inf(t_file *lst)
+{
+	ft_putstr(RED);
+	ft_get_mode(lst->info.st_mode);
+	ft_get_link(lst->info.st_nlink);
+	ft_get_owner(lst->info.st_uid);
+	ft_get_group(lst->info.st_gid);
+	ft_get_size(lst->info.st_size);
 	ft_get_date(lst->info.st_mtime);
 	ft_putendl(lst->name);
 	ft_putstr(END);
@@ -226,8 +247,8 @@ int		ft_list_file(DIR *rep, int *arg)//lRart
 		if ((arg[2] && data->d_name[0] == '.') || data->d_name[0] != '.')
 		{
 			file = ft_new_elem(data->d_name);
-			stat(data->d_name, &lst->info);
 			ft_push_elem(&lst, file);
+			stat(data->d_name, &lst->info);
 		}
 	}
 	ft_show_list(lst, arg[3]);

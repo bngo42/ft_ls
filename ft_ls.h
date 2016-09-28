@@ -6,7 +6,7 @@
 /*   By: bngo <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/20 15:28:46 by bngo              #+#    #+#             */
-/*   Updated: 2016/09/28 16:55:08 by bngo             ###   ########.fr       */
+/*   Updated: 2016/09/28 18:13:46 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@
 typedef struct		s_file
 {
 	char			*name;
+	char			*path;
 	unsigned char	type;
 	struct stat		info;
 	struct s_file	*next;
