@@ -6,7 +6,7 @@
 /*   By: bngo <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/20 14:56:54 by bngo              #+#    #+#             */
-/*   Updated: 2016/09/28 18:26:34 by bngo             ###   ########.fr       */
+/*   Updated: 2016/09/28 19:51:05 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,78 +25,82 @@ void	ft_swap_link(t_file **a, t_file **b)
 	printf("result to %s and %s\n", (*b)->name, (*a)->name);
 }
 
-void	ft_get_mode(mode_t file)
+void	ft_get_mode(t_file **lst,mode_t file)
 {
+	(*lst)->mode = ft_strnew(10);
+	(*lst)->mode[0] = (S_ISDIR(file)) ? 'd' : '-';
+	(*lst)->mode[1] = (file & S_IRUSR) ? 'r' : '-';
+	(*lst)->mode[2] = (file & S_IWUSR) ? 'w' : '-';
+	(*lst)->mode[3] = (file & S_IXUSR) ? 'x' : '-';
+	(*lst)->mode[4] = (file & S_IRGRP) ? 'r' : '-';
+	(*lst)->mode[5] = (file & S_IWGRP) ? 'w' : '-';
+	(*lst)->mode[6] = (file & S_IXGRP) ? 'x' : '-';
+	(*lst)->mode[7] = (file & S_IROTH) ? 'r' : '-';
+	(*lst)->mode[8] = (file & S_IWOTH) ? 'w' : '-';
+	(*lst)->mode[9] = (file & S_IXOTH) ? 'x' : '-';
 	ft_putstr(YEL);
-	ft_putchar(S_ISDIR(file) ? 'd' : '-');
-
-	ft_putchar((file & S_IRUSR) ? 'r' : '-');
-	ft_putchar((file & S_IWUSR) ? 'w' : '-');
-	ft_putchar((file & S_IXUSR) ? 'x' : '-');
-	
-	ft_putchar((file & S_IRGRP) ? 'r' : '-');
-	ft_putchar((file & S_IWGRP) ? 'w' : '-');
-	ft_putchar((file & S_IXGRP) ? 'x' : '-');
-
-	ft_putchar((file & S_IROTH) ? 'r' : '-');
-	ft_putchar((file & S_IWOTH) ? 'w' : '-');
-	ft_putchar((file & S_IXOTH) ? 'x' : '-');
-
+	ft_putstr((*lst)->mode);
 	ft_putchar(' ');
 }
 
-void	ft_get_link(nlink_t dir)
+void	ft_get_link(t_file **lst,nlink_t dir)
 {
-	ft_putnbr(dir);
+	(*lst)->link = ft_strdup(ft_itoa(dir));
+	ft_putstr((*lst)->link);
 	ft_putchar(' ');
 }
 
-void	ft_get_date(time_t date)
+void	ft_get_date(t_file **lst,time_t date)
 {
 	char *format;
 
 	ft_putstr(GRN);
 
+	(*lst)->date = ft_strnew(1);
 	format = ctime(&date);
-	ft_putstr(ft_strsub(format, 4,4));
-	ft_putstr(ft_strsub(format, 9,7));
+	ft_strjoin((*lst)->date, ft_strsub(format, 4,4));
+	ft_strjoin((*lst)->date, ft_strsub(format, 9,7));
+	ft_putstr((*lst)->date);
 	ft_putchar(' ');
 
 }
 
-void	ft_get_owner(uid_t owner)
+void	ft_get_owner(t_file **lst,uid_t owner)
 {
 	struct passwd *pswd;
 
 	pswd = getpwuid(owner);
-	ft_putstr(pswd->pw_name);
+	(*lst)->owner = pswd->pw_name;
+	ft_putstr((*lst)->owner);
 	ft_putchar(' ');
 }
 
-void	ft_get_group(gid_t groups)
+void	ft_get_group(t_file **lst,gid_t groups)
 {
 	struct group *grp;
 
 	grp = getgrgid(groups);
-	ft_putstr(grp->gr_name);
+	(*lst)->group = grp->gr_name;
+	ft_putstr((*lst)->group);
 	ft_putchar(' ');
 }
 
-void	ft_get_size(off_t size)
+void	ft_get_size(t_file **lst,off_t size)
 {
-	ft_putnbr(size);
+	(*lst)->size = ft_itoa(size);
+	ft_putstr((*lst)->size);
 	ft_putchar(' ');
 }
 
 void	ft_show_inf(t_file *lst)
 {
 	ft_putstr(RED);
-	ft_get_mode(lst->info.st_mode);
-	ft_get_link(lst->info.st_nlink);
-	ft_get_owner(lst->info.st_uid);
-	ft_get_group(lst->info.st_gid);
-	ft_get_size(lst->info.st_size);
-	ft_get_date(lst->info.st_mtime);
+	ft_get_mode(&lst, lst->info.st_mode);
+	ft_get_link(&lst, lst->info.st_nlink);
+	ft_get_owner(&lst, lst->info.st_uid);
+	ft_get_group(&lst, lst->info.st_gid);
+	ft_get_size(&lst, lst->info.st_size);
+	ft_get_date(&lst, lst->info.st_mtime);
 	ft_putendl(lst->name);
 	ft_putstr(END);
 }
