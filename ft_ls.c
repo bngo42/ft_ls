@@ -6,11 +6,83 @@
 /*   By: bngo <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/20 14:56:54 by bngo              #+#    #+#             */
-/*   Updated: 2016/09/28 19:51:05 by bngo             ###   ########.fr       */
+/*   Updated: 2016/10/11 19:37:00 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
+
+void	ft_set_spaces(char **str, int len)
+{
+	int i;
+	int j;
+	int	length;
+	char *tmp;
+
+	i = 0;
+	j = 0;
+	tmp = ft_strnew(len);
+	length = ft_strlen(*str);
+	if (length < len)
+	{
+		while (i < (len - length))
+		{
+			tmp[i] = ' ';
+			i++;
+		}
+		while (i + j < len && str[j])
+		{
+			tmp[i + j] = *str[j];
+			i++;
+		}
+		tmp[i + j] = '\0';
+		ft_strclr(*str);
+		*str = ft_strdup(tmp);
+	}
+}
+
+void	ft_fill_string(int len[4], t_file **lst)
+{
+	t_file *tmp;
+
+	tmp = *lst;
+	while (*lst)
+	{
+		ft_set_spaces(&(*lst)->link, len[0]);
+		ft_set_spaces(&(*lst)->owner, len[0]);
+		ft_set_spaces(&(*lst)->group, len[0]);
+		ft_set_spaces(&(*lst)->size, len[0]);
+		*lst = (*lst)->next;
+	}
+	*lst = tmp;
+}
+
+void	ft_resize_string(t_file *lst)
+{
+	int		len[4];
+	int		ret[4];
+	int		i;
+	t_file	*tmp;
+
+	tmp = lst;
+	len[0] = 0;
+	len[1] = 0;
+	len[2] = 0;
+	len[3] = 0;
+	while (lst)
+	{
+		i = 0;
+		ret[0] = ft_strlen(lst->link);
+		ret[1] = ft_strlen(lst->owner);
+		ret[2] = ft_strlen(lst->group);
+		ret[3] = ft_strlen(lst->size);
+		while (i++ < 3)
+			len[i] = (ret[i] > len[i]) ? ret[i] : len[i];
+		lst = lst->next;
+	}
+	ft_fill_string(len, &lst);
+}
+
 
 void	ft_swap_link(t_file **a, t_file **b)
 {
