@@ -6,7 +6,7 @@
 /*   By: bngo <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/20 14:56:54 by bngo              #+#    #+#             */
-/*   Updated: 2016/10/12 13:41:54 by bngo             ###   ########.fr       */
+/*   Updated: 2016/10/12 18:34:55 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ void	ft_set_spaces(char **str, int len)
 			tmp[i] = ' ';
 			i++;
 		}
-		printf("fill [%s] with %i spaces", *str, i);
 		while (i + j < len && str[j])
 		{
 			tmp[i + j] = *str[j];
@@ -39,6 +38,7 @@ void	ft_set_spaces(char **str, int len)
 		tmp[i + j] = '\0';
 		ft_strclr(*str);
 		*str = ft_strdup(tmp);
+		free(tmp);
 	}
 }
 
@@ -47,11 +47,9 @@ void	ft_fill_string(int len[4], t_file *lst)
 	t_file *tmp;
 
 	tmp = lst;
-	
-	ft_putendl("TOTOPTN");
+
 	while (lst)
 	{
-		ft_putendl("TOTOPTN");
 		ft_set_spaces(&(lst)->link, len[0]);
 		ft_set_spaces(&(lst)->owner, len[1]);
 		ft_set_spaces(&(lst)->group, len[2]);
@@ -75,13 +73,12 @@ void	ft_resize_string(t_file **lst)
 	len[3] = 0;
 	while (*lst)
 	{
-		ft_putendl((*lst)->name);
-		i = 0;
+		i = -1;
 		ret[0] = ft_strlen((*lst)->link);
 		ret[1] = ft_strlen((*lst)->owner);
 		ret[2] = ft_strlen((*lst)->group);
 		ret[3] = ft_strlen((*lst)->size);
-		while (i++ < 3)
+		while (++i < 4)
 			len[i] = (ret[i] > len[i]) ? ret[i] : len[i];
 		*lst = (*lst)->next;
 	}
@@ -118,21 +115,48 @@ void	ft_get_mode(t_file **lst,mode_t file)
 	(*lst)->mode[9] = (file & S_IXOTH) ? 'x' : '-';
 }
 
-void	ft_get_link(t_file **lst,nlink_t dir)
+void	ft_get_link(t_file **lst, nlink_t dir)
 {
-	(*lst)->link = ft_strdup(ft_itoa(dir));
+	(*lst)->link = ft_itoa(dir);
 }
+
+/*
+void	ft_get_time_format(time_t date)
+{
+	char	*timer;
+	char	*swap;
+	char	*swap2;
+	char	*res;
+	time_t	t;
+
+	timer = ctime(&date);
+	t = 0;
+	if ((date + 15552000) < time(&t) || date > time(&t))
+	{
+		swap = ft_strsub(timer, 4, 7);
+		swap2 = ft_strsub(timer, 20, 4);
+		res = (ft_trijoin(swap, " ", swap2));
+		free(swap);
+		free(swap2);
+		return (res);
+	}
+	else
+		return (ft_strsub(timer, 4, 12));
+}*/
+
 
 void	ft_get_date(t_file **lst,time_t date)
 {
-	char *format;
+	char	*format;
+	char	*tmp;
 
-	ft_putstr(GRN);
-
+	tmp = NULL;
 	(*lst)->date = ft_strnew(1);
 	format = ctime(&date);
-	ft_strjoin((*lst)->date, ft_strsub(format, 4,4));
-	ft_strjoin((*lst)->date, ft_strsub(format, 9,7));
+	tmp = ft_strjoin(tmp, ft_strsub(format, 4,4));
+	tmp = ft_strjoin(tmp, ft_strsub(format, 9,7));
+	(*lst)->date = ft_strdup(tmp);
+	free(tmp);
 }
 
 void	ft_get_owner(t_file **lst,uid_t owner)
@@ -307,6 +331,8 @@ void	ft_show_list(t_file *lst)
 		ft_putchar(' ');
 		ft_putstr(lst->size);
 		ft_putchar(' ');
+		ft_putstr(lst->date);
+		ft_putchar(' ');
 		ft_putendl(lst->name);
 		lst = lst->next;
 	}
@@ -343,6 +369,7 @@ int		ft_list_file(DIR *rep, int *arg)//lRart
 	ft_putchar('\n');
 	return (0);
 }
+
 int		main(int argc, char **argv)
 {
 	int		*arg;
@@ -350,14 +377,11 @@ int		main(int argc, char **argv)
 	int		i;
 	DIR		*rep;
 
-	i = 0;
+	i = -1;
 	value = (char**)malloc(sizeof(char*) * (argc - 1));
 	arg = (int*)malloc(sizeof(int) * 5);
-	while (i < (argc - 1))
-	{
+	while (++i < (argc - 1))
 		value[i] = ft_strdup(argv[i + 1]);
-		i++;
-	}
 	if (argc > 1 && !(ft_check_param(value, arg)))
 	{
 		ft_putendl("invalid param");
