@@ -6,7 +6,7 @@
 /*   By: bngo <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/20 14:56:54 by bngo              #+#    #+#             */
-/*   Updated: 2016/10/11 19:37:00 by bngo             ###   ########.fr       */
+/*   Updated: 2016/10/12 13:41:54 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	ft_set_spaces(char **str, int len)
 			tmp[i] = ' ';
 			i++;
 		}
+		printf("fill [%s] with %i spaces", *str, i);
 		while (i + j < len && str[j])
 		{
 			tmp[i + j] = *str[j];
@@ -41,46 +42,51 @@ void	ft_set_spaces(char **str, int len)
 	}
 }
 
-void	ft_fill_string(int len[4], t_file **lst)
+void	ft_fill_string(int len[4], t_file *lst)
 {
 	t_file *tmp;
 
-	tmp = *lst;
-	while (*lst)
+	tmp = lst;
+	
+	ft_putendl("TOTOPTN");
+	while (lst)
 	{
-		ft_set_spaces(&(*lst)->link, len[0]);
-		ft_set_spaces(&(*lst)->owner, len[0]);
-		ft_set_spaces(&(*lst)->group, len[0]);
-		ft_set_spaces(&(*lst)->size, len[0]);
-		*lst = (*lst)->next;
+		ft_putendl("TOTOPTN");
+		ft_set_spaces(&(lst)->link, len[0]);
+		ft_set_spaces(&(lst)->owner, len[1]);
+		ft_set_spaces(&(lst)->group, len[2]);
+		ft_set_spaces(&(lst)->size, len[3]);
+		lst = (lst)->next;
 	}
-	*lst = tmp;
+	lst = tmp;
 }
 
-void	ft_resize_string(t_file *lst)
+void	ft_resize_string(t_file **lst)
 {
 	int		len[4];
 	int		ret[4];
 	int		i;
 	t_file	*tmp;
 
-	tmp = lst;
+	tmp = *lst;
 	len[0] = 0;
 	len[1] = 0;
 	len[2] = 0;
 	len[3] = 0;
-	while (lst)
+	while (*lst)
 	{
+		ft_putendl((*lst)->name);
 		i = 0;
-		ret[0] = ft_strlen(lst->link);
-		ret[1] = ft_strlen(lst->owner);
-		ret[2] = ft_strlen(lst->group);
-		ret[3] = ft_strlen(lst->size);
+		ret[0] = ft_strlen((*lst)->link);
+		ret[1] = ft_strlen((*lst)->owner);
+		ret[2] = ft_strlen((*lst)->group);
+		ret[3] = ft_strlen((*lst)->size);
 		while (i++ < 3)
 			len[i] = (ret[i] > len[i]) ? ret[i] : len[i];
-		lst = lst->next;
+		*lst = (*lst)->next;
 	}
-	ft_fill_string(len, &lst);
+	*lst = tmp;
+	ft_fill_string(len, *lst);
 }
 
 
@@ -110,16 +116,11 @@ void	ft_get_mode(t_file **lst,mode_t file)
 	(*lst)->mode[7] = (file & S_IROTH) ? 'r' : '-';
 	(*lst)->mode[8] = (file & S_IWOTH) ? 'w' : '-';
 	(*lst)->mode[9] = (file & S_IXOTH) ? 'x' : '-';
-	ft_putstr(YEL);
-	ft_putstr((*lst)->mode);
-	ft_putchar(' ');
 }
 
 void	ft_get_link(t_file **lst,nlink_t dir)
 {
 	(*lst)->link = ft_strdup(ft_itoa(dir));
-	ft_putstr((*lst)->link);
-	ft_putchar(' ');
 }
 
 void	ft_get_date(t_file **lst,time_t date)
@@ -132,9 +133,6 @@ void	ft_get_date(t_file **lst,time_t date)
 	format = ctime(&date);
 	ft_strjoin((*lst)->date, ft_strsub(format, 4,4));
 	ft_strjoin((*lst)->date, ft_strsub(format, 9,7));
-	ft_putstr((*lst)->date);
-	ft_putchar(' ');
-
 }
 
 void	ft_get_owner(t_file **lst,uid_t owner)
@@ -143,8 +141,6 @@ void	ft_get_owner(t_file **lst,uid_t owner)
 
 	pswd = getpwuid(owner);
 	(*lst)->owner = pswd->pw_name;
-	ft_putstr((*lst)->owner);
-	ft_putchar(' ');
 }
 
 void	ft_get_group(t_file **lst,gid_t groups)
@@ -153,18 +149,14 @@ void	ft_get_group(t_file **lst,gid_t groups)
 
 	grp = getgrgid(groups);
 	(*lst)->group = grp->gr_name;
-	ft_putstr((*lst)->group);
-	ft_putchar(' ');
 }
 
 void	ft_get_size(t_file **lst,off_t size)
 {
 	(*lst)->size = ft_itoa(size);
-	ft_putstr((*lst)->size);
-	ft_putchar(' ');
 }
 
-void	ft_show_inf(t_file *lst)
+void	ft_get_inf(t_file *lst)
 {
 	ft_putstr(RED);
 	ft_get_mode(&lst, lst->info.st_mode);
@@ -173,17 +165,16 @@ void	ft_show_inf(t_file *lst)
 	ft_get_group(&lst, lst->info.st_gid);
 	ft_get_size(&lst, lst->info.st_size);
 	ft_get_date(&lst, lst->info.st_mtime);
-	ft_putendl(lst->name);
 	ft_putstr(END);
 }
 
-void	ft_show_list(t_file *lst, int state)
+void	ft_fill_list(t_file *lst, int state)
 {
 	if (!state)
 	{
 		while (lst)
 		{
-			ft_show_inf(lst);
+			ft_get_inf(lst);
 			lst = lst->next;
 		}
 	}
@@ -193,7 +184,7 @@ void	ft_show_list(t_file *lst, int state)
 			lst = lst->next;
 		while (lst)
 		{
-			ft_show_inf(lst);
+			ft_get_inf(lst);
 			lst = lst->prev;
 		}
 	}
@@ -302,6 +293,25 @@ int		ft_check_param(char **argv, int *arg)
 	return (1);
 }
 
+void	ft_show_list(t_file *lst)
+{
+	while (lst)
+	{
+		ft_putstr(lst->mode);
+		ft_putchar(' ');
+		ft_putstr(lst->link);
+		ft_putchar(' ');
+		ft_putstr(lst->owner);
+		ft_putchar(' ');
+		ft_putstr(lst->group);
+		ft_putchar(' ');
+		ft_putstr(lst->size);
+		ft_putchar(' ');
+		ft_putendl(lst->name);
+		lst = lst->next;
+	}
+}
+
 int		ft_list_file(DIR *rep, int *arg)//lRart
 {
 	struct dirent	*data;
@@ -327,7 +337,9 @@ int		ft_list_file(DIR *rep, int *arg)//lRart
 			stat(data->d_name, &lst->info);
 		}
 	}
-	ft_show_list(lst, arg[3]);
+	ft_fill_list(lst, arg[3]);
+	ft_resize_string(&lst);
+	ft_show_list(lst);
 	ft_putchar('\n');
 	return (0);
 }
