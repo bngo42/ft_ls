@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/28 11:17:50 by bngo              #+#    #+#             */
-/*   Updated: 2016/11/28 14:57:39 by bngo             ###   ########.fr       */
+/*   Updated: 2016/11/28 15:00:02 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char		*ft_check_arg(char **argv)
 			j++;
 			while (argv[i][j])
 			{
-				if (argv[i][j] == '-' || !ft_strchr("lRart", argv[i][j]))
+				if (argv[i][j] == '-')
 				{
 					ft_putendl("Erreur\n");
 					exit(0);
@@ -52,9 +52,11 @@ char		*ft_check_arg(char **argv)
 
 int			main(int argc, char **argv)
 {
-	t_rep *r;
+	t_rep	*r;
+	char	*arg;
 
-	ft_check_arg(argv);
+
+	arg = ft_check_arg(argv);
 	if (!(r = (t_rep*)malloc(sizeof(t_rep))))
 		return (-1);
 	if (!(r->dir = opendir(argv[1])))
