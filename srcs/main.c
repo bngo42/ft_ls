@@ -6,11 +6,40 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/28 11:17:50 by bngo              #+#    #+#             */
-/*   Updated: 2016/11/28 15:00:02 by bngo             ###   ########.fr       */
+/*   Updated: 2016/11/28 15:09:40 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_ls.h"
+
+int			ft_check_opt(char *arg)
+{
+	t_opt	*opt;
+	int		i;
+
+	i = 0;
+	opt = (t_opt*)malloc(sizeof(t_opt));
+	while (arg[i])
+	{
+		if (arg[i] == 'l')
+			opt->l = 1;
+		else if (arg[i] == 'R')
+			opt->gr = 1;
+		else if (arg[i] == 'a')
+			opt->a = 1;
+		else if (arg[i] == 'r')
+			opt->pr = 1;
+		else if (arg[i] == 't')
+			opt->t = 1;
+		else
+		{
+			ft_putendl("MESSAGE A LA CON");
+			exit (0);
+		}
+		i++;
+	}
+	return (0);
+}
 
 char		*ft_check_arg(char **argv)
 {
@@ -36,7 +65,7 @@ char		*ft_check_arg(char **argv)
 					ft_putendl("Erreur\n");
 					exit(0);
 				}
-				else if (ft_strchr("lRart", argv[i][j]) && !ft_strchr(arg, argv[i][j]))
+				else if (!ft_strchr(arg, argv[i][j]))
 					arg[k++] = argv[i][j];
 				j++;
 			}
@@ -57,6 +86,7 @@ int			main(int argc, char **argv)
 
 
 	arg = ft_check_arg(argv);
+	ft_check_opt(arg);
 	if (!(r = (t_rep*)malloc(sizeof(t_rep))))
 		return (-1);
 	if (!(r->dir = opendir(argv[1])))

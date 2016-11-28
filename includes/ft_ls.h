@@ -6,7 +6,7 @@
 /*   By: bngo <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/28 11:13:18 by bngo              #+#    #+#             */
-/*   Updated: 2016/11/28 12:10:53 by bngo             ###   ########.fr       */
+/*   Updated: 2016/11/28 15:03:33 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,15 @@
 # include "../libft/libft.h"
 # include <dirent.h>
 # include <stdio.h>
+
+typedef struct		s_opt
+{
+	int				l;
+	int				gr;
+	int				a;
+	int				pr;
+	int				t;
+}					t_opt;
 
 typedef struct		s_rep
 {
