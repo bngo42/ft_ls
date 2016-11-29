@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/28 11:13:18 by bngo              #+#    #+#             */
-/*   Updated: 2016/11/28 18:24:25 by lvalenti         ###   ########.fr       */
+/*   Updated: 2016/11/29 17:13:50 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,11 @@ typedef struct		s_rep
 	struct s_rep	*next;
 	struct s_rep	*prev;
 }					t_rep;
+
+void				funct_l();
+void				funct_gr();
+void				funct_a();
+void				funct_pr();
+void				funct_t();
 
 #endif
