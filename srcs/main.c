@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/28 11:17:50 by bngo              #+#    #+#             */
-/*   Updated: 2016/11/28 15:09:40 by bngo             ###   ########.fr       */
+/*   Updated: 2016/11/28 18:49:40 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,6 @@ char		*ft_check_arg(char **argv)
 				j++;
 			}
 		}
-		else
-			exit(0);
 		i++;
 	}
 	arg[k] = '\0';
@@ -89,7 +87,7 @@ int			main(int argc, char **argv)
 	ft_check_opt(arg);
 	if (!(r = (t_rep*)malloc(sizeof(t_rep))))
 		return (-1);
-	if (!(r->dir = opendir(argv[1])))
+	if (!(r->dir = opendir(argv[argc - 1])))
 		return (-1);
 	while ((r->file = readdir(r->dir)))
 	{

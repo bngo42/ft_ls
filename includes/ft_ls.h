@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ls.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bngo <marvin@42.fr>                        +#+  +:+       +#+        */
+/*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/28 11:13:18 by bngo              #+#    #+#             */
-/*   Updated: 2016/11/28 15:03:33 by bngo             ###   ########.fr       */
+/*   Updated: 2016/11/28 18:24:25 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define FT_LS_H
 # include "../libft/libft.h"
 # include <dirent.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 # include <stdio.h>
 
 typedef struct		s_opt
