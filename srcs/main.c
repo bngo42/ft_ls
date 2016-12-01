@@ -6,19 +6,17 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/28 11:17:50 by bngo              #+#    #+#             */
-/*   Updated: 2016/11/30 14:21:47 by lvalenti         ###   ########.fr       */
+/*   Updated: 2016/12/01 11:05:33 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_ls.h"
 
-int			ft_check_opt(char *arg)
+int			ft_check_opt(char *arg, t_opt *opt)
 {
-	t_opt	*opt;
 	int		i;
 
 	i = 0;
-	opt = (t_opt*)malloc(sizeof(t_opt));
 	while (arg[i])
 	{
 		if (arg[i] == 'l')
@@ -80,7 +78,9 @@ char		*ft_check_arg(char **argv)
 void		assign_opt(t_opt *opt, t_rep *r)
 {
 	if (opt->l == 1)
+	{
 		funct_l(r);
+	}
 	// else if (opt->gr == 1)
 	// 	funct_gr();
 	// else if (opt->a == 1)
@@ -107,16 +107,16 @@ int			main(int argc, char **argv)
 
 	opt = (t_opt *)malloc(sizeof(t_opt));
 	arg = ft_check_arg(argv);
-	ft_check_opt(arg);
+	ft_check_opt(arg, opt);
 	if (!(r = (t_rep*)malloc(sizeof(t_rep))))
 		return (-1);
 	if (!(r->dir = opendir(argv[argc - 1])))
 		return (-1);
-	// assign_opt(opt, r);
-	while ((r->file = readdir(r->dir)))
-	{
-		ft_putendl(r->file->d_name);
-	}
+	assign_opt(opt, r);
+	// while ((r->file = readdir(r->dir)))
+	// {
+	// 	ft_putendl(r->file->d_name);
+	// }
 	if (!(closedir(r->dir)))
 		return (-1);
 	return (0);
