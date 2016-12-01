@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/28 11:17:50 by bngo              #+#    #+#             */
-/*   Updated: 2016/11/29 17:14:38 by lvalenti         ###   ########.fr       */
+/*   Updated: 2016/11/30 14:21:47 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,19 +77,27 @@ char		*ft_check_arg(char **argv)
 	return (arg);
 }
 
-// void		assign_opt(t_opt *opt)
-// {
-// 	if (opt->l == 1)
-// 		funct_l();
-// 	else if (opt->gr == 1)
-// 		funct_gr();
-// 	else if (opt->a == 1)
-// 		funct_a();
-// 	else if (opt->pr == 1)
-// 		funct_pr();
-// 	else if (opt->t == 1)
-// 		funct_t();
-// }
+void		assign_opt(t_opt *opt, t_rep *r)
+{
+	if (opt->l == 1)
+		funct_l(r);
+	// else if (opt->gr == 1)
+	// 	funct_gr();
+	// else if (opt->a == 1)
+	// 	funct_a();
+	// else if (opt->pr == 1)
+	// 	funct_pr();
+	// else if (opt->t == 1)
+	// 	funct_t();
+}
+
+void		funct_l(t_rep *r)
+{
+	while ((r->file = readdir(r->dir)))
+	{
+		ft_putendl(r->file->d_name);
+	}
+}
 
 int			main(int argc, char **argv)
 {
@@ -104,7 +112,7 @@ int			main(int argc, char **argv)
 		return (-1);
 	if (!(r->dir = opendir(argv[argc - 1])))
 		return (-1);
-	// assign_opt(opt);
+	// assign_opt(opt, r);
 	while ((r->file = readdir(r->dir)))
 	{
 		ft_putendl(r->file->d_name);
