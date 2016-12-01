@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/28 11:17:50 by bngo              #+#    #+#             */
-/*   Updated: 2016/12/01 11:05:33 by lvalenti         ###   ########.fr       */
+/*   Updated: 2016/12/01 12:08:58 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,12 +75,51 @@ char		*ft_check_arg(char **argv)
 	return (arg);
 }
 
+void		ft_printlst(t_rep *lst)
+{
+	while (lst)
+	{
+		ft_putendl(lst->file->d_name);
+		lst = lst->next;
+	}
+}
+
+void		ft_list_end(t_rep **begin, t_rep *new)
+{
+	t_rep *tmp;
+
+	tmp = *begin;
+	if (!tmp)
+		tmp = new;
+	else
+	{
+		new->next = NULL;
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = new;
+		new->prev = tmp;
+	}
+}
+
 void		assign_opt(t_opt *opt, t_rep *r)
 {
-	if (opt->l == 1)
+	t_rep *lst;
+	int		bol;
+
+	bol = 0;
+	r->file = readdir(r->dir);
+	while (!bol)
 	{
-		funct_l(r);
+		lst = (t_rep*)malloc(sizeof(t_rep));
+		lst->file = readdir(r->dir);
+		if (lst->file)
+			ft_list_end(&r, lst);
+		else
+			bol = 1;
 	}
+	//ft_printlst(r);
+	if (opt->l == 1)
+		funct_l(r);
 	// else if (opt->gr == 1)
 	// 	funct_gr();
 	// else if (opt->a == 1)
@@ -93,10 +132,19 @@ void		assign_opt(t_opt *opt, t_rep *r)
 
 void		funct_l(t_rep *r)
 {
-	while ((r->file = readdir(r->dir)))
+	t_rep *tmp;
+
+	tmp = r;
+	while (tmp)
 	{
-		ft_putendl(r->file->d_name);
+		if (!(stat(tmp->file->d_name, tmp->filestat)))
+		{
+			ft_putendl("STAT ERROR");
+			exit (0);
+		}
+		tmp = tmp->next;
 	}
+	//aff_stat(r);
 }
 
 int			main(int argc, char **argv)
@@ -113,10 +161,6 @@ int			main(int argc, char **argv)
 	if (!(r->dir = opendir(argv[argc - 1])))
 		return (-1);
 	assign_opt(opt, r);
-	// while ((r->file = readdir(r->dir)))
-	// {
-	// 	ft_putendl(r->file->d_name);
-	// }
 	if (!(closedir(r->dir)))
 		return (-1);
 	return (0);
