@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/28 11:17:50 by bngo              #+#    #+#             */
-/*   Updated: 2016/12/02 13:11:53 by lvalenti         ###   ########.fr       */
+/*   Updated: 2016/12/02 18:08:17 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,9 +91,11 @@ void		assign_opt(t_opt *opt, t_rep *r)
 		else
 			bol = 1;
 	}
+	if (opt->a == 0)
+		funct_a(r);
 	if (opt->l == 1)
 		funct_l(r);
-	ft_printlst(r);
+	//	ft_printlst(r);
 	// else if (opt->gr == 1)
 	// 	funct_gr();
 	// else if (opt->a == 1)
@@ -102,6 +104,63 @@ void		assign_opt(t_opt *opt, t_rep *r)
 	// 	funct_pr();
 	// else if (opt->t == 1)
 	// 	funct_t();
+}
+char    *ft_search(const char *s, int c)
+{
+	int             a;
+	char            b;
+	char            *d;
+	a = 0;
+	b = (char)c;
+	d = (char *)s;
+	if (d[a] == b)
+		return (&d[a]);
+	return (0);
+}
+
+t_rep		*sup_head(t_rep *rep)
+{
+	t_rep *tmp;
+
+	tmp = rep->next;
+	free(rep);
+	return (tmp);
+}
+
+void		funct_a(t_rep *r)
+{
+	t_rep *tmp;
+	t_rep *tmp2;
+
+	tmp = r;
+	while (tmp->next)
+	{
+		if (tmp->file->d_name[0] == '.')
+		{
+			if (!tmp->prev)
+			{
+				DBUG1
+				tmp = tmp->next;
+				tmp->prev = NULL;
+				free(tmp->prev);
+			//	tmp2 = tmp->next;
+			//	free(tmp);
+			//	tmp = tmp2;
+				//tmp->prev = NULL;
+			}
+			else if (!tmp->next)
+			{
+				tmp = tmp->prev;
+				tmp->next = NULL;
+			}
+			else
+			{
+				tmp->prev->next = tmp->next;
+				tmp->next->prev = tmp->prev;
+			}
+		}
+		tmp = tmp->next;
+	}
 }
 
 void		funct_l(t_rep *r)

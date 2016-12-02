@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/02 10:06:24 by lvalenti          #+#    #+#             */
-/*   Updated: 2016/12/02 13:06:59 by lvalenti         ###   ########.fr       */
+/*   Updated: 2016/12/02 17:38:36 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,12 @@ void				aff_stat2(t_rep *data)
 	char			*file;
 	time_t			t;
 
-	t = time(&data->filestat.st_mtime);
+	t = data->filestat.st_mtime;
 	file = ctime(&t);
 	file = modif_time(file);
 	ft_putstr(file);
-	ft_putchar('\n');
+	ft_putchar(' ');
+	ft_putendl(data->file->d_name);
 }
 
 char				*modif_time(char *time)
