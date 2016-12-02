@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/28 11:17:50 by bngo              #+#    #+#             */
-/*   Updated: 2016/12/02 18:08:17 by bngo             ###   ########.fr       */
+/*   Updated: 2016/12/02 18:58:17 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void		assign_opt(t_opt *opt, t_rep *r)
 		funct_a(r);
 	if (opt->l == 1)
 		funct_l(r);
-	//	ft_printlst(r);
+	ft_printlst(r);
 	// else if (opt->gr == 1)
 	// 	funct_gr();
 	// else if (opt->a == 1)
@@ -130,36 +130,32 @@ t_rep		*sup_head(t_rep *rep)
 void		funct_a(t_rep *r)
 {
 	t_rep *tmp;
-	t_rep *tmp2;
 
-	tmp = r;
-	while (tmp->next)
+	while (r->next)
 	{
-		if (tmp->file->d_name[0] == '.')
+		if (r->file->d_name[0] == '.')
 		{
-			if (!tmp->prev)
+			if (!r->next)
 			{
-				DBUG1
-				tmp = tmp->next;
-				tmp->prev = NULL;
-				free(tmp->prev);
-			//	tmp2 = tmp->next;
-			//	free(tmp);
-			//	tmp = tmp2;
-				//tmp->prev = NULL;
-			}
-			else if (!tmp->next)
-			{
-				tmp = tmp->prev;
-				tmp->next = NULL;
+				if (r->prev)
+				{
+					r = r->prev;
+					free(r->next);
+					r->next = NULL;
+				}
+				else
+					free(r);
 			}
 			else
 			{
-				tmp->prev->next = tmp->next;
-				tmp->next->prev = tmp->prev;
+				tmp = r->prev;
+				r = r->next;
+				free(r->prev);
+				r->prev = tmp;
 			}
 		}
-		tmp = tmp->next;
+		else if (r && r->next)
+			r = r->next;
 	}
 }
 
