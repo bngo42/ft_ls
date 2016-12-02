@@ -6,7 +6,7 @@
 #    By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/28 11:12:19 by bngo              #+#    #+#              #
-#    Updated: 2016/12/02 10:06:59 by lvalenti         ###   ########.fr        #
+#    Updated: 2016/12/02 11:15:58 by lvalenti         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ OBJS = $(SRCS:.c=.o)
 
 $(NAME): $(OBJS)
 	make -C libft/ fclean && make -C libft/
-	gcc -c $(SRCS)
+	gcc -c -g $(SRCS)
 	gcc -g $(FLAGS) -o $(NAME) $(OBJS) libft/libft.a -I includes/
 all: $(NAME)
 

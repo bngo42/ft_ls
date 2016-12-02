@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/28 11:13:18 by bngo              #+#    #+#             */
-/*   Updated: 2016/12/02 10:02:06 by lvalenti         ###   ########.fr       */
+/*   Updated: 2016/12/02 12:12:44 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # define DBUG3 write(1, "debug3\n", 8);
 # include "../libft/libft.h"
 # include <dirent.h>
+# include <errno.h>
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <stdio.h>
@@ -33,6 +34,8 @@ typedef struct		s_opt
 
 typedef struct		s_rep
 {
+	mode_t			mode;
+	struct passwd	*user;
 	struct stat		*filestat;
 	DIR				*dir;
 	struct dirent	*file;
@@ -48,5 +51,6 @@ void				funct_pr();
 void				funct_t();
 void				ft_printlst(t_rep *lst);
 void				ft_list_end(t_rep **begin, t_rep *new);
+void				aff_stat(t_rep *r);
 
 #endif

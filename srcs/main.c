@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/28 11:17:50 by bngo              #+#    #+#             */
-/*   Updated: 2016/12/02 10:02:11 by lvalenti         ###   ########.fr       */
+/*   Updated: 2016/12/02 12:20:14 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,18 +107,27 @@ void		assign_opt(t_opt *opt, t_rep *r)
 void		funct_l(t_rep *r)
 {
 	t_rep *tmp;
+	t_rep *lst;
 
 	tmp = r;
+	if (!(lst = (t_rep *)malloc(sizeof(t_rep))))
+		return ;
 	while (tmp)
 	{
-		if (!(stat(tmp->file->d_name, tmp->filestat)))
+		printf("%s\n", tmp->file->d_name);
+		errno = 0;
+		if (stat(".", tmp->filestat) < 0)
 		{
-			ft_putendl("STAT ERROR");
+			perror("STAT ERROR ");
+			// printf("%u\n", tmp->filestat->st_uid);
 			exit (0);
 		}
+		// ft_list_end(&lst, tmp);
+		// printf("%u\n", tmp->filestat->st_uid);
 		tmp = tmp->next;
 	}
-	//aff_stat(tmp);
+	aff_stat(r);
+	printf("ok\n");
 }
 
 int			main(int argc, char **argv)

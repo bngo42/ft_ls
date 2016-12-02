@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/01 11:06:48 by lvalenti          #+#    #+#             */
-/*   Updated: 2016/12/02 10:01:32 by lvalenti         ###   ########.fr       */
+/*   Updated: 2016/12/02 11:43:26 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,5 @@ void		ft_list_end(t_rep **begin, t_rep *new)
 		tmp->next = new;
 		new->prev = tmp;
 	}
+	// printf("list\n");
 }
