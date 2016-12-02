@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/28 11:17:50 by bngo              #+#    #+#             */
-/*   Updated: 2016/12/02 12:20:14 by lvalenti         ###   ########.fr       */
+/*   Updated: 2016/12/02 12:34:43 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,16 +114,12 @@ void		funct_l(t_rep *r)
 		return ;
 	while (tmp)
 	{
-		printf("%s\n", tmp->file->d_name);
 		errno = 0;
-		if (stat(".", tmp->filestat) < 0)
+		if (stat(tmp->file->d_name, &tmp->filestat) < 0)
 		{
 			perror("STAT ERROR ");
-			// printf("%u\n", tmp->filestat->st_uid);
 			exit (0);
 		}
-		// ft_list_end(&lst, tmp);
-		// printf("%u\n", tmp->filestat->st_uid);
 		tmp = tmp->next;
 	}
 	aff_stat(r);

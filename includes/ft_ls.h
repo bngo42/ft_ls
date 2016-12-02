@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/28 11:13:18 by bngo              #+#    #+#             */
-/*   Updated: 2016/12/02 12:12:44 by lvalenti         ###   ########.fr       */
+/*   Updated: 2016/12/02 12:28:19 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ typedef struct		s_rep
 {
 	mode_t			mode;
 	struct passwd	*user;
-	struct stat		*filestat;
+	struct stat		filestat;
 	DIR				*dir;
 	struct dirent	*file;
 	void			*data;
