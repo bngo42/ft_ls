@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/28 11:17:50 by bngo              #+#    #+#             */
-/*   Updated: 2016/12/01 12:08:58 by bngo             ###   ########.fr       */
+/*   Updated: 2016/12/02 10:02:11 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,32 +75,6 @@ char		*ft_check_arg(char **argv)
 	return (arg);
 }
 
-void		ft_printlst(t_rep *lst)
-{
-	while (lst)
-	{
-		ft_putendl(lst->file->d_name);
-		lst = lst->next;
-	}
-}
-
-void		ft_list_end(t_rep **begin, t_rep *new)
-{
-	t_rep *tmp;
-
-	tmp = *begin;
-	if (!tmp)
-		tmp = new;
-	else
-	{
-		new->next = NULL;
-		while (tmp->next)
-			tmp = tmp->next;
-		tmp->next = new;
-		new->prev = tmp;
-	}
-}
-
 void		assign_opt(t_opt *opt, t_rep *r)
 {
 	t_rep *lst;
@@ -117,7 +91,7 @@ void		assign_opt(t_opt *opt, t_rep *r)
 		else
 			bol = 1;
 	}
-	//ft_printlst(r);
+	ft_printlst(r);
 	if (opt->l == 1)
 		funct_l(r);
 	// else if (opt->gr == 1)
@@ -144,7 +118,7 @@ void		funct_l(t_rep *r)
 		}
 		tmp = tmp->next;
 	}
-	//aff_stat(r);
+	//aff_stat(tmp);
 }
 
 int			main(int argc, char **argv)

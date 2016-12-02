@@ -3,20 +3,20 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: bngo <marvin@42.fr>                        +#+  +:+       +#+         #
+#    By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/28 11:12:19 by bngo              #+#    #+#              #
-#    Updated: 2016/11/28 11:48:14 by bngo             ###   ########.fr        #
+#    Updated: 2016/12/02 10:06:59 by lvalenti         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = ft_ls
 CC = gcc
 FLAGS = -Werror -Wall -Wextra
-SRCS = srcs/main.c \
+SRCS = srcs/main.c srcs/list.c srcs/stat.c
 
 OBJS = $(SRCS:.c=.o)
-	
+
 $(NAME): $(OBJS)
 	make -C libft/ fclean && make -C libft/
 	gcc -c $(SRCS)
@@ -28,6 +28,7 @@ clean:
 
 fclean: clean
 	rm -rf $(NAME)
+	rm -rf list.o main.o stat.o
 
 re: fclean all
 

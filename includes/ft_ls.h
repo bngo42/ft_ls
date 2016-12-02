@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/28 11:13:18 by bngo              #+#    #+#             */
-/*   Updated: 2016/12/01 12:02:44 by bngo             ###   ########.fr       */
+/*   Updated: 2016/12/02 10:02:06 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,7 @@ void				funct_gr();
 void				funct_a();
 void				funct_pr();
 void				funct_t();
+void				ft_printlst(t_rep *lst);
+void				ft_list_end(t_rep **begin, t_rep *new);
 
 #endif
