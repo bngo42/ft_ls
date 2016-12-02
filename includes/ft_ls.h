@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/28 11:13:18 by bngo              #+#    #+#             */
-/*   Updated: 2016/12/02 12:28:19 by lvalenti         ###   ########.fr       */
+/*   Updated: 2016/12/02 13:00:04 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@
 # include <errno.h>
 # include <sys/types.h>
 # include <sys/stat.h>
+# include <pwd.h>
+# include <time.h>
+# include <grp.h>
 # include <stdio.h>
 
 typedef struct		s_opt
@@ -52,5 +55,9 @@ void				funct_t();
 void				ft_printlst(t_rep *lst);
 void				ft_list_end(t_rep **begin, t_rep *new);
 void				aff_stat(t_rep *r);
+void				file_type(struct stat filestat);
+void				ft_get_mode(t_rep *data);
+void				aff_stat2(t_rep *data);
+char				*modif_time(char *time);
 
 #endif

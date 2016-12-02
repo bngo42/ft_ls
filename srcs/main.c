@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/28 11:17:50 by bngo              #+#    #+#             */
-/*   Updated: 2016/12/02 12:34:43 by lvalenti         ###   ########.fr       */
+/*   Updated: 2016/12/02 13:11:53 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,9 +91,9 @@ void		assign_opt(t_opt *opt, t_rep *r)
 		else
 			bol = 1;
 	}
-	ft_printlst(r);
 	if (opt->l == 1)
 		funct_l(r);
+	ft_printlst(r);
 	// else if (opt->gr == 1)
 	// 	funct_gr();
 	// else if (opt->a == 1)
@@ -120,10 +120,9 @@ void		funct_l(t_rep *r)
 			perror("STAT ERROR ");
 			exit (0);
 		}
+		aff_stat(tmp);
 		tmp = tmp->next;
 	}
-	aff_stat(r);
-	printf("ok\n");
 }
 
 int			main(int argc, char **argv)
