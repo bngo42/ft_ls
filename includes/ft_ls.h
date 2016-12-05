@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/28 11:13:18 by bngo              #+#    #+#             */
-/*   Updated: 2016/12/05 11:00:58 by lvalenti         ###   ########.fr       */
+/*   Updated: 2016/12/05 12:34:41 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,5 +59,6 @@ void				file_type(struct stat filestat);
 void				ft_get_mode(t_rep *data);
 void				aff_stat2(t_rep *data);
 char				*modif_time(char *time);
+void				ft_sort_list(t_rep *r);
 
 #endif

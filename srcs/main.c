@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/28 11:17:50 by bngo              #+#    #+#             */
-/*   Updated: 2016/12/05 11:00:39 by lvalenti         ###   ########.fr       */
+/*   Updated: 2016/12/05 12:34:14 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,19 +91,20 @@ void		assign_opt(t_opt *opt, t_rep *r)
 		else
 			bol = 1;
 	}
+	 ft_sort_list(r);
+	// if (opt->gr == 1)
+	//	funct_gr();
+	// if (opt->t == 1)
+	// 	funct_t();
+	// if (opt->pr == 1)
+	// 	funct_pr();
+	if (opt->l == 1)
+		funct_l(r, opt);
 	if (opt->a == 1)
 		funct_a(r);
-	if (opt->l == 1)
-		funct_l(r);
 	ft_printlst(r, opt);
-	// else if (opt->gr == 1)
-	// 	funct_gr();
-	// else if (opt->a == 1)
-	// 	funct_a();
-	// else if (opt->pr == 1)
-	// 	funct_pr();
-	// else if (opt->t == 1)
-	// 	funct_t();
+	
+	
 }
 char    *ft_search(const char *s, int c)
 {
@@ -130,46 +131,49 @@ t_rep		*sup_head(t_rep *rep)
 void		funct_a(t_rep *r)
 {
 	t_rep *tmp;
+	t_rep *tmp2;
 
-	while (r->next)
+	tmp = r;
+	while (tmp->next)
 	{
-		if (r->file->d_name[0] == '.')
+		if (tmp->file->d_name[0] == '.')
 		{
-			if (!r->next)
+			if (!tmp->next)
 			{
-				if (r->prev)
+				if (tmp->prev)
 				{
-					r = r->prev;
-					free(r->next);
-					r->next = NULL;
+					tmp = tmp->prev;
+					free(tmp->next);
+					tmp->next = NULL;
 				}
 				else
-					free(r);
+					free(tmp);
 			}
 			else
 			{
-				tmp = r->prev;
-				r = r->next;
-				free(r->prev);
-				r->prev = tmp;
+				tmp2 = tmp->prev;
+				tmp = tmp->next;
+				free(tmp->prev);
+				tmp->prev = tmp2;
 			}
 		}
-		else if (r && r->next)
-			r = r->next;
+		else if (tmp && tmp->next)
+			tmp = tmp->next;
 	}
 }
 
-void		funct_l(t_rep *r)
+void		funct_l(t_rep *r, t_opt *opt)
 {
 	t_rep *tmp;
 	t_rep *lst;
-	t_opt *opt;
+//	t_opt *opt;
 
 	tmp = r;
-	if (!(opt = (t_opt *)malloc(sizeof(t_opt))))
-		return ;
+//	if (!(opt = (t_opt *)malloc(sizeof(t_opt))))
+		//return ;
 	if (!(lst = (t_rep *)malloc(sizeof(t_rep))))
 		return ;
+	printf("%d\n", opt->a);
 	while (tmp)
 	{
 		errno = 0;
