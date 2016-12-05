@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/28 11:17:50 by bngo              #+#    #+#             */
-/*   Updated: 2016/12/05 10:41:47 by lvalenti         ###   ########.fr       */
+/*   Updated: 2016/12/05 11:00:39 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void		assign_opt(t_opt *opt, t_rep *r)
 		funct_a(r);
 	if (opt->l == 1)
 		funct_l(r);
-	ft_printlst(r);
+	ft_printlst(r, opt);
 	// else if (opt->gr == 1)
 	// 	funct_gr();
 	// else if (opt->a == 1)
@@ -163,8 +163,11 @@ void		funct_l(t_rep *r)
 {
 	t_rep *tmp;
 	t_rep *lst;
+	t_opt *opt;
 
 	tmp = r;
+	if (!(opt = (t_opt *)malloc(sizeof(t_opt))))
+		return ;
 	if (!(lst = (t_rep *)malloc(sizeof(t_rep))))
 		return ;
 	while (tmp)
@@ -175,8 +178,22 @@ void		funct_l(t_rep *r)
 			perror("STAT ERROR ");
 			exit (0);
 		}
-		aff_stat(tmp);
-		tmp = tmp->next;
+		if (opt->a == 0)
+		{
+			if (tmp->file->d_name[0] == '.')
+				tmp = tmp->next;
+			else
+			{
+				aff_stat(tmp);
+				// ft_putendl(lst->file->d_name);
+				tmp = tmp->next;
+			}
+		}
+		else if (opt->a == 1)
+		{
+			aff_stat(tmp);
+			tmp = tmp->next;
+		}
 	}
 }
 

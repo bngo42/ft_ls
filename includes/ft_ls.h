@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/28 11:13:18 by bngo              #+#    #+#             */
-/*   Updated: 2016/12/02 13:00:04 by lvalenti         ###   ########.fr       */
+/*   Updated: 2016/12/05 11:00:58 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void				funct_gr();
 void				funct_a();
 void				funct_pr();
 void				funct_t();
-void				ft_printlst(t_rep *lst);
+void				ft_printlst(t_rep *lst, t_opt *opt);
 void				ft_list_end(t_rep **begin, t_rep *new);
 void				aff_stat(t_rep *r);
 void				file_type(struct stat filestat);
