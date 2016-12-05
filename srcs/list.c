@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/01 11:06:48 by lvalenti          #+#    #+#             */
-/*   Updated: 2016/12/02 18:56:57 by bngo             ###   ########.fr       */
+/*   Updated: 2016/12/05 10:37:31 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,13 @@ void		ft_printlst(t_rep *lst)
 {
 	while (lst)
 	{
-		ft_putendl(lst->file->d_name);
-		lst = lst->next;
+		if (lst->file->d_name[0] == '.')
+			lst = lst->next;
+		else
+		{
+			ft_putendl(lst->file->d_name);
+			lst = lst->next;
+		}
 	}
 }
 
@@ -37,5 +42,4 @@ void		ft_list_end(t_rep **begin, t_rep *new)
 		tmp->next = new;
 		new->prev = tmp;
 	}
-	// printf("list\n");
 }
