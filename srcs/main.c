@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/28 11:17:50 by bngo              #+#    #+#             */
-/*   Updated: 2016/12/05 12:34:14 by bngo             ###   ########.fr       */
+/*   Updated: 2016/12/08 12:25:24 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,6 @@ void		assign_opt(t_opt *opt, t_rep *r)
 		else
 			bol = 1;
 	}
-	 ft_sort_list(r);
 	// if (opt->gr == 1)
 	//	funct_gr();
 	// if (opt->t == 1)
@@ -166,11 +165,8 @@ void		funct_l(t_rep *r, t_opt *opt)
 {
 	t_rep *tmp;
 	t_rep *lst;
-//	t_opt *opt;
 
 	tmp = r;
-//	if (!(opt = (t_opt *)malloc(sizeof(t_opt))))
-		//return ;
 	if (!(lst = (t_rep *)malloc(sizeof(t_rep))))
 		return ;
 	printf("%d\n", opt->a);
@@ -184,14 +180,9 @@ void		funct_l(t_rep *r, t_opt *opt)
 		}
 		if (opt->a == 0)
 		{
-			if (tmp->file->d_name[0] == '.')
-				tmp = tmp->next;
-			else
-			{
+			if (tmp->file->d_name[0] != '.')
 				aff_stat(tmp);
-				// ft_putendl(lst->file->d_name);
-				tmp = tmp->next;
-			}
+			tmp = tmp->next;
 		}
 		else if (opt->a == 1)
 		{
