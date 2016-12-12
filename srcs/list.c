@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/01 11:06:48 by lvalenti          #+#    #+#             */
-/*   Updated: 2016/12/05 12:39:54 by bngo             ###   ########.fr       */
+/*   Updated: 2016/12/12 12:35:36 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,23 @@ void		ft_list_end(t_rep **begin, t_rep *new)
 		tmp = new;
 	else
 	{
-		new->next = NULL;
-		while (tmp->next)
-			tmp = tmp->next;
-		tmp->next = new;
-		new->prev = tmp;
+		while (tmp->next && ft_strcmp(tmp->file->d_name, new->file->d_name) < 0)
+				tmp = tmp->next;
+		if (ft_strcmp(tmp->file->d_name, new->file->d_name) < 0)
+		{
+			if (tmp->next)
+				tmp->next->prev = new;
+			new->next = tmp->next;
+			tmp->next = new;
+			new->prev = tmp;
+		}
+		else
+		{
+			if (tmp->prev)
+				tmp->prev->next = new;
+			new->next = tmp;
+			new->prev = tmp->prev;
+			tmp->prev = new;
+		}
 	}
 }
-
