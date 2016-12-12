@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/28 11:13:18 by bngo              #+#    #+#             */
-/*   Updated: 2016/12/05 12:34:41 by bngo             ###   ########.fr       */
+/*   Updated: 2016/12/12 16:00:18 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ typedef struct		s_rep
 void				funct_l();
 void				funct_gr();
 void				funct_a();
-void				funct_pr();
+// void				funct_pr();
 void				funct_t();
 void				ft_printlst(t_rep *lst, t_opt *opt);
 void				ft_list_end(t_rep **begin, t_rep *new);

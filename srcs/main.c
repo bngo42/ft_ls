@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/28 11:17:50 by bngo              #+#    #+#             */
-/*   Updated: 2016/12/12 14:17:41 by bngo             ###   ########.fr       */
+/*   Updated: 2016/12/12 16:00:11 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,29 @@ char		*ft_check_arg(char **argv)
 	return (arg);
 }
 
+t_rep		*funct_pr(t_rep *r)
+{
+	t_rep	*tmpnext;
+	t_rep	*tmpprev;
+
+	tmpnext = r->next;
+	tmpprev = r->prev;
+	r->next = tmpprev;
+	r->prev = tmpnext;
+	r = r->prev;
+	while (r)
+	{
+		tmpnext = r->next;
+		tmpprev = r->prev;
+		r->next = tmpprev;
+		r->prev = tmpnext;
+		if (r->prev == NULL)
+			return (r);
+		r = r->prev;
+	}
+	return (r);
+}
+
 void		assign_opt(t_opt *opt, t_rep *r)
 {
 	t_rep *lst;
@@ -87,7 +110,10 @@ void		assign_opt(t_opt *opt, t_rep *r)
 		lst = (t_rep*)malloc(sizeof(t_rep));
 		lst->file = readdir(r->dir);
 		if (lst->file)
+		{
 			ft_list_end(&r, lst);
+			//ft_putendl(r->file->d_name);
+		}
 		else
 			bol = 1;
 	}
@@ -95,13 +121,15 @@ void		assign_opt(t_opt *opt, t_rep *r)
 	//	funct_gr();
 	// if (opt->t == 1)
 	// 	funct_t();
+	if (opt->pr == 1)
+		r = funct_pr(r);
 	if (opt->l == 1)
 		funct_l(r, opt);
 	if (opt->a == 1)
 		funct_a(r);
 	ft_printlst(r, opt);
-	
-	
+
+
 }
 
 char    *ft_search(const char *s, int c)
@@ -198,6 +226,11 @@ int			main(int argc, char **argv)
 	t_opt	*opt;
 
 	opt = (t_opt *)malloc(sizeof(t_opt));
+	opt->l = 0;
+	opt->gr = 0;
+	opt->a = 0;
+	opt->pr = 0;
+	opt->t = 0;
 	arg = ft_check_arg(argv);
 	ft_check_opt(arg, opt);
 	if (!(r = (t_rep*)malloc(sizeof(t_rep))))

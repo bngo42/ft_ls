@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/01 11:06:48 by lvalenti          #+#    #+#             */
-/*   Updated: 2016/12/12 14:18:12 by bngo             ###   ########.fr       */
+/*   Updated: 2016/12/12 16:00:41 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,12 @@
 
 void		ft_printlst(t_rep *lst, t_opt *opt)
 {
-	if (opt->pr)
-	{
-		while (lst->next)
-			lst = lst->next;
-	}
+	printf("%d\n", opt->pr);
+	// if (opt->pr == 1)
+	// {
+	// 	while (lst->next)
+	// 		lst = lst->next;
+	// }
 	if (opt->l == 0)
 	{
 		while (lst)
@@ -28,13 +29,14 @@ void		ft_printlst(t_rep *lst, t_opt *opt)
 			{
 				if (lst->file->d_name[0] != '.')
 					ft_putendl(lst->file->d_name);
-				lst = (!opt->pr) ? lst->next : lst->prev;
+				// lst = (!opt->pr) ? lst->next : lst->prev;
 			}
 			else
 			{
 				ft_putendl(lst->file->d_name);
-				lst = (!opt->pr) ? lst->next : lst->prev;
+				// lst = (!opt->pr) ? lst->next : lst->prev;
 			}
+			lst = lst->next;
 		}
 	}
 }
@@ -43,6 +45,7 @@ void		ft_list_end(t_rep **begin, t_rep *new)
 {
 	t_rep *tmp;
 
+	// printf("adding %s\n", new->file->d_name);
 	tmp = *begin;
 	if (!tmp)
 		tmp = new;
