@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/28 11:17:50 by bngo              #+#    #+#             */
-/*   Updated: 2016/12/12 12:48:17 by bngo             ###   ########.fr       */
+/*   Updated: 2016/12/12 14:17:41 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,6 @@ void		assign_opt(t_opt *opt, t_rep *r)
 	//	funct_gr();
 	// if (opt->t == 1)
 	// 	funct_t();
-	if (opt->pr == 1)
-		funct_pr();
 	if (opt->l == 1)
 		funct_l(r, opt);
 	if (opt->a == 1)
@@ -105,6 +103,7 @@ void		assign_opt(t_opt *opt, t_rep *r)
 	
 	
 }
+
 char    *ft_search(const char *s, int c)
 {
 	int             a;
