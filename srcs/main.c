@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/28 11:17:50 by bngo              #+#    #+#             */
-/*   Updated: 2016/12/13 17:49:39 by lvalenti         ###   ########.fr       */
+/*   Updated: 2016/12/13 17:58:33 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,7 @@ void		assign_opt(t_opt *opt, t_rep *r)
 		while ((file = readdir(r->dir)))
 		{
 			new = (t_rep*)malloc(sizeof(t_rep));
-			// new->name2 = ft_strjoin(r->argv, "/");
 			new->name2 = ft_strdup(file->d_name);
-			// new->name2 = ft_strjoin(new->name2, new->name);
 			add_list(&lst, new);
 		}
 	}

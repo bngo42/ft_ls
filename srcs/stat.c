@@ -6,12 +6,14 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/02 10:06:24 by lvalenti          #+#    #+#             */
-/*   Updated: 2016/12/13 17:48:14 by lvalenti         ###   ########.fr       */
+/*   Updated: 2016/12/13 19:02:10 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_ls.h"
 
+//S_ISBLK S_ISCHR si le type est l'un des deux alors on doit gerer les minors et les majors.
+// Pour les recuperer il faut faire un int major = major(data->filestat.st_dev). et pareil pour les minors!!
 
 void		aff_stat(t_rep *data)
 {
