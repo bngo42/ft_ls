@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/28 11:13:18 by bngo              #+#    #+#             */
-/*   Updated: 2016/12/13 12:00:57 by bngo             ###   ########.fr       */
+/*   Updated: 2016/12/13 15:12:34 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ typedef struct		s_opt
 typedef struct		s_rep
 {
 	char			*name;
+	char			*name2;
+	char			*argv;
 	mode_t			mode;
 	struct passwd	*user;
 	struct stat		filestat;
@@ -59,5 +61,7 @@ void				ft_get_mode(t_rep *data);
 void				aff_stat2(t_rep *data);
 char				*modif_time(char *time);
 void				ft_sort_list(t_rep *r);
+char				*ft_check_arg(char **argv);
+int					ft_check_opt(char *arg, t_opt *opt);
 
 #endif

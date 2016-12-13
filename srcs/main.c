@@ -6,74 +6,11 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/28 11:17:50 by bngo              #+#    #+#             */
-/*   Updated: 2016/12/13 12:56:02 by bngo             ###   ########.fr       */
+/*   Updated: 2016/12/13 15:32:30 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_ls.h"
-
-int			ft_check_opt(char *arg, t_opt *opt)
-{
-	int		i;
-
-	i = 0;
-	while (arg[i])
-	{
-		if (arg[i] == 'l')
-			opt->l = 1;
-		else if (arg[i] == 'R')
-			opt->gr = 1;
-		else if (arg[i] == 'a')
-			opt->a = 1;
-		else if (arg[i] == 'r')
-			opt->pr = 1;
-		else if (arg[i] == 't')
-			opt->t = 1;
-		else
-		{
-			ft_putendl("MESSAGE A LA CON");
-			exit (0);
-		}
-		i++;
-	}
-	return (0);
-}
-
-char		*ft_check_arg(char **argv)
-{
-	char *arg;
-	int i;
-	int j;
-	int k;
-
-	if (!(arg = (char*)malloc(sizeof(char) * 6)))
-		return (NULL);
-	i = 1;
-	k = 0;
-	while (argv[i])
-	{
-		j = 0;
-		if (argv[i][0] == '-')
-		{
-			j++;
-			while (argv[i][j])
-			{
-				if (argv[i][j] == '-')
-				{
-					ft_putendl("Erreur\n");
-					exit(0);
-				}
-				else if (!ft_strchr(arg, argv[i][j]))
-					arg[k++] = argv[i][j];
-				j++;
-			}
-		}
-		i++;
-	}
-	arg[k] = '\0';
-	printf("arg = %s\n", arg);
-	return (arg);
-}
 
 t_rep		*funct_pr(t_rep *r)
 {
@@ -108,11 +45,17 @@ void		assign_opt(t_opt *opt, t_rep *r)
 	if (!(file = readdir(r->dir)))
 		return ;
 	lst = (t_rep*)malloc(sizeof(t_rep));
+	lst->name2 = ft_strjoin(r->argv, "/");
 	lst->name = ft_strdup(file->d_name);
+	lst->name2 = ft_strjoin(lst->name2, lst->name);
+	ft_putendl("0000000000");
+	ft_putendl(lst->name2);
 	while ((file = readdir(r->dir)))
 	{
 		new = (t_rep*)malloc(sizeof(t_rep));
+		new->name2 = ft_strjoin(r->argv, "/");
 		new->name = ft_strdup(file->d_name);
+		new->name2 = ft_strjoin(new->name2, new->name);
 		add_list(&lst, new);
 	}
 	// if (opt->gr == 1)
@@ -196,14 +139,14 @@ void		funct_l(t_rep *r, t_opt *opt)
 	while (tmp)
 	{
 		errno = 0;
-		if (stat(tmp->name, &tmp->filestat) < 0)
+		if (stat(tmp->name2, &tmp->filestat) < 0)
 		{
 			perror("STAT ERROR ");
 			exit (0);
 		}
 		if (opt->a == 0)
 		{
-			if (tmp->name[0] != '.')
+			if (tmp->name2[0] != '.')
 				aff_stat(tmp);
 			tmp = tmp->next;
 		}
@@ -233,7 +176,7 @@ int			main(int argc, char **argv)
 		return (-1);
 	if (!(r->dir = opendir(argv[argc - 1])))
 		return (-1);
-	ft_putendl(argv[argc - 1]);
+	r->argv = ft_strdup(argv[argc - 1]);
 	assign_opt(opt, r);
 	if (!(closedir(r->dir)))
 		return (-1);

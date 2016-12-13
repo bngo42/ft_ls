@@ -6,14 +6,14 @@
 #    By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/28 11:12:19 by bngo              #+#    #+#              #
-#    Updated: 2016/12/12 18:23:40 by lvalenti         ###   ########.fr        #
+#    Updated: 2016/12/13 13:00:31 by lvalenti         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = ft_ls
 CC = gcc
 FLAGS = -Werror -Wall -Wextra
-SRCS = srcs/main.c srcs/list.c srcs/stat.c
+SRCS = srcs/main.c srcs/list.c srcs/stat.c srcs/check.c
 
 OBJS = $(SRCS:.c=.o)
 
@@ -28,7 +28,7 @@ clean:
 
 fclean: clean
 	rm -rf $(NAME)
-	rm -rf list.o main.o stat.o
+	rm -rf list.o main.o stat.o check.o
 
 re: fclean all
 
