@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/28 11:17:50 by bngo              #+#    #+#             */
-/*   Updated: 2016/12/13 15:32:30 by lvalenti         ###   ########.fr       */
+/*   Updated: 2016/12/13 17:49:39 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,18 +45,33 @@ void		assign_opt(t_opt *opt, t_rep *r)
 	if (!(file = readdir(r->dir)))
 		return ;
 	lst = (t_rep*)malloc(sizeof(t_rep));
-	lst->name2 = ft_strjoin(r->argv, "/");
-	lst->name = ft_strdup(file->d_name);
-	lst->name2 = ft_strjoin(lst->name2, lst->name);
-	ft_putendl("0000000000");
-	ft_putendl(lst->name2);
-	while ((file = readdir(r->dir)))
+
+	if (ft_strcmp(r->argv, ".") < 0)
 	{
-		new = (t_rep*)malloc(sizeof(t_rep));
-		new->name2 = ft_strjoin(r->argv, "/");
-		new->name = ft_strdup(file->d_name);
-		new->name2 = ft_strjoin(new->name2, new->name);
-		add_list(&lst, new);
+		ft_putendl("ok");
+		lst->name2 = ft_strdup(file->d_name);
+		while ((file = readdir(r->dir)))
+		{
+			new = (t_rep*)malloc(sizeof(t_rep));
+			// new->name2 = ft_strjoin(r->argv, "/");
+			new->name2 = ft_strdup(file->d_name);
+			// new->name2 = ft_strjoin(new->name2, new->name);
+			add_list(&lst, new);
+		}
+	}
+	else
+	{
+		lst->name2 = ft_strjoin(r->argv, "/");
+		lst->name = ft_strdup(file->d_name);
+		lst->name2 = ft_strjoin(lst->name2, lst->name);
+		while ((file = readdir(r->dir)))
+		{
+			new = (t_rep*)malloc(sizeof(t_rep));
+			new->name2 = ft_strjoin(r->argv, "/");
+			new->name = ft_strdup(file->d_name);
+			new->name2 = ft_strjoin(new->name2, new->name);
+			add_list(&lst, new);
+		}
 	}
 	// if (opt->gr == 1)
 	//	funct_gr();
@@ -70,63 +85,6 @@ void		assign_opt(t_opt *opt, t_rep *r)
 		//funct_a(lst);
 	ft_printlst(lst, opt);
 }
-
-char    *ft_search(const char *s, int c)
-{
-	int             a;
-	char            b;
-	char            *d;
-	a = 0;
-	b = (char)c;
-	d = (char *)s;
-	if (d[a] == b)
-		return (&d[a]);
-	return (0);
-}
-
-t_rep		*sup_head(t_rep *rep)
-{
-	t_rep *tmp;
-
-	tmp = rep->next;
-	free(rep);
-	return (tmp);
-}
-
-/*void		funct_a(t_rep *r)
-{
-	t_rep *tmp;
-	t_rep *tmp2;
-
-	tmp = r;
-	while (tmp->next)
-	{
-		ft_putendl(tmp->name);
-		if (tmp->name[0] == '.')
-		{
-			if (!tmp->next)
-			{
-				if (tmp->prev)
-				{
-					tmp = tmp->prev;
-					free(tmp->next);
-					tmp->next = NULL;
-				}
-				else
-					free(tmp);
-			}
-			else
-			{
-				tmp2 = tmp->prev;
-				tmp = tmp->next;
-				free(tmp->prev);
-				tmp->prev = tmp2;
-			}
-		}
-		else if (tmp && tmp->next)
-			tmp = tmp->next;
-	}
-}*/
 
 void		funct_l(t_rep *r, t_opt *opt)
 {
@@ -146,7 +104,7 @@ void		funct_l(t_rep *r, t_opt *opt)
 		}
 		if (opt->a == 0)
 		{
-			if (tmp->name2[0] != '.')
+			if (tmp->name[0] != '.')
 				aff_stat(tmp);
 			tmp = tmp->next;
 		}

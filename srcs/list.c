@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/01 11:06:48 by lvalenti          #+#    #+#             */
-/*   Updated: 2016/12/13 12:22:11 by bngo             ###   ########.fr       */
+/*   Updated: 2016/12/13 17:43:42 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,9 @@ void		add_list(t_rep **begin, t_rep *new)
 		tmp = new;
 	else
 	{
-		while (tmp->next && ft_strcmp(tmp->name, new->name) < 0)
+		while (tmp->next && ft_strcmp(tmp->name2, new->name2) < 0)
 				tmp = tmp->next;
-		if (ft_strcmp(tmp->name, new->name) < 0)
+		if (ft_strcmp(tmp->name2, new->name2) < 0)
 		{
 			if (tmp->next)
 				tmp->next->prev = new;
