@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/28 11:17:50 by bngo              #+#    #+#             */
-/*   Updated: 2016/12/13 10:59:47 by lvalenti         ###   ########.fr       */
+/*   Updated: 2016/12/13 12:56:02 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,81 +98,34 @@ t_rep		*funct_pr(t_rep *r)
 	return (r);
 }
 
-t_rep	*ft_create_elem(void *data)
-{
-	t_rep	*list;
-
-	list = NULL;
-	list = malloc(sizeof(t_rep));
-	if (list)
-	{
-		list->data = data;
-		list->next = NULL;
-	}
-	return (list);
-}
-
-void		ft_list_push_back(t_rep **begin_list, void *data)
-{
-	t_rep		*list;
-
-	list = *begin_list;
-	if (list)
-	{
-		while (list->next != NULL)
-			list = list->next;
-		list->next = ft_create_elem(data);
-	}
-	else
-		*begin_list = ft_create_elem(data);
-}
-
-void		afficher(t_rep *list)
-{
-	while (list)
-	{
-		printf("%s\n", list->data);
-		list = list->next;
-	}
-}
 
 void		assign_opt(t_opt *opt, t_rep *r)
 {
-	t_rep *lst;
-	int		bol;
+	struct dirent	*file;
+	t_rep			*lst;
+	t_rep			*new;
 
-	bol = 0;
+	if (!(file = readdir(r->dir)))
+		return ;
 	lst = (t_rep*)malloc(sizeof(t_rep));
-	r->file = readdir(r->dir);
-	printf("Lecture du dossier %s\n", r->file->d_name);
-	while (!bol)
+	lst->name = ft_strdup(file->d_name);
+	while ((file = readdir(r->dir)))
 	{
-		// r = lst;
-		lst->file = readdir(r->dir);
-		if (!lst->file)
-			bol = 1;
-		else
-			ft_list_push_back(&r, ft_strdup(lst->file->d_name));
-			// ft_list_end(&r,ft_strdup(lst->file->d_name));
-		// else
+		new = (t_rep*)malloc(sizeof(t_rep));
+		new->name = ft_strdup(file->d_name);
+		add_list(&lst, new);
 	}
-	// while (r->prev)
-		// r = r->prev;
 	// if (opt->gr == 1)
 	//	funct_gr();
 	// if (opt->t == 1)
 	// 	funct_t();
-	// exit(1);
 	if (opt->pr == 1)
-		r = funct_pr(r);
+		lst = funct_pr(lst);
 	if (opt->l == 1)
-		funct_l(r, opt);
-	if (opt->a == 1)
-		funct_a(r);
-		afficher(r);
-	// ft_printlst(r, opt);
-
-
+		funct_l(lst, opt);
+	//if (opt->a == 1)
+		//funct_a(lst);
+	ft_printlst(lst, opt);
 }
 
 char    *ft_search(const char *s, int c)
@@ -197,7 +150,7 @@ t_rep		*sup_head(t_rep *rep)
 	return (tmp);
 }
 
-void		funct_a(t_rep *r)
+/*void		funct_a(t_rep *r)
 {
 	t_rep *tmp;
 	t_rep *tmp2;
@@ -205,7 +158,8 @@ void		funct_a(t_rep *r)
 	tmp = r;
 	while (tmp->next)
 	{
-		if (tmp->file->d_name[0] == '.')
+		ft_putendl(tmp->name);
+		if (tmp->name[0] == '.')
 		{
 			if (!tmp->next)
 			{
@@ -229,7 +183,7 @@ void		funct_a(t_rep *r)
 		else if (tmp && tmp->next)
 			tmp = tmp->next;
 	}
-}
+}*/
 
 void		funct_l(t_rep *r, t_opt *opt)
 {
@@ -239,18 +193,17 @@ void		funct_l(t_rep *r, t_opt *opt)
 	tmp = r;
 	if (!(lst = (t_rep *)malloc(sizeof(t_rep))))
 		return ;
-	printf("%d\n", opt->a);
 	while (tmp)
 	{
 		errno = 0;
-		if (stat(tmp->file->d_name, &tmp->filestat) < 0)
+		if (stat(tmp->name, &tmp->filestat) < 0)
 		{
 			perror("STAT ERROR ");
 			exit (0);
 		}
 		if (opt->a == 0)
 		{
-			if (tmp->file->d_name[0] != '.')
+			if (tmp->name[0] != '.')
 				aff_stat(tmp);
 			tmp = tmp->next;
 		}
@@ -280,7 +233,7 @@ int			main(int argc, char **argv)
 		return (-1);
 	if (!(r->dir = opendir(argv[argc - 1])))
 		return (-1);
-	printf("Lecture de %s\n", argv[argc - 1]);
+	ft_putendl(argv[argc - 1]);
 	assign_opt(opt, r);
 	if (!(closedir(r->dir)))
 		return (-1);
