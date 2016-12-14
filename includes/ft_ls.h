@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/28 11:13:18 by bngo              #+#    #+#             */
-/*   Updated: 2016/12/13 15:12:34 by lvalenti         ###   ########.fr       */
+/*   Updated: 2016/12/14 11:04:20 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ typedef struct		s_rep
 	char			*name;
 	char			*name2;
 	char			*argv;
+	int				major;
+	int				minor;
 	mode_t			mode;
 	struct passwd	*user;
 	struct stat		filestat;
@@ -56,7 +58,7 @@ void				funct_t();
 void				ft_printlst(t_rep *lst, t_opt *opt);
 void				add_list(t_rep **begin, t_rep *new);
 void				aff_stat(t_rep *r);
-void				file_type(struct stat filestat);
+void				file_type(struct stat filestat, t_rep *data);
 void				ft_get_mode(t_rep *data);
 void				aff_stat2(t_rep *data);
 char				*modif_time(char *time);

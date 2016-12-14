@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/02 10:06:24 by lvalenti          #+#    #+#             */
-/*   Updated: 2016/12/13 19:02:10 by lvalenti         ###   ########.fr       */
+/*   Updated: 2016/12/14 11:05:41 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ void		aff_stat(t_rep *data)
 	struct group	*gid;
 
 	data->mode = data->filestat.st_mode;
-	file_type(data->filestat);
+	file_type(data->filestat, data);
+	data->mode = data->filestat.st_mode;
 	ft_get_mode(data);
 	ft_putchar(' ');
 	ft_putnbr(data->filestat.st_nlink);
@@ -31,7 +32,17 @@ void		aff_stat(t_rep *data)
 	gid = getgrgid(data->filestat.st_gid);
 	ft_putstr(gid->gr_name);
 	ft_putchar(' ');
-	ft_putnbr(data->filestat.st_size);
+	// data->mode = data->filestat.st_mode & S_IFMT;
+	// if (S_ISBLK(data->name))
+	// 	ft_putendl("0000000000");
+	if (S_ISBLK(data->mode) || S_ISCHR(data->mode))
+	{
+		ft_putnbr(data->major);
+		ft_putstr(",   ");
+		ft_putnbr(data->minor);
+	}
+	else
+		ft_putnbr(data->filestat.st_size);
 	ft_putchar(' ');
 	aff_stat2(data);
 }
@@ -70,25 +81,34 @@ char				*modif_time(char *time)
 	return (rslt);
 }
 
-void	file_type(struct stat filestat)
+void				file_type(struct stat filestat, t_rep *data)
 {
-	t_rep data;
+	// t_rep data;
 
-	data.mode = filestat.st_mode & S_IFMT;
-	if (S_ISBLK(data.mode))
+	data->mode = filestat.st_mode & S_IFMT;
+	if (S_ISBLK(data->mode))
+	{
 		ft_putchar('b');
-	else if (S_ISCHR(data.mode))
+		data->major = major(data->filestat.st_rdev);
+		data->minor = minor(data->filestat.st_rdev);
+	}
+	else if (S_ISCHR(data->mode))
+	{
 		ft_putchar('c');
-	else if (S_ISDIR(data.mode))
+		data->major = major(data->filestat.st_rdev);
+		data->minor = minor(data->filestat.st_rdev);
+	}
+	else if (S_ISDIR(data->mode))
 		ft_putchar('d');
-	else if (S_ISFIFO(data.mode))
+	else if (S_ISFIFO(data->mode))
 		ft_putchar('p');
-	else if (S_ISLNK(data.mode))
+	else if (S_ISLNK(data->mode))
 		ft_putchar('l');
-	else if (S_ISREG(data.mode))
+	else if (S_ISREG(data->mode))
 		ft_putchar('-');
-	else if (S_ISSOCK(data.mode))
+	else if (S_ISSOCK(data->mode))
 		ft_putchar('s');
+	// return (data);
 }
 
 void	ft_get_mode(t_rep *data)
