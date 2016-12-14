@@ -6,14 +6,11 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/02 10:06:24 by lvalenti          #+#    #+#             */
-/*   Updated: 2016/12/14 11:05:41 by lvalenti         ###   ########.fr       */
+/*   Updated: 2016/12/14 11:07:15 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_ls.h"
-
-//S_ISBLK S_ISCHR si le type est l'un des deux alors on doit gerer les minors et les majors.
-// Pour les recuperer il faut faire un int major = major(data->filestat.st_dev). et pareil pour les minors!!
 
 void		aff_stat(t_rep *data)
 {
@@ -32,9 +29,6 @@ void		aff_stat(t_rep *data)
 	gid = getgrgid(data->filestat.st_gid);
 	ft_putstr(gid->gr_name);
 	ft_putchar(' ');
-	// data->mode = data->filestat.st_mode & S_IFMT;
-	// if (S_ISBLK(data->name))
-	// 	ft_putendl("0000000000");
 	if (S_ISBLK(data->mode) || S_ISCHR(data->mode))
 	{
 		ft_putnbr(data->major);
@@ -83,8 +77,6 @@ char				*modif_time(char *time)
 
 void				file_type(struct stat filestat, t_rep *data)
 {
-	// t_rep data;
-
 	data->mode = filestat.st_mode & S_IFMT;
 	if (S_ISBLK(data->mode))
 	{
@@ -108,7 +100,6 @@ void				file_type(struct stat filestat, t_rep *data)
 		ft_putchar('-');
 	else if (S_ISSOCK(data->mode))
 		ft_putchar('s');
-	// return (data);
 }
 
 void	ft_get_mode(t_rep *data)
