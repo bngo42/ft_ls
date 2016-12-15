@@ -6,29 +6,77 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/02 10:06:24 by lvalenti          #+#    #+#             */
-/*   Updated: 2016/12/14 11:07:15 by lvalenti         ###   ########.fr       */
+/*   Updated: 2016/12/15 16:36:27 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_ls.h"
 
-void		aff_stat(t_rep *data)
+
+int			int_len(int nb)
+{
+	int len;
+
+	len = 0;
+	while (nb > 9)
+	{
+		len++;
+		nb /= 10;
+	}
+	return (len + 1);
+}
+
+void		get_len(t_rep *data, int length[4])
+{
+	int				len[4];
+	struct passwd	*usr;
+	struct group	*gid;
+
+	len[0] = int_len(data->filestat.st_nlink);
+	usr = getpwuid(data->filestat.st_uid);
+	len[1] = ft_strlen(usr->pw_name);
+	gid = getgrgid(data->filestat.st_gid);
+	len[2] = ft_strlen(gid->gr_name);
+	len[3] = int_len(data->filestat.st_size);
+	length[0] = (len[0] > length[0]) ? len[0] : length[0];
+	length[1] = (len[1] > length[1]) ? len[1] : length[1];
+	length[2] = (len[2] > length[2]) ? len[2] : length[2];
+	length[3] = (len[3] > length[3]) ? len[3] : length[3];
+}
+
+void		show_info(char *str, int len)
+{
+	int	length;
+	int	i;
+
+	i = 0;
+	length = ft_strlen(str);
+	if (length < len)
+	{
+		while (i++ < (len - length))
+			ft_putchar(' ');
+	}
+	ft_putstr(str);
+	ft_putchar(' ');
+}
+
+void		aff_stat(t_rep *data, int len[4])
 {
 	struct group	*gid;
+	char			*link;
+	char			*size;
 
 	data->mode = data->filestat.st_mode;
 	file_type(data->filestat, data);
 	data->mode = data->filestat.st_mode;
 	ft_get_mode(data);
-	ft_putchar(' ');
-	ft_putnbr(data->filestat.st_nlink);
-	ft_putchar(' ');
+	link = ft_itoa(data->filestat.st_nlink);
+	show_info(link, len[0]);
 	data->user = getpwuid(data->filestat.st_uid);
-	ft_putstr(data->user->pw_name);
+	show_info(data->user->pw_name, len[1]);
 	ft_putchar(' ');
 	gid = getgrgid(data->filestat.st_gid);
-	ft_putstr(gid->gr_name);
-	ft_putchar(' ');
+	show_info(gid->gr_name, len[2]);
 	if (S_ISBLK(data->mode) || S_ISCHR(data->mode))
 	{
 		ft_putnbr(data->major);
@@ -36,8 +84,10 @@ void		aff_stat(t_rep *data)
 		ft_putnbr(data->minor);
 	}
 	else
-		ft_putnbr(data->filestat.st_size);
-	ft_putchar(' ');
+	{
+		size = ft_itoa(data->filestat.st_size);
+		show_info(size, len[3]);
+	}
 	aff_stat2(data);
 }
 
@@ -78,7 +128,9 @@ char				*modif_time(char *time)
 void				file_type(struct stat filestat, t_rep *data)
 {
 	data->mode = filestat.st_mode & S_IFMT;
-	if (S_ISBLK(data->mode))
+	if (S_ISLNK(data->mode))
+		ft_putchar('l');
+	else if (S_ISBLK(data->mode))
 	{
 		ft_putchar('b');
 		data->major = major(data->filestat.st_rdev);
@@ -94,9 +146,7 @@ void				file_type(struct stat filestat, t_rep *data)
 		ft_putchar('d');
 	else if (S_ISFIFO(data->mode))
 		ft_putchar('p');
-	else if (S_ISLNK(data->mode))
-		ft_putchar('l');
-	else if (S_ISREG(data->mode))
+		else if (S_ISREG(data->mode))
 		ft_putchar('-');
 	else if (S_ISSOCK(data->mode))
 		ft_putchar('s');
@@ -126,4 +176,5 @@ void	ft_get_mode(t_rep *data)
 	if (data->mode & S_IXOTH)
 		mod[8] = 'x';
 	ft_putstr(mod);
+	ft_putstr("  ");
 }

@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/28 11:17:50 by bngo              #+#    #+#             */
-/*   Updated: 2016/12/14 11:08:36 by lvalenti         ###   ########.fr       */
+/*   Updated: 2016/12/15 16:37:45 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,16 +84,21 @@ void		assign_opt(t_opt *opt, t_rep *r)
 
 void		funct_l(t_rep *r, t_opt *opt)
 {
-	t_rep *tmp;
-	t_rep *lst;
+	t_rep	*tmp;
+	t_rep	*lst;
+	int		len[4];
 
+	len[0] = 0;
+	len[1] = 0;
+	len[2] = 0;
+	len[3] = 0;
 	tmp = r;
 	if (!(lst = (t_rep *)malloc(sizeof(t_rep))))
 		return ;
 	while (tmp)
 	{
 		errno = 0;
-		if (stat(tmp->name2, &tmp->filestat) < 0)
+		if (lstat(tmp->name2, &tmp->filestat) < 0)
 		{
 			perror("STAT ERROR ");
 			exit (0);
@@ -101,14 +106,22 @@ void		funct_l(t_rep *r, t_opt *opt)
 		if (opt->a == 0)
 		{
 			if (tmp->name[0] != '.')
-				aff_stat(tmp);
-			tmp = tmp->next;
+				get_len(tmp, len);
 		}
 		else if (opt->a == 1)
+			get_len(tmp, len);
+		tmp = tmp->next;
+	}
+	while (r)
+	{
+		if (opt->a == 0)
 		{
-			aff_stat(tmp);
-			tmp = tmp->next;
+			if (r->name[0] != '.')
+				aff_stat(r, len);
 		}
+		else if (opt->a == 1)
+			aff_stat(r, len);
+		r = r->next;
 	}
 }
 
