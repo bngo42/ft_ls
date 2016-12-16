@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/28 11:17:50 by bngo              #+#    #+#             */
-/*   Updated: 2016/12/15 16:37:45 by bngo             ###   ########.fr       */
+/*   Updated: 2016/12/16 14:51:13 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,12 +86,14 @@ void		funct_l(t_rep *r, t_opt *opt)
 {
 	t_rep	*tmp;
 	t_rep	*lst;
-	int		len[4];
+	int		len[6];
 
 	len[0] = 0;
 	len[1] = 0;
 	len[2] = 0;
 	len[3] = 0;
+	len[4] = 0;
+	len[5] = 0;
 	tmp = r;
 	if (!(lst = (t_rep *)malloc(sizeof(t_rep))))
 		return ;
@@ -112,6 +114,9 @@ void		funct_l(t_rep *r, t_opt *opt)
 			get_len(tmp, len);
 		tmp = tmp->next;
 	}
+	ft_putstr("total ");
+	ft_putnbr(len[4]);
+	ft_putchar('\n');
 	while (r)
 	{
 		if (opt->a == 0)

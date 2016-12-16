@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/02 10:06:24 by lvalenti          #+#    #+#             */
-/*   Updated: 2016/12/15 16:36:27 by bngo             ###   ########.fr       */
+/*   Updated: 2016/12/16 14:58:48 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int			int_len(int nb)
 	return (len + 1);
 }
 
-void		get_len(t_rep *data, int length[4])
+void		get_len(t_rep *data, int length[6])
 {
 	int				len[4];
 	struct passwd	*usr;
@@ -42,51 +42,61 @@ void		get_len(t_rep *data, int length[4])
 	length[1] = (len[1] > length[1]) ? len[1] : length[1];
 	length[2] = (len[2] > length[2]) ? len[2] : length[2];
 	length[3] = (len[3] > length[3]) ? len[3] : length[3];
+	length[4] += data->filestat.st_blocks;
+	data->mode = data->filestat.st_mode;
+	if (S_ISBLK(data->mode) || S_ISCHR(data->mode))
+		length[5] = 1;
 }
 
-void		show_info(char *str, int len)
+void		show_info(char *str, int len, int state)
 {
 	int	length;
 	int	i;
 
 	i = 0;
 	length = ft_strlen(str);
+	if (state)
+		ft_putstr(str);
 	if (length < len)
 	{
 		while (i++ < (len - length))
 			ft_putchar(' ');
 	}
-	ft_putstr(str);
+	if (!state)
+		ft_putstr(str);
 	ft_putchar(' ');
 }
 
-void		aff_stat(t_rep *data, int len[4])
+void		aff_stat(t_rep *data, int len[6])
 {
 	struct group	*gid;
 	char			*link;
 	char			*size;
-
+	
 	data->mode = data->filestat.st_mode;
 	file_type(data->filestat, data);
 	data->mode = data->filestat.st_mode;
 	ft_get_mode(data);
 	link = ft_itoa(data->filestat.st_nlink);
-	show_info(link, len[0]);
+	show_info(link, len[0], 0);
 	data->user = getpwuid(data->filestat.st_uid);
-	show_info(data->user->pw_name, len[1]);
+	show_info(data->user->pw_name, len[1], 0);
 	ft_putchar(' ');
 	gid = getgrgid(data->filestat.st_gid);
-	show_info(gid->gr_name, len[2]);
+	show_info(gid->gr_name, len[2], (len[5]) ? 1 : 0);
+	if (len[5])
+		ft_putstr("  ");
 	if (S_ISBLK(data->mode) || S_ISCHR(data->mode))
 	{
 		ft_putnbr(data->major);
-		ft_putstr(",   ");
+		ft_putstr(", ");
 		ft_putnbr(data->minor);
+		ft_putchar(' ');
 	}
 	else
 	{
 		size = ft_itoa(data->filestat.st_size);
-		show_info(size, len[3]);
+		show_info(size, len[3], 0);
 	}
 	aff_stat2(data);
 }
