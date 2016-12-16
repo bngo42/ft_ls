@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/01 11:06:48 by lvalenti          #+#    #+#             */
-/*   Updated: 2016/12/16 10:46:31 by lvalenti         ###   ########.fr       */
+/*   Updated: 2016/12/16 10:48:48 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,12 @@ void		ft_printlst(t_rep *lst, t_opt *opt)
 		while (lst)
 		{
 			if (opt->a == 0)
+			{
 				if (lst->name[0] != '.')
 					ft_putendl(lst->name);
+			}
 			else
-				ft_putendl(lst->name);}
+				ft_putendl(lst->name);
 			lst = lst->next;
 		}
 	}
