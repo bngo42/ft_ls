@@ -6,36 +6,25 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/01 11:06:48 by lvalenti          #+#    #+#             */
-/*   Updated: 2016/12/13 17:43:42 by lvalenti         ###   ########.fr       */
+/*   Updated: 2016/12/16 10:46:31 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_ls.h"
 
+//t = lst->filestat.st_mtimespec.tv_sec; pour comparer le temps.
 
 void		ft_printlst(t_rep *lst, t_opt *opt)
 {
-	//printf("%d\n", opt->pr);
-	// if (opt->pr == 1)
-	// {
-	// 	while (lst->next)
-	// 		lst = lst->next;
-	// }
 	if (opt->l == 0)
 	{
 		while (lst)
 		{
 			if (opt->a == 0)
-			{
 				if (lst->name[0] != '.')
 					ft_putendl(lst->name);
-				// lst = (!opt->pr) ? lst->next : lst->prev;
-			}
 			else
-			{
-				ft_putendl(lst->name);
-				// lst = (!opt->pr) ? lst->next : lst->prev;
-			}
+				ft_putendl(lst->name);}
 			lst = lst->next;
 		}
 	}
@@ -45,7 +34,6 @@ void		add_list(t_rep **begin, t_rep *new)
 {
 	t_rep *tmp;
 
-	// printf("adding %s\n", new->name);
 	tmp = *begin;
 	if (!tmp)
 		tmp = new;
