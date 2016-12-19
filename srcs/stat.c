@@ -25,9 +25,9 @@ int			int_len(int nb)
 	return (len + 1);
 }
 
-void		get_len(t_rep *data, int length[6])
+void		get_len(t_rep *data, int length[8])
 {
-	int				len[4];
+	int				len[6];
 	struct passwd	*usr;
 	struct group	*gid;
 
@@ -37,17 +37,23 @@ void		get_len(t_rep *data, int length[6])
 	gid = getgrgid(data->filestat.st_gid);
 	len[2] = ft_strlen(gid->gr_name);
 	len[3] = int_len(data->filestat.st_size);
+	data->mode = data->filestat.st_mode;
+	if (S_ISBLK(data->mode) || S_ISCHR(data->mode))
+	{
+		length[7] = 1;
+		len[4] = int_len(major(data->filestat.st_rdev));
+		len[5] = int_len(minor(data->filestat.st_rdev));
+	}
 	length[0] = (len[0] > length[0]) ? len[0] : length[0];
 	length[1] = (len[1] > length[1]) ? len[1] : length[1];
 	length[2] = (len[2] > length[2]) ? len[2] : length[2];
 	length[3] = (len[3] > length[3]) ? len[3] : length[3];
-	length[4] += data->filestat.st_blocks;
-	data->mode = data->filestat.st_mode;
-	if (S_ISBLK(data->mode) || S_ISCHR(data->mode))
-		length[5] = 1;
+	length[4] = (len[4] > length[4]) ? len[4] : length[4];
+	length[5] = (len[5] > length[5]) ? len[5] : length[5];
+	length[6] += data->filestat.st_blocks;
 }
 
-void		show_info(char *str, int len, int state)
+void		show_info(char *str, int len, int state, int state2)
 {
 	int	length;
 	int	i;
@@ -63,39 +69,44 @@ void		show_info(char *str, int len, int state)
 	}
 	if (!state)
 		ft_putstr(str);
-	ft_putchar(' ');
+	if (state2)
+		ft_putchar(' ');
 }
 
 void		aff_stat(t_rep *data, int len[6])
 {
 	struct group	*gid;
-	char			*link;
-	char			*size;
-
+	char			*link;//Ces chaines de caractere
+	char			*size;//peuvent etre remplacee par
+	char			*major;//un seul char* tmp; mais il faut
+	char			*minor;//penser a le free a chaque fois
+	
 	data->mode = data->filestat.st_mode;
 	file_type(data->filestat, data);
 	data->mode = data->filestat.st_mode;
 	ft_get_mode(data);
 	link = ft_itoa(data->filestat.st_nlink);
-	show_info(link, len[0], 0);
+	show_info(link, len[0], 0, 1);
 	data->user = getpwuid(data->filestat.st_uid);
-	show_info(data->user->pw_name, len[1], (len[5]) ? 1 : 0);
+	show_info(data->user->pw_name, len[1], 0, 1);
 	ft_putchar(' ');
 	gid = getgrgid(data->filestat.st_gid);
-	show_info(gid->gr_name, len[2], (len[5]) ? 1 : 0);
-	if (len[5])
-		ft_putstr("  ");
+	show_info(gid->gr_name, len[2], (len[7]) ? 1 : 0, 1);
+	ft_putchar(' ');
+	if (len[7])
+		ft_putchar(' ');
 	if (S_ISBLK(data->mode) || S_ISCHR(data->mode))
 	{
-		ft_putnbr(data->major);
+		major = ft_itoa(data->major);
+		show_info(major, len[4], 0, 0);
 		ft_putstr(", ");
-		ft_putnbr(data->minor);
-		ft_putchar(' ');
+		minor = ft_itoa(data->minor);
+		show_info(minor, len[5], 0, 1);
 	}
 	else
 	{
 		size = ft_itoa(data->filestat.st_size);
-		show_info(size, len[3], 0);
+		show_info(size, len[3] + ((!len[7]) ? 0 : (len[4] + len[5] + 1)), 0 ,1);
 	}
 	aff_stat2(data);
 }

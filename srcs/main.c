@@ -86,14 +86,16 @@ void		funct_l(t_rep *r, t_opt *opt)
 {
 	t_rep	*tmp;
 	t_rep	*lst;
-	int		len[6];
+	int		len[8];
 
-	len[0] = 0;
-	len[1] = 0;
-	len[2] = 0;
-	len[3] = 0;
-	len[4] = 0;
-	len[5] = 0;
+	len[0] = 0;//LIEN
+	len[1] = 0;//UID
+	len[2] = 0;//GROUP
+	len[3] = 0;//SIZE
+	len[4] = 0;//MAJOR
+	len[5] = 0;//MINOR
+	len[6] = 0;//TOTAL_BLOCK
+	len[7] = 0;//HAS C OR B
 	tmp = r;
 	if (!(lst = (t_rep *)malloc(sizeof(t_rep))))
 		return ;
@@ -115,7 +117,7 @@ void		funct_l(t_rep *r, t_opt *opt)
 		tmp = tmp->next;
 	}
 	ft_putstr("total ");
-	ft_putnbr(len[4]);
+	ft_putnbr(len[6]);
 	ft_putchar('\n');
 	while (r)
 	{
