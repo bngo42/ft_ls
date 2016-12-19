@@ -6,7 +6,7 @@
 #    By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/11/30 14:39:24 by bngo              #+#    #+#              #
-#    Updated: 2016/12/02 12:55:14 by lvalenti         ###   ########.fr        #
+#    Updated: 2016/12/19 10:55:47 by lvalenti         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -79,7 +79,7 @@ all:$(NAME)
 
 $(NAME):
 	@echo "Conversion des sources en objet"
-	@gcc -c $(SRC_NAME)
+	@gcc -g -c $(SRC_NAME)
 	@echo "Link des objets"
 	@ar rc $(NAME) $(OBJ_NAME)
 	@echo "Indexation de la librairie"

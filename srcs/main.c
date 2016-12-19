@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/28 11:17:50 by bngo              #+#    #+#             */
-/*   Updated: 2016/12/16 14:51:13 by bngo             ###   ########.fr       */
+/*   Updated: 2016/12/19 11:20:04 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void		assign_opt(t_opt *opt, t_rep *r)
 	if (!(file = readdir(r->dir)))
 		return ;
 	lst = (t_rep*)malloc(sizeof(t_rep));
-
+	ft_bzero(lst, sizeof(t_rep));
 	if (ft_strcmp(r->argv, ".") < 0)
 	{
 		ft_putendl("ok");
@@ -80,6 +80,8 @@ void		assign_opt(t_opt *opt, t_rep *r)
 	if (opt->l == 1)
 		funct_l(lst, opt);
 	ft_printlst(lst, opt);
+	free(lst);
+	// free(new);
 }
 
 void		funct_l(t_rep *r, t_opt *opt)
@@ -136,13 +138,13 @@ int			main(int argc, char **argv)
 	char	*arg;
 	t_opt	*opt;
 
+	arg = ft_check_arg(argv);
 	opt = (t_opt *)malloc(sizeof(t_opt));
 	opt->l = 0;
 	opt->gr = 0;
 	opt->a = 0;
 	opt->pr = 0;
 	opt->t = 0;
-	arg = ft_check_arg(argv);
 	ft_check_opt(arg, opt);
 	if (!(r = (t_rep*)malloc(sizeof(t_rep))))
 		return (-1);
@@ -152,5 +154,7 @@ int			main(int argc, char **argv)
 	assign_opt(opt, r);
 	if (!(closedir(r->dir)))
 		return (-1);
+	free(opt);
+	free(r);
 	return (0);
 }

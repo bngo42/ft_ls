@@ -6,30 +6,48 @@
 #    By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/28 11:12:19 by bngo              #+#    #+#              #
-#    Updated: 2016/12/13 17:40:36 by lvalenti         ###   ########.fr        #
+#    Updated: 2016/12/19 11:07:45 by lvalenti         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = ft_ls
-CC = gcc
-FLAGS = -Werror -Wall -Wextra
-SRCS = srcs/main.c srcs/list.c srcs/stat.c srcs/check.c
+CC = clang
+CFLAGS = -Wall -Werror -Wextra -g
+CPATH = srcs/
+OPATH = obj/
+HPATH = includes/ libft/
+INC = $(addprefix -I , $(HPATH))
+CFILES = main.c\
+		 list.c\
+		 check.c\
+		 stat.c
+OFILES = $(CFILES:.c=.o)
+HFILES = includes/ft_ls.h libft/libft.h
+OBJ = $(addprefix $(OPATH), $(OFILES))
 
-OBJS = $(SRCS:.c=.o)
+.PHONY: all clean fclean re
 
-$(NAME): $(OBJS)
-	make -C libft/ fclean && make -C libft/
-	gcc -c -g $(SRCS)
-	gcc -g $(FLAGS) -o $(NAME) $(OBJS) libft/libft.a -I includes/
 all: $(NAME)
 
+$(NAME): $(OBJ)
+	make -C libft
+	$(CC) $(CFLAGS) $(OBJ) libft/libft.a -o $(NAME)
+
+debug: $(OBJ)
+	make -C libft
+	$(CC) $(CFLAGS) $(OBJ) libft/libft.a -o $(NAME)
+
+$(OPATH)%.o: $(CPATH)%.c $(HFILES)
+	@mkdir -p $(OPATH)
+	$(CC) -g $(INC) $< -c -o $@
+
+
 clean:
-	rm -rf $(OBJS)
+	make -C libft clean
+	rm -f $(OBJ)
 
 fclean: clean
-	rm -rf $(NAME)
-	rm -rf list.o main.o stat.o check.o
+	make -C libft fclean
+	rm -f $(NAME)
 
 re: fclean all
-
-.PHONY : all clean fclean re
