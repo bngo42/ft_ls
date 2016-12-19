@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/28 11:17:50 by bngo              #+#    #+#             */
-/*   Updated: 2016/12/19 11:20:04 by lvalenti         ###   ########.fr       */
+/*   Updated: 2016/12/19 11:34:30 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ void		assign_opt(t_opt *opt, t_rep *r)
 		funct_l(lst, opt);
 	ft_printlst(lst, opt);
 	free(lst);
-	// free(new);
 }
 
 void		funct_l(t_rep *r, t_opt *opt)
