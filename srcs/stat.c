@@ -6,12 +6,11 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/02 10:06:24 by lvalenti          #+#    #+#             */
-/*   Updated: 2016/12/16 14:58:48 by bngo             ###   ########.fr       */
+/*   Updated: 2016/12/19 17:08:30 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_ls.h"
-
 
 int			int_len(int nb)
 {
@@ -72,7 +71,7 @@ void		aff_stat(t_rep *data, int len[6])
 	struct group	*gid;
 	char			*link;
 	char			*size;
-	
+
 	data->mode = data->filestat.st_mode;
 	file_type(data->filestat, data);
 	data->mode = data->filestat.st_mode;
@@ -80,7 +79,7 @@ void		aff_stat(t_rep *data, int len[6])
 	link = ft_itoa(data->filestat.st_nlink);
 	show_info(link, len[0], 0);
 	data->user = getpwuid(data->filestat.st_uid);
-	show_info(data->user->pw_name, len[1], 0);
+	show_info(data->user->pw_name, len[1], (len[5]) ? 1 : 0);
 	ft_putchar(' ');
 	gid = getgrgid(data->filestat.st_gid);
 	show_info(gid->gr_name, len[2], (len[5]) ? 1 : 0);
@@ -104,12 +103,31 @@ void		aff_stat(t_rep *data, int len[6])
 void				aff_stat2(t_rep *data)
 {
 	char			*file;
+	char			*date_tmp;
+	char			*date;
 	time_t			t;
+	time_t			t_now;
+	time_t			diff;
 
+	if (!(date = (char *)malloc(sizeof(char))))
+		return ;
 	t = data->filestat.st_mtime;
-	file = ctime(&t);
-	file = modif_time(file);
-	ft_putstr(file);
+	time(&t_now);
+	diff = t_now - t;
+	if (diff > 15778432)
+	{
+		diff = data->filestat.st_mtime;
+		date_tmp = ctime(&diff);
+		date = ft_strsub(date_tmp, 4, 6);
+		date = ft_strjoin(date, ft_strsub(date_tmp, 19, 5));
+		ft_putstr(date);
+	}
+	else
+	{
+		file = ctime(&t);
+		file = modif_time(file);
+		ft_putstr(file);
+	}
 	ft_putchar(' ');
 	ft_putendl(data->name);
 }

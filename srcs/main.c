@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/28 11:17:50 by bngo              #+#    #+#             */
-/*   Updated: 2016/12/19 11:34:30 by lvalenti         ###   ########.fr       */
+/*   Updated: 2016/12/19 13:52:18 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ t_rep		*funct_pr(t_rep *r)
 	}
 	return (r);
 }
-
 
 void		assign_opt(t_opt *opt, t_rep *r)
 {
