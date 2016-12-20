@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/28 11:13:18 by bngo              #+#    #+#             */
-/*   Updated: 2016/12/20 15:51:04 by lvalenti         ###   ########.fr       */
+/*   Updated: 2016/12/20 16:45:51 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ typedef struct		s_rep
 	struct passwd	*user;
 	struct stat		filestat;
 	DIR				*dir;
+	int				time_s;
+	int				time_ns;
 	struct s_rep	*next;
 	struct s_rep	*prev;
 }					t_rep;
@@ -65,7 +67,7 @@ char				*modif_time(char *time);
 void				ft_sort_list(t_rep *r);
 char				*ft_check_arg(char **argv);
 int					ft_check_opt(char *arg, t_opt *opt);
-
+char				*get_date(t_rep *data);
 void				get_len(t_rep *data, int length[4]);
 
 #endif

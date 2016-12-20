@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/02 10:06:24 by lvalenti          #+#    #+#             */
-/*   Updated: 2016/12/20 16:08:42 by lvalenti         ###   ########.fr       */
+/*   Updated: 2016/12/20 16:37:21 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,19 +111,16 @@ void		aff_stat(t_rep *data, int len[6])
 	aff_stat2(data);
 }
 
-void				aff_stat2(t_rep *data)
+char				*get_date(t_rep *data)
 {
-	char			*file;
-	char			*date_tmp;
 	char			*date;
-	char			buf[1024];
-	ssize_t			i;
+	char			*date_tmp;
 	time_t			t;
 	time_t			t_now;
 	time_t			diff;
 
 	if (!(date = (char *)malloc(sizeof(char))))
-		return ;
+		return NULL;
 	t = data->filestat.st_mtime;
 	time(&t_now);
 	diff = t_now - t;
@@ -132,15 +129,25 @@ void				aff_stat2(t_rep *data)
 		diff = data->filestat.st_mtime;
 		date_tmp = ctime(&diff);
 		date = ft_strsub(date_tmp, 4, 6);
+		date = ft_strjoin(date, " ");
 		date = ft_strjoin(date, ft_strsub(date_tmp, 19, 5));
-		ft_putstr(date);
 	}
 	else
 	{
-		file = ctime(&t);
-		file = modif_time(file);
-		ft_putstr(file);
+		date = ctime(&t);
+		date = modif_time(date);
 	}
+	return (date);
+}
+
+void				aff_stat2(t_rep *data)
+{
+	char			*date;
+	char			buf[1024];
+	ssize_t			i;
+
+	date = get_date(data);
+	ft_putstr(date);
 	ft_putchar(' ');
 	if (S_ISLNK(data->mode))
 	{
@@ -182,25 +189,9 @@ char				*modif_time(char *time)
 
 void				file_type(struct stat filestat, t_rep *data)
 {
-	// char			buf[1024];
-	// ssize_t			i;
-
-
 	data->mode = filestat.st_mode & S_IFMT;
 	if (S_ISLNK(data->mode))
-	{
 		ft_putchar('l');
-		// if ((i = readlink(data->name2, buf, 1023)) < 0)
-		// 	printf("ERROR\n");
-		// else
-		// {
-		// 	// buf = ft_strsub(buf, 0, )
-		// 	buf[i] = '\0';
-		// 	printf("BUF = %s !!!!\n", buf);
-		//
-		// }
-		// ft_strdup(buf);
-	}
 	else if (S_ISBLK(data->mode))
 	{
 		ft_putchar('b');

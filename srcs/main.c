@@ -6,33 +6,66 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/28 11:17:50 by bngo              #+#    #+#             */
-/*   Updated: 2016/12/19 13:52:18 by lvalenti         ###   ########.fr       */
+/*   Updated: 2016/12/20 17:44:35 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_ls.h"
 
-t_rep		*funct_pr(t_rep *r)
+void		swap_link(t_rep *lst)
 {
 	t_rep	*tmpnext;
 	t_rep	*tmpprev;
 
-	tmpnext = r->next;
-	tmpprev = r->prev;
-	r->next = tmpprev;
-	r->prev = tmpnext;
+	tmpnext = lst->next;
+	tmpprev = lst->prev;
+	lst->next = tmpprev;
+	lst->prev = tmpnext;
+}
+
+t_rep		*funct_pr(t_rep *r)
+{
+	swap_link(r);
 	r = r->prev;
 	while (r)
 	{
-		tmpnext = r->next;
-		tmpprev = r->prev;
-		r->next = tmpprev;
-		r->prev = tmpnext;
+		swap_link(r);
 		if (r->prev == NULL)
 			return (r);
 		r = r->prev;
 	}
 	return (r);
+}
+
+void		funct_t(t_rep *lst)
+{
+	t_rep			*tmp;
+
+	tmp = lst;
+	while (tmp)
+	{
+		errno = 0;
+		if (lstat(tmp->name2, &tmp->filestat) < 0)
+		{
+			perror("STAT ERROR ");
+			exit (0);
+		}
+		tmp->time_s = tmp->filestat.st_mtimespec.tv_sec;
+		tmp->time_ns = tmp->filestat.st_mtimespec.tv_nsec;
+		tmp = tmp->next;
+	}
+	while (lst && lst->next)
+	{
+		printf("current:%i next:%i\n", lst->time_s, lst->next->time_s);
+		if (lst->time_s < lst->next->time_s)
+		{
+			swap_link(lst);
+		}
+		// printf("current:%i next:%i\n", lst->time_s, lst->next->time_s);
+		// else if (lst->time_s == lst->next->time_s)
+		lst = lst->next;
+	}
+	ft_putstr("0000000000");
 }
 
 void		assign_opt(t_opt *opt, t_rep *r)
@@ -72,8 +105,8 @@ void		assign_opt(t_opt *opt, t_rep *r)
 	}
 	// if (opt->gr == 1)
 	//	funct_gr();
-	// if (opt->t == 1)
-	// 	funct_t();
+	if (opt->t == 1)
+		funct_t(lst);
 	if (opt->pr == 1)
 		lst = funct_pr(lst);
 	if (opt->l == 1)
