@@ -6,13 +6,13 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/28 11:17:50 by bngo              #+#    #+#             */
-/*   Updated: 2016/12/20 17:44:35 by lvalenti         ###   ########.fr       */
+/*   Updated: 2016/12/20 19:57:19 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_ls.h"
 
-void		swap_link(t_rep *lst)
+void		reverse_link(t_rep *lst)
 {
 	t_rep	*tmpnext;
 	t_rep	*tmpprev;
@@ -25,16 +25,44 @@ void		swap_link(t_rep *lst)
 
 t_rep		*funct_pr(t_rep *r)
 {
-	swap_link(r);
+	reverse_link(r);
 	r = r->prev;
 	while (r)
 	{
-		swap_link(r);
+		reverse_link(r);
 		if (r->prev == NULL)
 			return (r);
 		r = r->prev;
 	}
 	return (r);
+}
+
+void		swap_link(t_rep *lst)
+{
+	t_rep	*tmp;
+
+	if (!lst->prev)
+	{
+		tmp = lst;
+		lst = lst->next;
+		tmp->next = lst->next;
+		lst->prev = NULL;
+		lst->next = tmp;
+		tmp->prev = lst;
+		tmp->next->prev = tmp;
+	}
+	else
+	{
+		tmp = lst;
+		lst->prev->next = lst->next;
+		lst = lst->next;
+		lst->prev->next = lst->next;
+		lst->prev = lst->prev->prev;
+		lst->next = tmp;
+		tmp->prev = lst;
+		if (tmp->next)
+			tmp->next->prev = tmp;
+	}
 }
 
 void		funct_t(t_rep *lst)
@@ -54,18 +82,24 @@ void		funct_t(t_rep *lst)
 		tmp->time_ns = tmp->filestat.st_mtimespec.tv_nsec;
 		tmp = tmp->next;
 	}
-	while (lst && lst->next)
+	tmp = lst;
+	while (tmp && tmp->next)
 	{
-		printf("current:%i next:%i\n", lst->time_s, lst->next->time_s);
-		if (lst->time_s < lst->next->time_s)
+		if (tmp->time_s < tmp->next->time_s)
 		{
-			swap_link(lst);
+			swap_link(tmp);
+			tmp = lst;
 		}
-		// printf("current:%i next:%i\n", lst->time_s, lst->next->time_s);
-		// else if (lst->time_s == lst->next->time_s)
-		lst = lst->next;
+		else if (tmp->time_s == tmp->next->time_s)
+		{
+			if (tmp->time_ns < tmp->next->time_ns)
+			{
+				swap_link(tmp);
+				tmp = lst;
+			}
+		}
+		tmp = tmp->next;
 	}
-	ft_putstr("0000000000");
 }
 
 void		assign_opt(t_opt *opt, t_rep *r)
