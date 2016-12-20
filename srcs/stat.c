@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/02 10:06:24 by lvalenti          #+#    #+#             */
-/*   Updated: 2016/12/19 17:08:30 by lvalenti         ###   ########.fr       */
+/*   Updated: 2016/12/20 16:08:42 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void		aff_stat(t_rep *data, int len[6])
 	char			*size;//peuvent etre remplacee par
 	char			*major;//un seul char* tmp; mais il faut
 	char			*minor;//penser a le free a chaque fois
-	
+
 	data->mode = data->filestat.st_mode;
 	file_type(data->filestat, data);
 	data->mode = data->filestat.st_mode;
@@ -116,6 +116,8 @@ void				aff_stat2(t_rep *data)
 	char			*file;
 	char			*date_tmp;
 	char			*date;
+	char			buf[1024];
+	ssize_t			i;
 	time_t			t;
 	time_t			t_now;
 	time_t			diff;
@@ -140,7 +142,21 @@ void				aff_stat2(t_rep *data)
 		ft_putstr(file);
 	}
 	ft_putchar(' ');
-	ft_putendl(data->name);
+	if (S_ISLNK(data->mode))
+	{
+		ft_putstr(data->name);
+		ft_putstr(" -> ");
+		errno = 0;
+		if ((i = readlink(data->name2, buf, 1023)) < 0)
+			perror("ls :\n");
+		else
+		{
+			buf[i] = '\0';
+			ft_putendl(buf);
+		}
+	}
+	else
+		ft_putendl(data->name);
 }
 
 char				*modif_time(char *time)
@@ -166,9 +182,25 @@ char				*modif_time(char *time)
 
 void				file_type(struct stat filestat, t_rep *data)
 {
+	// char			buf[1024];
+	// ssize_t			i;
+
+
 	data->mode = filestat.st_mode & S_IFMT;
 	if (S_ISLNK(data->mode))
+	{
 		ft_putchar('l');
+		// if ((i = readlink(data->name2, buf, 1023)) < 0)
+		// 	printf("ERROR\n");
+		// else
+		// {
+		// 	// buf = ft_strsub(buf, 0, )
+		// 	buf[i] = '\0';
+		// 	printf("BUF = %s !!!!\n", buf);
+		//
+		// }
+		// ft_strdup(buf);
+	}
 	else if (S_ISBLK(data->mode))
 	{
 		ft_putchar('b');
