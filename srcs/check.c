@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/13 12:58:46 by lvalenti          #+#    #+#             */
-/*   Updated: 2016/12/19 11:27:31 by lvalenti         ###   ########.fr       */
+/*   Updated: 2016/12/21 13:18:20 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,33 +45,36 @@ char		*ft_check_arg(char **argv)
 	int i;
 	int j;
 	int k;
+	int	bol;
 
 	if (!(arg = (char*)malloc(sizeof(char) * 6)))
 		return (NULL);
 	ft_bzero(arg, sizeof(char));
+	bol = 0;
 	i = 1;
 	k = 0;
-	while (argv[i])
+	while (argv[i] && !bol)
 	{
 		j = 0;
 		if (argv[i][0] == '-')
 		{
 			j++;
-			while (argv[i][j])
+			while (argv[i][j] && !bol)
 			{
 				if (argv[i][j] == '-')
 				{
-					ft_putendl("Erreur\n");
-					exit(0);
+					//ft_putendl("Erreur\n");
+					bol = 1;
 				}
 				else if (!ft_strchr(arg, argv[i][j]))
 					arg[k++] = argv[i][j];
 				j++;
 			}
+			argv[i] = 0;
 		}
 		i++;
 	}
 	arg[k] = '\0';
-	printf("arg = %s\n", arg);
+	//printf("arg = %s\n", arg);
 	return (arg);
 }

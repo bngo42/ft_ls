@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/28 11:17:50 by bngo              #+#    #+#             */
-/*   Updated: 2016/12/21 11:21:46 by lvalenti         ###   ########.fr       */
+/*   Updated: 2016/12/21 13:49:16 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,12 +201,69 @@ void		funct_l(t_rep *r, t_opt *opt)
 	}
 }
 
+int		read_arg(char *path, t_opt *opt)
+{
+	t_rep *r;
+
+	if (path != NULL)
+	{
+		if (!(r = (t_rep*)malloc(sizeof(t_rep))))
+			return (-1);
+		if (!(r->dir = opendir(path)))
+		{
+			ft_putstr("ls: ");
+			ft_putstr(path);
+			ft_putendl(": No such file or directory");
+			return (-1);
+		}
+		ft_putstr(path);
+		ft_putendl(": ");
+		r->argv = ft_strdup(path);
+		assign_opt(opt, r);
+		if (!(closedir(r->dir)))
+			return (-1);
+	}
+	return (0);
+}
+
+int			main(int argc, char **argv)
+{
+	char	*arg;
+	t_opt	*opt;
+	int		i;
+	int		bol;
+
+	i = 0;
+	bol = 0;
+	arg = ft_check_arg(argv);
+	opt = (t_opt *)malloc(sizeof(t_opt));
+	opt->l = 0;
+	opt->gr = 0;
+	opt->a = 0;
+	opt->pr = 0;
+	opt->t = 0;
+	ft_check_opt(arg, opt);
+	while (i++ < argc)
+	{
+		read_arg(argv[i], opt);
+		if (argv[i])
+			bol = 1;
+	}
+	if (!bol)
+		read_arg(".", opt);
+	free(opt);
+	return (0);
+}
+
+/*
 int			main(int argc, char **argv)
 {
 	t_rep	*r;
 	char	*arg;
 	t_opt	*opt;
+	int		i;
 
+	i = 0;
 	arg = ft_check_arg(argv);
 	opt = (t_opt *)malloc(sizeof(t_opt));
 	opt->l = 0;
@@ -217,13 +274,20 @@ int			main(int argc, char **argv)
 	ft_check_opt(arg, opt);
 	if (!(r = (t_rep*)malloc(sizeof(t_rep))))
 		return (-1);
-	if (!(r->dir = opendir(argv[argc - 1])))
-		return (-1);
-	r->argv = ft_strdup(argv[argc - 1]);
-	assign_opt(opt, r);
-	if (!(closedir(r->dir)))
-		return (-1);
+	while (i++ < argc)
+	{
+		if (argv[i] != NULL)
+		{
+			printf("argv[%i] = [%s]\n", i, argv[i]);
+			if (!(r->dir = opendir(argv[i])))
+				return (-1);
+			r->argv = ft_strdup(argv[i]);
+			assign_opt(opt, r);
+			if (!(closedir(r->dir)))
+				return (-1);
+		}
+	}
 	free(opt);
 	free(r);
 	return (0);
-}
+}*/
