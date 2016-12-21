@@ -6,13 +6,11 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/01 11:06:48 by lvalenti          #+#    #+#             */
-/*   Updated: 2016/12/16 10:48:48 by lvalenti         ###   ########.fr       */
+/*   Updated: 2016/12/21 11:15:55 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_ls.h"
-
-//t = lst->filestat.st_mtimespec.tv_sec; pour comparer le temps.
 
 void		ft_printlst(t_rep *lst, t_opt *opt)
 {
