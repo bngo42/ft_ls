@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/02 10:06:24 by lvalenti          #+#    #+#             */
-/*   Updated: 2016/12/22 15:14:11 by lvalenti         ###   ########.fr       */
+/*   Updated: 2016/12/22 15:51:34 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,13 @@ void		get_len(t_rep *data, int length[8])
 		length[7] = 1;
 		len[4] = int_len(major(data->filestat.st_rdev));
 		len[5] = int_len(minor(data->filestat.st_rdev));
+		length[4] = (len[4] > length[4]) ? len[4] : length[4];
+		length[5] = (len[5] > length[5]) ? len[5] : length[5];
 	}
 	length[0] = (len[0] > length[0]) ? len[0] : length[0];
 	length[1] = (len[1] > length[1]) ? len[1] : length[1];
 	length[2] = (len[2] > length[2]) ? len[2] : length[2];
 	length[3] = (len[3] > length[3]) ? len[3] : length[3];
-	length[4] = (len[4] > length[4]) ? len[4] : length[4];
-	length[5] = (len[5] > length[5]) ? len[5] : length[5];
 	length[6] += data->filestat.st_blocks;
 }
 
