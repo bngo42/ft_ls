@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/13 12:58:46 by lvalenti          #+#    #+#             */
-/*   Updated: 2016/12/21 13:18:20 by bngo             ###   ########.fr       */
+/*   Updated: 2016/12/22 10:13:25 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,7 @@ char		*ft_check_arg(char **argv)
 			while (argv[i][j] && !bol)
 			{
 				if (argv[i][j] == '-')
-				{
-					//ft_putendl("Erreur\n");
 					bol = 1;
-				}
 				else if (!ft_strchr(arg, argv[i][j]))
 					arg[k++] = argv[i][j];
 				j++;
@@ -75,6 +72,5 @@ char		*ft_check_arg(char **argv)
 		i++;
 	}
 	arg[k] = '\0';
-	//printf("arg = %s\n", arg);
 	return (arg);
 }
