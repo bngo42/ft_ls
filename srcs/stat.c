@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/02 10:06:24 by lvalenti          #+#    #+#             */
-/*   Updated: 2016/12/21 12:41:08 by bngo             ###   ########.fr       */
+/*   Updated: 2016/12/22 15:14:11 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,10 +88,10 @@ void		aff_stat(t_rep *data, int len[6])
 	link = ft_itoa(data->filestat.st_nlink);
 	show_info(link, len[0], 0, 1);
 	data->user = getpwuid(data->filestat.st_uid);
-	show_info(data->user->pw_name, len[1], 0, 1);
+	show_info(data->user->pw_name, len[1], 1, 1);
 	ft_putchar(' ');
 	gid = getgrgid(data->filestat.st_gid);
-	show_info(gid->gr_name, len[2], (len[7]) ? 1 : 0, 1);
+	show_info(gid->gr_name, len[2], 1, 1);
 	ft_putchar(' ');
 	if (len[7])
 		ft_putchar(' ');
