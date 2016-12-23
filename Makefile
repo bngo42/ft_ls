@@ -6,7 +6,7 @@
 #    By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/28 11:12:19 by bngo              #+#    #+#              #
-#    Updated: 2016/12/19 11:07:45 by lvalenti         ###   ########.fr        #
+#    Updated: 2016/12/23 11:31:35 by lvalenti         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,7 @@ $(OPATH)%.o: $(CPATH)%.c $(HFILES)
 
 clean:
 	make -C libft clean
-	rm -f $(OBJ)
+	rm -rf $(OBJ) $(OPATH)
 
 fclean: clean
 	make -C libft fclean
