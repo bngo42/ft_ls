@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/13 12:58:46 by lvalenti          #+#    #+#             */
-/*   Updated: 2016/12/22 10:13:25 by lvalenti         ###   ########.fr       */
+/*   Updated: 2016/12/23 13:00:19 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,9 @@ int			ft_check_opt(char *arg, t_opt *opt)
 			opt->t = 1;
 		else
 		{
-			ft_putendl("MESSAGE A LA CON");
+			ft_putstr("ls: ");
+			ft_putstr(arg);
+			ft_putendl(": No such file or directory");
 			exit (0);
 		}
 		i++;
