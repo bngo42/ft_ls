@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/28 11:17:50 by bngo              #+#    #+#             */
-/*   Updated: 2016/12/22 10:08:47 by lvalenti         ###   ########.fr       */
+/*   Updated: 2016/12/26 10:54:34 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,6 +216,7 @@ int		read_arg(char *path, t_opt *opt)
 			ft_putendl(": No such file or directory");
 			return (-1);
 		}
+		ft_putchar('\n');
 		ft_putstr(path);
 		ft_putendl(": ");
 		r->argv = ft_strdup(path);
