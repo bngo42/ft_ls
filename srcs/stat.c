@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/02 10:06:24 by lvalenti          #+#    #+#             */
-/*   Updated: 2016/12/22 15:51:34 by bngo             ###   ########.fr       */
+/*   Updated: 2016/12/27 14:25:49 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int			int_len(int nb)
 	return (len + 1);
 }
 
-void		get_len(t_rep *data, int length[8])
+void		get_len(t_rep *data, t_opt *opt)
 {
 	int				len[6];
 	struct passwd	*usr;
@@ -40,17 +40,17 @@ void		get_len(t_rep *data, int length[8])
 	data->mode = data->filestat.st_mode;
 	if (S_ISBLK(data->mode) || S_ISCHR(data->mode))
 	{
-		length[7] = 1;
+		opt->len[7] = 1;
 		len[4] = int_len(major(data->filestat.st_rdev));
 		len[5] = int_len(minor(data->filestat.st_rdev));
-		length[4] = (len[4] > length[4]) ? len[4] : length[4];
-		length[5] = (len[5] > length[5]) ? len[5] : length[5];
+		opt->len[4] = (len[4] > opt->len[4]) ? len[4] : opt->len[4];
+		opt->len[5] = (len[5] > opt->len[5]) ? len[5] : opt->len[5];
 	}
-	length[0] = (len[0] > length[0]) ? len[0] : length[0];
-	length[1] = (len[1] > length[1]) ? len[1] : length[1];
-	length[2] = (len[2] > length[2]) ? len[2] : length[2];
-	length[3] = (len[3] > length[3]) ? len[3] : length[3];
-	length[6] += data->filestat.st_blocks;
+	opt->len[0] = (len[0] > opt->len[0]) ? len[0] : opt->len[0];
+	opt->len[1] = (len[1] > opt->len[1]) ? len[1] : opt->len[1];
+	opt->len[2] = (len[2] > opt->len[2]) ? len[2] : opt->len[2];
+	opt->len[3] = (len[3] > opt->len[3]) ? len[3] : opt->len[3];
+	opt->len[6] += data->filestat.st_blocks;
 }
 
 void		show_info(char *str, int len, int state, int state2)

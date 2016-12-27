@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/27 09:49:07 by lvalenti          #+#    #+#             */
-/*   Updated: 2016/12/27 09:49:10 by lvalenti         ###   ########.fr       */
+/*   Updated: 2016/12/27 14:25:59 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,11 +102,48 @@ void		funct_t(t_rep *lst)
 	}
 }
 
+void		funct_gr(t_rep *lst, t_opt *opt)
+{
+	t_rep	*tmp;
+
+	tmp = lst;
+	while (tmp)
+	{
+		errno = 0;
+		if (lstat(tmp->name2, &tmp->filestat) < 0)
+		{
+			perror("STAT ERROR ");
+			exit (0);
+		}
+		if (S_ISDIR(tmp->filestat.st_mode))
+		{
+			if (tmp->name[0] != '.')
+			{
+				// ft_putendl("DOSSIER");
+				ft_printlst(lst, opt);
+				// printf("%s\n", tmp->name);
+				read_arg(tmp->name2, opt);
+			}
+		}
+		tmp = tmp->next;
+	}
+}
+
 void		assign_opt(t_opt *opt, t_rep *r)
 {
 	struct dirent	*file;
 	t_rep			*lst;
 	t_rep			*new;
+	// int		len[8];
+
+	opt->len[0] = 0;//LIEN
+	opt->len[1] = 0;//UID
+	opt->len[2] = 0;//GROUP
+	opt->len[3] = 0;//SIZE
+	opt->len[4] = 0;//MAJOR
+	opt->len[5] = 0;//MINOR
+	opt->len[6] = 0;//TOTAL_BLOCK
+	opt->len[7] = 0;//HAS C OR B
 
 	if (!(file = readdir(r->dir)))
 		return ;
@@ -137,8 +174,8 @@ void		assign_opt(t_opt *opt, t_rep *r)
 			add_list(&lst, new);
 		}
 	}
-	// if (opt->gr == 1)
-	//	funct_gr();
+	if (opt->gr == 1)
+		funct_gr(lst, opt);
 	if (opt->t == 1)
 		funct_t(lst);
 	while (lst->prev)
@@ -155,16 +192,16 @@ void		funct_l(t_rep *r, t_opt *opt)
 {
 	t_rep	*tmp;
 	t_rep	*lst;
-	int		len[8];
-
-	len[0] = 0;//LIEN
-	len[1] = 0;//UID
-	len[2] = 0;//GROUP
-	len[3] = 0;//SIZE
-	len[4] = 0;//MAJOR
-	len[5] = 0;//MINOR
-	len[6] = 0;//TOTAL_BLOCK
-	len[7] = 0;//HAS C OR B
+	// int		len[8];
+	//
+	// len[0] = 0;//LIEN
+	// len[1] = 0;//UID
+	// len[2] = 0;//GROUP
+	// len[3] = 0;//SIZE
+	// len[4] = 0;//MAJOR
+	// len[5] = 0;//MINOR
+	// len[6] = 0;//TOTAL_BLOCK
+	// len[7] = 0;//HAS C OR B
 	tmp = r;
 	if (!(lst = (t_rep *)malloc(sizeof(t_rep))))
 		return ;
@@ -179,26 +216,26 @@ void		funct_l(t_rep *r, t_opt *opt)
 		if (opt->a == 0)
 		{
 			if (tmp->name[0] != '.')
-				get_len(tmp, len);
+				get_len(tmp, opt);
 		}
 		else if (opt->a == 1)
-			get_len(tmp, len);
+			get_len(tmp, opt);
 		tmp = tmp->next;
 	}
 	ft_putstr("total ");
-	ft_putnbr(len[6]);
+	ft_putnbr(opt->len[6]);
 	ft_putchar('\n');
-	while (r)
-	{
-		if (opt->a == 0)
-		{
-			if (r->name[0] != '.')
-				aff_stat(r, len);
-		}
-		else if (opt->a == 1)
-			aff_stat(r, len);
-		r = r->next;
-	}
+	// while (r)
+	// {
+	// 	if (opt->a == 0)
+	// 	{
+	// 		if (r->name[0] != '.')
+	// 			aff_stat(r, len);
+	// 	}
+	// 	else if (opt->a == 1)
+	// 		aff_stat(r, len);
+	// 	r = r->next;
+	// }
 }
 
 int		read_arg(char *path, t_opt *opt)
@@ -220,6 +257,7 @@ int		read_arg(char *path, t_opt *opt)
 		ft_putstr(path);
 		ft_putendl(": ");
 		r->argv = ft_strdup(path);
+		r->flag = 0;
 		assign_opt(opt, r);
 		if (!(closedir(r->dir)))
 			return (-1);

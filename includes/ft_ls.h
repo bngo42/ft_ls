@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/28 11:13:18 by bngo              #+#    #+#             */
-/*   Updated: 2016/12/21 11:15:10 by lvalenti         ###   ########.fr       */
+/*   Updated: 2016/12/27 12:37:56 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,13 @@ typedef struct		s_opt
 	int				a;
 	int				pr;
 	int				t;
+	int				len[8];
 }					t_opt;
 
 typedef struct		s_rep
 {
 	char			*name;
+	int				flag;
 	char			*name2;
 	char			*argv;
 	int				major;
@@ -67,6 +69,7 @@ void				ft_sort_list(t_rep *r);
 char				*ft_check_arg(char **argv);
 int					ft_check_opt(char *arg, t_opt *opt);
 char				*get_date(t_rep *data);
-void				get_len(t_rep *data, int length[4]);
+void				get_len(t_rep *data, t_opt *opt);
+int					read_arg(char *path, t_opt *opt);
 
 #endif
