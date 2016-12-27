@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/27 09:49:07 by lvalenti          #+#    #+#             */
-/*   Updated: 2016/12/27 14:25:59 by lvalenti         ###   ########.fr       */
+/*   Updated: 2016/12/27 15:19:20 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ void		funct_gr(t_rep *lst, t_opt *opt)
 			if (tmp->name[0] != '.')
 			{
 				// ft_putendl("DOSSIER");
-				ft_printlst(lst, opt);
+				//ft_printlst(lst, opt);
 				// printf("%s\n", tmp->name);
 				read_arg(tmp->name2, opt);
 			}
@@ -174,8 +174,6 @@ void		assign_opt(t_opt *opt, t_rep *r)
 			add_list(&lst, new);
 		}
 	}
-	if (opt->gr == 1)
-		funct_gr(lst, opt);
 	if (opt->t == 1)
 		funct_t(lst);
 	while (lst->prev)
@@ -185,6 +183,8 @@ void		assign_opt(t_opt *opt, t_rep *r)
 	if (opt->l == 1)
 		funct_l(lst, opt);
 	ft_printlst(lst, opt);
+	if (opt->gr == 1)
+		funct_gr(lst, opt);
 	free(lst);
 }
 
