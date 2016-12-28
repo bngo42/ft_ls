@@ -1,18 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putchar.c                                       :+:      :+:    :+:   */
+/*   ft_change.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lvalenti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/11/24 10:34:09 by lvalenti          #+#    #+#             */
-/*   Updated: 2015/12/28 09:42:04 by lvalenti         ###   ########.fr       */
+/*   Created: 2015/12/17 09:34:47 by lvalenti          #+#    #+#             */
+/*   Updated: 2016/02/19 10:20:58 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
+#include "includes/libft.h"
 
-int		ft_putchar(int c)
+char	*ft_change(char *str, char c, char d)
 {
-	return (write(1, &c, 1));
+	while (*str)
+	{
+		if (*str == c)
+			*str = d;
+		str++;
+	}
+	return (str);
 }

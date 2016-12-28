@@ -3,33 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstdel.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bngo <marvin@42.fr>                        +#+  +:+       +#+        */
+/*   By: lvalenti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/12/17 13:46:24 by bngo              #+#    #+#             */
-/*   Updated: 2015/12/23 13:04:37 by bngo             ###   ########.fr       */
+/*   Created: 2015/12/01 12:33:36 by lvalenti          #+#    #+#             */
+/*   Updated: 2016/02/19 10:18:02 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include "libft.h"
+#include "includes/libft.h"
 
-void		ft_lstdel(t_list **alst, void (*del)(void *, size_t))
+void	ft_lstdel(t_list **alst, void (*del)(void *, size_t))
 {
-	t_list *ptr1;
-	t_list *ptr2;
+	t_list *current_elem;
+	t_list *next_elem;
 
-	if (!alst || !del)
-		return ;
-	ptr1 = *alst;
-	ptr2 = (*alst)->next;
-	while (ptr2 != NULL)
+	current_elem = *alst;
+	while (current_elem)
 	{
-		del(ptr1->content, ptr1->content_size);
-		free(ptr1);
-		ptr1 = ptr2;
-		ptr2 = ptr2->next;
+		next_elem = current_elem->next;
+		del(current_elem->content, current_elem->content_size);
+		free(current_elem);
+		current_elem = next_elem;
 	}
-	del(ptr1->content, ptr1->content_size);
-	free(ptr1);
 	*alst = NULL;
 }

@@ -1,18 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putchar.c                                       :+:      :+:    :+:   */
+/*   ft_puttab.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lvalenti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/11/24 10:34:09 by lvalenti          #+#    #+#             */
-/*   Updated: 2015/12/28 09:42:04 by lvalenti         ###   ########.fr       */
+/*   Created: 2015/12/17 10:04:37 by lvalenti          #+#    #+#             */
+/*   Updated: 2016/02/19 10:21:11 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
+#include "includes/libft.h"
 
-int		ft_putchar(int c)
+void	ft_puttab(char **tab)
 {
-	return (write(1, &c, 1));
+	int		i;
+
+	i = 0;
+	while (tab[i])
+	{
+		ft_putendl(tab[i]);
+		i++;
+	}
 }

@@ -1,18 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putchar.c                                       :+:      :+:    :+:   */
+/*   ft_word_number.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lvalenti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/11/24 10:34:09 by lvalenti          #+#    #+#             */
-/*   Updated: 2015/12/28 09:42:04 by lvalenti         ###   ########.fr       */
+/*   Created: 2015/12/14 12:16:16 by lvalenti          #+#    #+#             */
+/*   Updated: 2016/02/19 10:20:42 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
+#include "includes/libft.h"
 
-int		ft_putchar(int c)
+size_t		ft_word_number(char const *s, char c)
 {
-	return (write(1, &c, 1));
+	size_t i;
+	size_t car;
+
+	i = 0;
+	car = 0;
+	if (s[i] == c)
+		i++;
+	while (s[i])
+	{
+		if (s[i] != c && (s[i + 1] == c || s[i + 1] == '\0'))
+			car++;
+		i++;
+	}
+	return (car);
 }

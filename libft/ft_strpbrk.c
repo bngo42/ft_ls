@@ -1,18 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putchar.c                                       :+:      :+:    :+:   */
+/*   ft_strpbrk.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lvalenti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/11/24 10:34:09 by lvalenti          #+#    #+#             */
-/*   Updated: 2015/12/28 09:42:04 by lvalenti         ###   ########.fr       */
+/*   Created: 2015/12/31 11:10:42 by lvalenti          #+#    #+#             */
+/*   Updated: 2016/02/19 10:21:42 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
+#include "includes/libft.h"
 
-int		ft_putchar(int c)
+char	*ft_strpbrk(const char *s1, const char *s2)
 {
-	return (write(1, &c, 1));
+	while (*s1)
+	{
+		if (ft_strchr(s2, *s1))
+			return ((char *)s1);
+		s1++;
+	}
+	return (NULL);
 }

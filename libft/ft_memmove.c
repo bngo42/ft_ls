@@ -3,38 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bngo <marvin@42.fr>                        +#+  +:+       +#+        */
+/*   By: lvalenti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/11/27 13:48:14 by bngo              #+#    #+#             */
-/*   Updated: 2015/12/10 17:21:45 by bngo             ###   ########.fr       */
+/*   Created: 2015/11/27 13:53:47 by lvalenti          #+#    #+#             */
+/*   Updated: 2016/02/19 09:57:56 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include "libft.h"
+#include <string.h>
+#include "includes/libft.h"
 
-void		*ft_memmove(void *dst, const void *src, size_t len)
+void	*ft_memmove(void *dst, const void *src, size_t len)
 {
-	int		i;
-	char	*stmp;
-	char	*dtmp;
+	unsigned char	*str1;
+	unsigned char	*str2;
 
-	dtmp = (char *)dst;
-	stmp = (char *)src;
-	if (stmp < dtmp)
+	str1 = (unsigned char *)dst;
+	str2 = (unsigned char *)src;
+	if (!dst && !src)
+		return (NULL);
+	if (dst > src)
 	{
-		i = (int)len - 1;
-		while (i >= 0)
-		{
-			dtmp[i] = stmp[i];
-			i--;
-		}
+		str1 = str1 + len;
+		str2 = str2 + len;
+		while (len--)
+			*--str1 = *--str2;
 	}
-	else if (stmp != dtmp)
-	{
-		i = -1;
-		while (++i < (int)len)
-			dtmp[i] = stmp[i];
-	}
+	else
+		ft_memcpy(dst, src, len);
 	return (dst);
 }

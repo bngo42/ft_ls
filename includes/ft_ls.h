@@ -5,18 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/28 11:13:18 by bngo              #+#    #+#             */
-/*   Updated: 2016/12/27 12:37:56 by lvalenti         ###   ########.fr       */
+/*   Created: 2016/12/28 11:02:05 by lvalenti          #+#    #+#             */
+/*   Updated: 2016/12/28 11:03:04 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_LS_H
 # define FT_LS_H
-# include <unistd.h>
-# define DBUG1 write(1, "debug1\n", 8);
-# define DBUG2 write(1, "debug2\n", 8);
-# define DBUG3 write(1, "debug3\n", 8);
-# include "../libft/libft.h"
+# include "../libft/includes/libft.h"
 # include <dirent.h>
 # include <errno.h>
 # include <sys/types.h>

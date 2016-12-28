@@ -3,57 +3,50 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strsplit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bngo <marvin@42.fr>                        +#+  +:+       +#+        */
+/*   By: lvalenti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/12/05 14:41:04 by bngo              #+#    #+#             */
-/*   Updated: 2015/12/10 17:57:24 by bngo             ###   ########.fr       */
+/*   Created: 2015/11/27 10:40:29 by lvalenti          #+#    #+#             */
+/*   Updated: 2016/02/19 10:02:12 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include <unistd.h>
+#include <stdlib.h>
+#include "includes/libft.h"
 
-static int		count_words(char *s, char c)
+static char	**ft_finalize(char **final, int size, char const *s, char c)
 {
-	int words;
+	int		i;
+	int		y;
 
-	while (*s && *s == c)
-		++s;
-	words = (*s) ? 1 : 0;
-	while (*s)
+	i = 0;
+	while (i != size)
 	{
-		if (*s == c && s[1] && s[1] != c)
-			++words;
-		++s;
+		y = 0;
+		if (*s == c)
+			s++;
+		else
+		{
+			y = 0;
+			while (s[y] && s[y] != c)
+				y++;
+			final[i] = ft_strsub(s, 0, y);
+			i++;
+			s += y;
+		}
 	}
-	return (words);
+	final[i] = NULL;
+	return (final);
 }
 
-char			**ft_strsplit(char const *s, char c)
+char		**ft_strsplit(char const *s, char c)
 {
-	int		words;
-	char	*start;
-	char	**result;
+	int		i;
+	char	**final;
 
-	if (!s || !c)
+	i = ft_word_number(s, c);
+	final = (char **)malloc(sizeof(char *) * (i + 1));
+	if (final == NULL)
 		return (NULL);
-	words = count_words((char*)s, c);
-	result = (char**)malloc(sizeof(char*) * (count_words((char*)s, c) + 1));
-	if (result == NULL)
-		return (NULL);
-	start = (char*)s;
-	while (*s)
-	{
-		if (*s == c)
-		{
-			if (start != s)
-				*(result++) = ft_strsub(start, 0, s - start);
-			start = (char*)s + 1;
-		}
-		++s;
-	}
-	if (start != s)
-		*(result++) = ft_strsub(start, 0, s - start);
-	*result = NULL;
-	return (result - words);
+	final = ft_finalize(final, i, s, c);
+	return (final);
 }

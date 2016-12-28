@@ -5,8 +5,8 @@
 #                                                     +:+ +:+         +:+      #
 #    By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2016/11/28 11:12:19 by bngo              #+#    #+#              #
-#    Updated: 2016/12/23 11:31:35 by lvalenti         ###   ########.fr        #
+#    Created: 2016/12/28 11:03:48 by lvalenti          #+#    #+#              #
+#    Updated: 2016/12/28 11:03:49 by lvalenti         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ CFILES = main.c\
 		 check.c\
 		 stat.c
 OFILES = $(CFILES:.c=.o)
-HFILES = includes/ft_ls.h libft/libft.h
+HFILES = includes/ft_ls.h libft/includes/libft.h
 OBJ = $(addprefix $(OPATH), $(OFILES))
 
 .PHONY: all clean fclean re
