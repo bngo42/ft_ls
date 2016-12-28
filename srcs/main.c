@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/27 09:49:07 by lvalenti          #+#    #+#             */
-/*   Updated: 2016/12/28 10:31:23 by lvalenti         ###   ########.fr       */
+/*   Updated: 2016/12/28 10:52:07 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,8 +119,9 @@ void		funct_gr(t_rep *lst, t_opt *opt)
 		{
 			if (tmp->name[0] != '.')
 				read_arg(tmp->name2, opt);
-			// else if (tmp->name[0] == '.' && tmp->name[1] != '.')
+			// else if ((tmp->name[0] == '.' && tmp->name[1] != '.') && (tmp->name[0] == '.' && tmp->name[1] != '\0'))
 				// read_arg(tmp->name2, opt);
+				// printf("%s\n", tmp->name);
 		}
 		tmp = tmp->next;
 	}
@@ -229,12 +230,12 @@ int		read_arg(char *path, t_opt *opt)
 			ft_putendl(": No such file or directory");
 			return (-1);
 		}
-		// if (!ft_strcmp(r->argv, "."))
-		// {
+		if (ft_strcmp(path, "."))
+		{
 			ft_putchar('\n');
 			ft_putstr(path);
 			ft_putendl(": ");
-		// }
+		}
 		r->argv = ft_strdup(path);
 		r->flag = 0;
 		assign_opt(opt, r);
