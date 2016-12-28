@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/27 09:49:07 by lvalenti          #+#    #+#             */
-/*   Updated: 2016/12/28 10:19:03 by lvalenti         ###   ########.fr       */
+/*   Updated: 2016/12/28 10:31:23 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,8 +119,8 @@ void		funct_gr(t_rep *lst, t_opt *opt)
 		{
 			if (tmp->name[0] != '.')
 				read_arg(tmp->name2, opt);
-			else if (tmp->name[0] == '.' && tmp->name[1] != '.')
-				read_arg(tmp->name2, opt);
+			// else if (tmp->name[0] == '.' && tmp->name[1] != '.')
+				// read_arg(tmp->name2, opt);
 		}
 		tmp = tmp->next;
 	}
@@ -140,6 +140,7 @@ void		assign_opt(t_opt *opt, t_rep *r)
 	opt->len[5] = 0;//MINOR
 	opt->len[6] = 0;//TOTAL_BLOCK
 	opt->len[7] = 0;//HAS C OR B
+
 	if (!(file = readdir(r->dir)))
 		return ;
 	lst = (t_rep*)malloc(sizeof(t_rep));
@@ -228,12 +229,12 @@ int		read_arg(char *path, t_opt *opt)
 			ft_putendl(": No such file or directory");
 			return (-1);
 		}
-		if (ft_strcmp(r->argv, "."))
-		{
+		// if (!ft_strcmp(r->argv, "."))
+		// {
 			ft_putchar('\n');
 			ft_putstr(path);
 			ft_putendl(": ");
-		}
+		// }
 		r->argv = ft_strdup(path);
 		r->flag = 0;
 		assign_opt(opt, r);
