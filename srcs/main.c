@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/27 09:49:07 by lvalenti          #+#    #+#             */
-/*   Updated: 2016/12/28 10:52:07 by lvalenti         ###   ########.fr       */
+/*   Updated: 2016/12/28 11:39:36 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,7 @@ void		assign_opt(t_opt *opt, t_rep *r)
 	struct dirent	*file;
 	t_rep			*lst;
 	t_rep			*new;
+	char			*temp;
 
 	opt->len[0] = 0;//LIEN
 	opt->len[1] = 0;//UID
@@ -159,9 +160,10 @@ void		assign_opt(t_opt *opt, t_rep *r)
 	}
 	else
 	{
-		lst->name2 = ft_strjoin(r->argv, "/");
+		temp = ft_strjoin(r->argv, "/");
 		lst->name = ft_strdup(file->d_name);
-		lst->name2 = ft_strjoin(lst->name2, lst->name);
+		lst->name2 = ft_strjoin(temp, lst->name);
+		free(temp);
 		while ((file = readdir(r->dir)))
 		{
 			new = (t_rep*)malloc(sizeof(t_rep));
@@ -232,13 +234,13 @@ int		read_arg(char *path, t_opt *opt)
 		}
 		if (ft_strcmp(path, "."))
 		{
-			ft_putchar('\n');
 			ft_putstr(path);
 			ft_putendl(": ");
 		}
 		r->argv = ft_strdup(path);
 		r->flag = 0;
 		assign_opt(opt, r);
+		// ft_putchar('\n');
 		if (!(closedir(r->dir)))
 			return (-1);
 	}
