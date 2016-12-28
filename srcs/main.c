@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/27 09:49:07 by lvalenti          #+#    #+#             */
-/*   Updated: 2016/12/28 11:39:36 by lvalenti         ###   ########.fr       */
+/*   Updated: 2016/12/28 12:10:02 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,11 +232,8 @@ int		read_arg(char *path, t_opt *opt)
 			ft_putendl(": No such file or directory");
 			return (-1);
 		}
-		if (ft_strcmp(path, "."))
-		{
-			ft_putstr(path);
-			ft_putendl(": ");
-		}
+		ft_putstr(path);
+		ft_putendl(": ");
 		r->argv = ft_strdup(path);
 		r->flag = 0;
 		assign_opt(opt, r);
