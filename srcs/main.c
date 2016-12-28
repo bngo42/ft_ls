@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/27 09:49:07 by lvalenti          #+#    #+#             */
-/*   Updated: 2016/12/27 15:19:20 by bngo             ###   ########.fr       */
+/*   Updated: 2016/12/28 10:19:03 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,12 +118,9 @@ void		funct_gr(t_rep *lst, t_opt *opt)
 		if (S_ISDIR(tmp->filestat.st_mode))
 		{
 			if (tmp->name[0] != '.')
-			{
-				// ft_putendl("DOSSIER");
-				//ft_printlst(lst, opt);
-				// printf("%s\n", tmp->name);
 				read_arg(tmp->name2, opt);
-			}
+			else if (tmp->name[0] == '.' && tmp->name[1] != '.')
+				read_arg(tmp->name2, opt);
 		}
 		tmp = tmp->next;
 	}
@@ -134,7 +131,6 @@ void		assign_opt(t_opt *opt, t_rep *r)
 	struct dirent	*file;
 	t_rep			*lst;
 	t_rep			*new;
-	// int		len[8];
 
 	opt->len[0] = 0;//LIEN
 	opt->len[1] = 0;//UID
@@ -144,7 +140,6 @@ void		assign_opt(t_opt *opt, t_rep *r)
 	opt->len[5] = 0;//MINOR
 	opt->len[6] = 0;//TOTAL_BLOCK
 	opt->len[7] = 0;//HAS C OR B
-
 	if (!(file = readdir(r->dir)))
 		return ;
 	lst = (t_rep*)malloc(sizeof(t_rep));
@@ -192,16 +187,7 @@ void		funct_l(t_rep *r, t_opt *opt)
 {
 	t_rep	*tmp;
 	t_rep	*lst;
-	// int		len[8];
-	//
-	// len[0] = 0;//LIEN
-	// len[1] = 0;//UID
-	// len[2] = 0;//GROUP
-	// len[3] = 0;//SIZE
-	// len[4] = 0;//MAJOR
-	// len[5] = 0;//MINOR
-	// len[6] = 0;//TOTAL_BLOCK
-	// len[7] = 0;//HAS C OR B
+
 	tmp = r;
 	if (!(lst = (t_rep *)malloc(sizeof(t_rep))))
 		return ;
@@ -225,17 +211,6 @@ void		funct_l(t_rep *r, t_opt *opt)
 	ft_putstr("total ");
 	ft_putnbr(opt->len[6]);
 	ft_putchar('\n');
-	// while (r)
-	// {
-	// 	if (opt->a == 0)
-	// 	{
-	// 		if (r->name[0] != '.')
-	// 			aff_stat(r, len);
-	// 	}
-	// 	else if (opt->a == 1)
-	// 		aff_stat(r, len);
-	// 	r = r->next;
-	// }
 }
 
 int		read_arg(char *path, t_opt *opt)
@@ -253,9 +228,12 @@ int		read_arg(char *path, t_opt *opt)
 			ft_putendl(": No such file or directory");
 			return (-1);
 		}
-		ft_putchar('\n');
-		ft_putstr(path);
-		ft_putendl(": ");
+		if (ft_strcmp(r->argv, "."))
+		{
+			ft_putchar('\n');
+			ft_putstr(path);
+			ft_putendl(": ");
+		}
 		r->argv = ft_strdup(path);
 		r->flag = 0;
 		assign_opt(opt, r);
@@ -293,40 +271,3 @@ int			main(int argc, char **argv)
 	free(opt);
 	return (0);
 }
-
-/*
-int			main(int argc, char **argv)
-{
-	t_rep	*r;
-	char	*arg;
-	t_opt	*opt;
-	int		i;
-
-	i = 0;
-	arg = ft_check_arg(argv);
-	opt = (t_opt *)malloc(sizeof(t_opt));
-	opt->l = 0;
-	opt->gr = 0;
-	opt->a = 0;
-	opt->pr = 0;
-	opt->t = 0;
-	ft_check_opt(arg, opt);
-	if (!(r = (t_rep*)malloc(sizeof(t_rep))))
-		return (-1);
-	while (i++ < argc)
-	{
-		if (argv[i] != NULL)
-		{
-			printf("argv[%i] = [%s]\n", i, argv[i]);
-			if (!(r->dir = opendir(argv[i])))
-				return (-1);
-			r->argv = ft_strdup(argv[i]);
-			assign_opt(opt, r);
-			if (!(closedir(r->dir)))
-				return (-1);
-		}
-	}
-	free(opt);
-	free(r);
-	return (0);
-}*/
