@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/27 09:49:07 by lvalenti          #+#    #+#             */
-/*   Updated: 2016/12/30 13:47:34 by bngo             ###   ########.fr       */
+/*   Updated: 2016/12/30 13:54:10 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -238,6 +238,7 @@ void		funct_l(t_rep *r, t_opt *opt)
 int		read_arg(char *path, t_opt *opt)
 {
 	t_rep *r;
+	struct stat statfile;
 
 	if (path != NULL)
 	{
@@ -245,7 +246,14 @@ int		read_arg(char *path, t_opt *opt)
 			return (-1);
 		r->type = 0;
 		errno = 0;
-		if (!(r->dir = opendir(path)))
+		if (lstat(path, &statfile) < 0)
+		{
+			perror("ls");
+			return (-1);
+		}
+		if (S_ISLNK(statfile.st_mode))
+			r->type = 1;
+		else if (!(r->dir = opendir(path)))
 		{
 			if (errno == 13)
 			{
