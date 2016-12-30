@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/28 11:02:05 by lvalenti          #+#    #+#             */
-/*   Updated: 2016/12/29 10:38:47 by lvalenti         ###   ########.fr       */
+/*   Updated: 2016/12/30 12:05:36 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct		s_rep
 	char			*argv;
 	int				major;
 	int				minor;
+	int				type;
 	mode_t			mode;
 	struct passwd	*user;
 	struct stat		filestat;

@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/27 09:49:07 by lvalenti          #+#    #+#             */
-/*   Updated: 2016/12/29 10:38:13 by lvalenti         ###   ########.fr       */
+/*   Updated: 2016/12/30 12:27:49 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,8 +120,8 @@ void		funct_gr(t_rep *lst, t_opt *opt)
 			if (tmp->name[0] != '.')
 				read_arg(tmp->name2, opt);
 			// else if ((tmp->name[0] == '.' && tmp->name[1] != '.') && (tmp->name[0] == '.' && tmp->name[1] != '\0'))
-				// read_arg(tmp->name2, opt);
-				// printf("%s\n", tmp->name);
+			// read_arg(tmp->name2, opt);
+			// printf("%s\n", tmp->name);
 		}
 		tmp = tmp->next;
 	}
@@ -143,38 +143,50 @@ void		assign_opt(t_opt *opt, t_rep *r)
 	opt->len[6] = 0;//TOTAL_BLOCK
 	opt->len[7] = 0;//HAS C OR B
 
-	if (!(file = readdir(r->dir)))
-		return ;
+	//lst = NULL;
 	lst = (t_rep*)malloc(sizeof(t_rep));
-	ft_bzero(lst, sizeof(t_rep));
-	if (ft_strcmp(r->argv, ".") < 0)
+	if (!r->type)
 	{
-		ft_putendl("ok");
-		lst->name2 = ft_strdup(file->d_name);
-		while ((file = readdir(r->dir)))
+		if (!(file = readdir(r->dir)))
+		return ;
+		if (ft_strcmp(r->argv, ".") < 0)
 		{
-			new = (t_rep*)malloc(sizeof(t_rep));
-			new->name2 = ft_strdup(file->d_name);
-			add_list(&lst, new);
+			ft_putendl("ok");
+			lst->name2 = ft_strdup(file->d_name);
+			while ((file = readdir(r->dir)))
+			{
+				new = (t_rep*)malloc(sizeof(t_rep));
+				new->name2 = ft_strdup(file->d_name);
+				add_list(&lst, new);
+			}
+		}
+		else
+		{
+			temp = ft_strjoin(r->argv, "/");
+			lst->name = ft_strdup(file->d_name);
+			lst->name2 = ft_strjoin(temp, lst->name);
+			free(temp);
+			while ((file = readdir(r->dir)))
+			{
+				new = (t_rep*)malloc(sizeof(t_rep));
+				new->name2 = ft_strjoin(r->argv, "/");
+				new->name = ft_strdup(file->d_name);
+				new->name2 = ft_strjoin(new->name2, new->name);
+				add_list(&lst, new);
+			}
 		}
 	}
 	else
 	{
-		temp = ft_strjoin(r->argv, "/");
-		lst->name = ft_strdup(file->d_name);
-		lst->name2 = ft_strjoin(temp, lst->name);
-		free(temp);
-		while ((file = readdir(r->dir)))
-		{
-			new = (t_rep*)malloc(sizeof(t_rep));
-			new->name2 = ft_strjoin(r->argv, "/");
-			new->name = ft_strdup(file->d_name);
-			new->name2 = ft_strjoin(new->name2, new->name);
-			add_list(&lst, new);
-		}
+		lst->name = ft_strdup(r->argv);
+		lst->name2 = ft_strdup(r->argv);
 	}
-	ft_putstr(r->argv);
-	ft_putendl(":");
+	if (r->type == 0)
+	{
+		ft_putstr(r->argv);
+		ft_putendl(":");
+	}
+	lst->type = r->type;
 	if (opt->t == 1)
 		funct_t(lst);
 	while (lst->prev)
@@ -215,9 +227,12 @@ void		funct_l(t_rep *r, t_opt *opt)
 			get_len(tmp, opt);
 		tmp = tmp->next;
 	}
-	ft_putstr("total ");
-	ft_putnbr(opt->len[6]);
-	ft_putchar('\n');
+	if (tmp->type == 1)
+	{
+		ft_putstr("total ");
+		ft_putnbr(opt->len[6]);
+		ft_putchar('\n');
+	}
 }
 
 int		read_arg(char *path, t_opt *opt)
@@ -228,12 +243,20 @@ int		read_arg(char *path, t_opt *opt)
 	{
 		if (!(r = (t_rep*)malloc(sizeof(t_rep))))
 			return (-1);
+		r->type = 0;
+		errno = 0;
 		if (!(r->dir = opendir(path)))
 		{
-			ft_putstr("ls: ");
-			ft_putstr(path);
-			ft_putendl(": No such file or directory");
-			return (-1);
+			if (errno == 13)
+			{
+				perror("ls");
+				return (-1);
+			}
+			else if (errno == 20)
+				r->type = 1;
+			//		ft_putstr("ls: ");
+			//		ft_putstr(path);
+			//		ft_putendl(": No such file or directory");
 		}
 		// ft_putstr(path);
 		// ft_putendl(": ");
@@ -241,7 +264,7 @@ int		read_arg(char *path, t_opt *opt)
 		r->flag = 0;
 		assign_opt(opt, r);
 		// ft_putchar('\n');
-		if (!(closedir(r->dir)))
+		if (r->type == 0 && !(closedir(r->dir)))
 			return (-1);
 	}
 	return (0);
