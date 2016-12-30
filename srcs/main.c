@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/27 09:49:07 by lvalenti          #+#    #+#             */
-/*   Updated: 2016/12/30 12:27:49 by bngo             ###   ########.fr       */
+/*   Updated: 2016/12/30 13:47:34 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,7 @@ void		assign_opt(t_opt *opt, t_rep *r)
 	if (!r->type)
 	{
 		if (!(file = readdir(r->dir)))
-		return ;
+			return ;
 		if (ft_strcmp(r->argv, ".") < 0)
 		{
 			ft_putendl("ok");
@@ -227,7 +227,7 @@ void		funct_l(t_rep *r, t_opt *opt)
 			get_len(tmp, opt);
 		tmp = tmp->next;
 	}
-	if (tmp->type == 1)
+	if (r->type == 1)
 	{
 		ft_putstr("total ");
 		ft_putnbr(opt->len[6]);
