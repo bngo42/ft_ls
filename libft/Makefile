@@ -3,17 +3,17 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lvalenti <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/01 10:44:47 by lvalenti          #+#    #+#              #
-#    Updated: 2016/03/14 12:29:57 by lvalenti         ###   ########.fr        #
+#    Updated: 2016/12/31 12:48:44 by lvalenti         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libft.a
 
 CC = gcc
-FLAGS = -Werror -Wall -Wextra
+FLAGS = -Weverything -Wstrict -pedantic -W -Wall -Werror -Wextra -g
 SRCS = ft_memset.c ft_bzero.c ft_memcpy.c ft_memccpy.c ft_memmove.c \
 	   ft_memchr.c ft_memcmp.c ft_strlen.c ft_strdup.c ft_strcpy.c \
 	   ft_strncpy.c ft_strcat.c ft_strncat.c ft_strlcat.c ft_strchr.c \
