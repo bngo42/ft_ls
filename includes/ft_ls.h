@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/28 11:02:05 by lvalenti          #+#    #+#             */
-/*   Updated: 2016/12/30 12:05:36 by bngo             ###   ########.fr       */
+/*   Updated: 2016/12/31 11:56:26 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,9 @@ typedef struct		s_opt
 	int				pr;
 	int				t;
 	int				len[8];
+	int				nb_ac;
+	int				nb_dir;
+	int				count;
 }					t_opt;
 
 typedef struct		s_rep

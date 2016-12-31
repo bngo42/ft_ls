@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/13 12:58:46 by lvalenti          #+#    #+#             */
-/*   Updated: 2016/12/29 10:34:44 by lvalenti         ###   ########.fr       */
+/*   Updated: 2016/12/31 12:00:10 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,30 @@ int			ft_check_opt(char *arg, t_opt *opt)
 	while (arg[i])
 	{
 		if (arg[i] == 'l')
+		{
+			opt->count = 2;
 			opt->l = 1;
+		}
 		else if (arg[i] == 'R')
+		{
+			opt->count = 2;
 			opt->gr = 1;
+		}
 		else if (arg[i] == 'a')
+		{
+			opt->count = 2;
 			opt->a = 1;
+		}
 		else if (arg[i] == 'r')
+		{
+			opt->count = 2;
 			opt->pr = 1;
+		}
 		else if (arg[i] == 't')
+		{
+			opt->count = 2;
 			opt->t = 1;
+		}
 		else
 		{
 			ft_putstr("ls: ");

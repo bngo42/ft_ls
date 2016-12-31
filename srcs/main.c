@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/27 09:49:07 by lvalenti          #+#    #+#             */
-/*   Updated: 2016/12/30 13:54:10 by bngo             ###   ########.fr       */
+/*   Updated: 2016/12/31 12:00:55 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,6 @@ void		funct_gr(t_rep *lst, t_opt *opt)
 				read_arg(tmp->name2, opt);
 			// else if ((tmp->name[0] == '.' && tmp->name[1] != '.') && (tmp->name[0] == '.' && tmp->name[1] != '\0'))
 			// read_arg(tmp->name2, opt);
-			// printf("%s\n", tmp->name);
 		}
 		tmp = tmp->next;
 	}
@@ -143,7 +142,6 @@ void		assign_opt(t_opt *opt, t_rep *r)
 	opt->len[6] = 0;//TOTAL_BLOCK
 	opt->len[7] = 0;//HAS C OR B
 
-	//lst = NULL;
 	lst = (t_rep*)malloc(sizeof(t_rep));
 	if (!r->type)
 	{
@@ -181,7 +179,7 @@ void		assign_opt(t_opt *opt, t_rep *r)
 		lst->name = ft_strdup(r->argv);
 		lst->name2 = ft_strdup(r->argv);
 	}
-	if (r->type == 0)
+	if (r->type == 0 && opt->nb_dir > 1)
 	{
 		ft_putstr(r->argv);
 		ft_putendl(":");
@@ -227,7 +225,7 @@ void		funct_l(t_rep *r, t_opt *opt)
 			get_len(tmp, opt);
 		tmp = tmp->next;
 	}
-	if (r->type == 1)
+	if (r->type == 0)
 	{
 		ft_putstr("total ");
 		ft_putnbr(opt->len[6]);
@@ -262,16 +260,10 @@ int		read_arg(char *path, t_opt *opt)
 			}
 			else if (errno == 20)
 				r->type = 1;
-			//		ft_putstr("ls: ");
-			//		ft_putstr(path);
-			//		ft_putendl(": No such file or directory");
 		}
-		// ft_putstr(path);
-		// ft_putendl(": ");
 		r->argv = ft_strdup(path);
 		r->flag = 0;
 		assign_opt(opt, r);
-		// ft_putchar('\n');
 		if (r->type == 0 && !(closedir(r->dir)))
 			return (-1);
 	}
@@ -284,17 +276,33 @@ int			main(int argc, char **argv)
 	t_opt	*opt;
 	int		i;
 	int		bol;
+	struct stat statfile;
 
-	i = 0;
 	bol = 0;
 	arg = ft_check_arg(argv);
 	opt = (t_opt *)malloc(sizeof(t_opt));
+	opt->count = 1;
 	opt->l = 0;
 	opt->gr = 0;
 	opt->a = 0;
 	opt->pr = 0;
 	opt->t = 0;
+	opt->nb_ac = argc;
+	opt->nb_dir = 0;
 	ft_check_opt(arg, opt);
+	errno = 0;
+	while (opt->count < argc)
+	{
+		if (lstat(argv[opt->count], &statfile) < 0)
+		{
+			perror("ls");
+			return (-1);
+		}
+		if (S_ISDIR(statfile.st_mode))
+			opt->nb_dir++;
+		opt->count++;
+	}
+	i = 0;
 	while (i++ < argc)
 	{
 		read_arg(argv[i], opt);
