@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/27 09:49:07 by lvalenti          #+#    #+#             */
-/*   Updated: 2016/12/31 12:00:55 by lvalenti         ###   ########.fr       */
+/*   Updated: 2016/12/31 12:33:02 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ void		swap_link(t_rep *lst)
 		lst->prev = NULL;
 		lst->next = tmp;
 		tmp->prev = lst;
-		tmp->next->prev = tmp;
+		if (tmp->next)
+			tmp->next->prev = tmp;
 	}
 	else
 	{
@@ -119,8 +120,8 @@ void		funct_gr(t_rep *lst, t_opt *opt)
 		{
 			if (tmp->name[0] != '.')
 				read_arg(tmp->name2, opt);
-			// else if ((tmp->name[0] == '.' && tmp->name[1] != '.') && (tmp->name[0] == '.' && tmp->name[1] != '\0'))
-			// read_arg(tmp->name2, opt);
+			else if ((tmp->name[0] == '.' && tmp->name[1] != '.') && (tmp->name[0] == '.' && tmp->name[1] != '\0'))
+				read_arg(tmp->name2, opt);
 		}
 		tmp = tmp->next;
 	}
@@ -179,7 +180,7 @@ void		assign_opt(t_opt *opt, t_rep *r)
 		lst->name = ft_strdup(r->argv);
 		lst->name2 = ft_strdup(r->argv);
 	}
-	if (r->type == 0 && opt->nb_dir > 1)
+	if ((r->type == 0 && opt->nb_dir > 1) || (opt->gr == 1))
 	{
 		ft_putstr(r->argv);
 		ft_putendl(":");
