@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/01 11:06:48 by lvalenti          #+#    #+#             */
-/*   Updated: 2016/12/30 12:06:34 by bngo             ###   ########.fr       */
+/*   Updated: 2016/12/31 12:27:05 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ void		ft_printlst(t_rep *lst, t_opt *opt)
 				ft_putendl(tmp->name);
 			tmp = tmp->next;
 		}
-		// ft_putchar('\n');
 	}
 	else
 	{
@@ -45,7 +44,6 @@ void		ft_printlst(t_rep *lst, t_opt *opt)
 				aff_stat(tmp, opt->len);
 			tmp = tmp->next;
 		}
-		// ft_putchar('\n');
 	}
 }
 

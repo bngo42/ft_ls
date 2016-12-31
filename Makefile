@@ -6,13 +6,13 @@
 #    By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/12/28 11:03:48 by lvalenti          #+#    #+#              #
-#    Updated: 2016/12/31 11:50:55 by bngo             ###   ########.fr        #
+#    Updated: 2016/12/31 12:23:03 by lvalenti         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = ft_ls
 CC = clang
-CFLAGS = -fsanitize=address -Wall -Werror -Wextra -g
+CFLAGS = -Wall -Werror -Wextra -g
 CPATH = srcs/
 OPATH = obj/
 HPATH = includes/ libft/
