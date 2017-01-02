@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/27 09:49:07 by lvalenti          #+#    #+#             */
-/*   Updated: 2016/12/31 12:33:02 by lvalenti         ###   ########.fr       */
+/*   Updated: 2017/01/02 12:27:44 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,11 @@ void		reverse_link(t_rep *lst)
 
 t_rep		*funct_pr(t_rep *r)
 {
-	reverse_link(r);
-	r = r->prev;
+	if (r->prev)
+	{
+		reverse_link(r);
+		r = r->prev;
+	}
 	while (r)
 	{
 		reverse_link(r);
