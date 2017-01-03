@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/27 09:49:07 by lvalenti          #+#    #+#             */
-/*   Updated: 2017/01/03 14:39:04 by lvalenti         ###   ########.fr       */
+/*   Updated: 2017/01/03 15:48:25 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,7 @@ void		assign_opt(t_opt *opt, t_rep *r)
 		lst->next = NULL;
 		lst->prev = NULL;
 		while ((file = readdir(r->dir)))
-				add_list(lst, file->d_name);
+			add_list(lst, file->d_name);
 	}
 	else
 	{
@@ -235,6 +235,9 @@ int		read_arg(char *path, t_opt *opt)
 		r = NULL;
 		if (!(r = (t_rep*)malloc(sizeof(t_rep))))
 			return (-1);
+		r->name = NULL;
+		r->name2 = NULL;
+		r->argv = NULL;
 		r->next = NULL;
 		r->prev = NULL;
 		r->type = 0;

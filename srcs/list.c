@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/01 11:06:48 by lvalenti          #+#    #+#             */
-/*   Updated: 2017/01/03 14:46:20 by lvalenti         ###   ########.fr       */
+/*   Updated: 2017/01/03 15:38:34 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ void		add_list(t_rep *begin, char *str)
 	new = NULL;
 	if (!(new = (t_rep *)malloc(sizeof(t_rep))))
 		return ;
+	new->name = NULL;
+	new->name2 = NULL;
 	new->type = 0;
 	new->next = NULL;
 	new->prev = NULL;
