@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/13 12:58:46 by lvalenti          #+#    #+#             */
-/*   Updated: 2016/12/31 12:00:10 by lvalenti         ###   ########.fr       */
+/*   Updated: 2017/01/03 10:56:25 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char		*ft_check_arg(char **argv)
 
 	if (!(arg = (char*)malloc(sizeof(char) * 6)))
 		return (NULL);
-	ft_bzero(arg, sizeof(char));
+	ft_bzero(arg, sizeof(char) * 6);
 	bol = 0;
 	i = 1;
 	k = 0;

@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/01 11:06:48 by lvalenti          #+#    #+#             */
-/*   Updated: 2017/01/03 10:47:25 by lvalenti         ###   ########.fr       */
+/*   Updated: 2017/01/03 11:07:08 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,11 @@ void		ft_printlst(t_rep *lst, t_opt *opt)
 	}
 }
 
-// void		add_list(t_rep **begin, t_rep *new)
+// void		add_list(t_rep *begin, t_rep *new)
 // {
 // 	t_rep *tmp;
 //
-// 	tmp = *begin;
+// 	tmp = begin;
 // 	if (!tmp)
 // 		tmp = new;
 // 	else
@@ -115,8 +115,11 @@ void		add_list(t_rep *begin, char *str)
 	t_rep *tmp;
 	t_rep *new;
 
-	new = (t_rep *)malloc(sizeof(t_rep));
+	new = NULL;
+	if (!(new = (t_rep *)malloc(sizeof(t_rep))))
+		return ;
 	new->next = NULL;
+	new->prev = NULL;
 	new->name2 = ft_strjoin(begin->argv, "/");
 	new->name = ft_strdup(str);
 	new->name2 = ft_strjoin(new->name2, new->name);
@@ -125,7 +128,6 @@ void		add_list(t_rep *begin, char *str)
 		begin = new;
 	else
 	{
-		// printf("%p\n", tmp->next);
 		while (tmp && tmp->next != NULL)
 		{
 			if (tmp->next)
@@ -133,12 +135,5 @@ void		add_list(t_rep *begin, char *str)
 		}
 		tmp->next = new;
 		new->prev = tmp;
-
-		// if (tmp->next)
-		// {
-			// while (tmp->next)
-				// tmp = tmp->next;
-			// tmp->next = new;
-		// }
 	}
 }
