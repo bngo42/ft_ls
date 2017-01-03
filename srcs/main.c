@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/27 09:49:07 by lvalenti          #+#    #+#             */
-/*   Updated: 2017/01/02 12:27:44 by bngo             ###   ########.fr       */
+/*   Updated: 2017/01/03 10:51:23 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,8 +123,8 @@ void		funct_gr(t_rep *lst, t_opt *opt)
 		{
 			if (tmp->name[0] != '.')
 				read_arg(tmp->name2, opt);
-			else if ((tmp->name[0] == '.' && tmp->name[1] != '.') && (tmp->name[0] == '.' && tmp->name[1] != '\0'))
-				read_arg(tmp->name2, opt);
+			 else if ((tmp->name[0] == '.' && tmp->name[1] != '.') && (tmp->name[0] == '.' && tmp->name[1] != '\0'))
+				 read_arg(tmp->name2, opt);
 		}
 		tmp = tmp->next;
 	}
@@ -146,37 +146,22 @@ void		assign_opt(t_opt *opt, t_rep *r)
 	opt->len[6] = 0;//TOTAL_BLOCK
 	opt->len[7] = 0;//HAS C OR B
 
-	lst = (t_rep*)malloc(sizeof(t_rep));
+	lst = NULL;
+	if (!(lst = (t_rep*)malloc(sizeof(t_rep))))
+		return ;
 	if (!r->type)
 	{
 		if (!(file = readdir(r->dir)))
 			return ;
-		if (ft_strcmp(r->argv, ".") < 0)
-		{
-			ft_putendl("ok");
-			lst->name2 = ft_strdup(file->d_name);
-			while ((file = readdir(r->dir)))
-			{
-				new = (t_rep*)malloc(sizeof(t_rep));
-				new->name2 = ft_strdup(file->d_name);
-				add_list(&lst, new);
-			}
-		}
-		else
-		{
-			temp = ft_strjoin(r->argv, "/");
-			lst->name = ft_strdup(file->d_name);
-			lst->name2 = ft_strjoin(temp, lst->name);
-			free(temp);
-			while ((file = readdir(r->dir)))
-			{
-				new = (t_rep*)malloc(sizeof(t_rep));
-				new->name2 = ft_strjoin(r->argv, "/");
-				new->name = ft_strdup(file->d_name);
-				new->name2 = ft_strjoin(new->name2, new->name);
-				add_list(&lst, new);
-			}
-		}
+		temp = ft_strjoin(r->argv, "/");
+		lst->name = ft_strdup(file->d_name);
+		lst->name2 = ft_strjoin(temp, lst->name);
+		free(temp);
+		lst->argv = r->argv;
+		lst->next = NULL;
+		lst->prev = NULL;
+		while ((file = readdir(r->dir)))
+				add_list(lst, file->d_name);
 	}
 	else
 	{
