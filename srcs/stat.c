@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/02 10:06:24 by lvalenti          #+#    #+#             */
-/*   Updated: 2017/01/04 17:37:46 by lvalenti         ###   ########.fr       */
+/*   Updated: 2017/01/04 18:25:24 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ void		aff_stat(t_rep *data, int len[6])
 	else
 	{
 		size = ft_itoa(data->filestat.st_size);
-		show_info(size, len[3] + ((!len[7]) ? 0 : (len[4] + len[5] - 2)), 0 , 1);
+		show_info(size, len[3] + ((!len[7]) ? 0 : (len[4] + len[5] - 2)), 0, 1);
 		free(size);
 	}
 	aff_stat2(data);
@@ -119,30 +119,28 @@ void		aff_stat(t_rep *data, int len[6])
 char				*get_date(t_rep *data)
 {
 	char			*date;
-	char			*date_tmp;
-	time_t			t;
-	time_t			t_now;
-	time_t			diff;
-	char			*lol[2];
+	// char			*date_tmp;
+	time_t			t[3];
+	char			*tmp[3];
 
-	t = data->filestat.st_mtime;
-	time(&t_now);
-	diff = t_now - t;
-	if (diff > 15778432)
+	t[0] = data->filestat.st_mtime;
+	time(&t[1]);
+	t[2] = t[1] - t[0];
+	if (t[2] > 15778432)
 	{
-		diff = data->filestat.st_mtime;;
-		date_tmp = ctime(&diff);
-		lol[0] = ft_strsub(date_tmp, 4, 6);
-		lol[1] = ft_strjoin(lol[0], " ");
-		free(lol[0]);
-		lol[0] = ft_strsub(date_tmp, 19, 5);
-		date = ft_strjoin(lol[1], lol[0]);
-		free(lol[0]);
-		free(lol[1]);
+		t[2] = data->filestat.st_mtime;
+		tmp[2] = ctime(&t[2]);
+		tmp[0] = ft_strsub(tmp[2], 4, 6);
+		tmp[1] = ft_strjoin(tmp[0], " ");
+		free(tmp[0]);
+		tmp[0] = ft_strsub(tmp[2], 19, 5);
+		date = ft_strjoin(tmp[1], tmp[0]);
+		free(tmp[0]);
+		free(tmp[1]);
 	}
 	else
 	{
-		date = ctime(&t);
+		date = ctime(&t[0]);
 		date = modif_time(date);
 	}
 	return (date);
@@ -219,7 +217,7 @@ void				file_type(struct stat filestat, t_rep *data)
 		ft_putchar('d');
 	else if (S_ISFIFO(data->mode))
 		ft_putchar('p');
-		else if (S_ISREG(data->mode))
+	else if (S_ISREG(data->mode))
 		ft_putchar('-');
 	else if (S_ISSOCK(data->mode))
 		ft_putchar('s');
