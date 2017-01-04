@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/13 12:58:46 by lvalenti          #+#    #+#             */
-/*   Updated: 2017/01/04 18:05:49 by lvalenti         ###   ########.fr       */
+/*   Updated: 2017/01/04 18:36:01 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,31 +14,18 @@
 
 void		ft_check_letter(char arg, t_opt *opt)
 {
+	if (arg == 'l' || arg == 'R' || arg == 'a' || arg == 'r' || arg == 't')
+		opt->count++;
 	if (arg == 'l')
-	{
-		opt->count++;
 		opt->l = 1;
-	}
 	else if (arg == 'R')
-	{
-		opt->count++;
 		opt->gr = 1;
-	}
 	else if (arg == 'a')
-	{
-		opt->count++;
 		opt->a = 1;
-	}
 	else if (arg == 'r')
-	{
-		opt->count++;
 		opt->pr = 1;
-	}
 	else if (arg == 't')
-	{
-		opt->count++;
 		opt->t = 1;
-	}
 }
 
 int			ft_check_opt(char *arg, t_opt *opt)

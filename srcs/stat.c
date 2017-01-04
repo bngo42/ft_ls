@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/02 10:06:24 by lvalenti          #+#    #+#             */
-/*   Updated: 2017/01/04 18:25:24 by lvalenti         ###   ########.fr       */
+/*   Updated: 2017/01/04 18:29:54 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,13 +74,10 @@ void		show_info(char *str, int len, int state, int state2)
 		ft_putchar(' ');
 }
 
-void		aff_stat(t_rep *data, int len[6])
+void		display_long(t_rep *data, int len[6])
 {
-	struct group	*gid;
 	char			*link;
-	char			*size;
-	char			*major;
-	char			*minor;
+	struct	group	*gid;
 
 	data->mode = data->filestat.st_mode;
 	file_type(data->filestat, data);
@@ -95,6 +92,30 @@ void		aff_stat(t_rep *data, int len[6])
 	gid = getgrgid(data->filestat.st_gid);
 	show_info(gid->gr_name, len[2], 1, 1);
 	ft_putchar(' ');
+}
+
+void		aff_stat(t_rep *data, int len[6])
+{
+	// struct group	*gid;
+	// char			*link;
+	char			*size;
+	char			*major;
+	char			*minor;
+
+	// data->mode = data->filestat.st_mode;
+	// file_type(data->filestat, data);
+	// data->mode = data->filestat.st_mode;
+	// ft_get_mode(data);
+	// link = ft_itoa(data->filestat.st_nlink);
+	// show_info(link, len[0], 0, 1);
+	// free(link);
+	// data->user = getpwuid(data->filestat.st_uid);
+	// show_info(data->user->pw_name, len[1], 1, 1);
+	// ft_putchar(' ');
+	// gid = getgrgid(data->filestat.st_gid);
+	// show_info(gid->gr_name, len[2], 1, 1);
+	// ft_putchar(' ');
+	display_long(data, len);
 	if (len[7])
 		ft_putchar(' ');
 	if (S_ISBLK(data->mode) || S_ISCHR(data->mode))
@@ -119,7 +140,6 @@ void		aff_stat(t_rep *data, int len[6])
 char				*get_date(t_rep *data)
 {
 	char			*date;
-	// char			*date_tmp;
 	time_t			t[3];
 	char			*tmp[3];
 

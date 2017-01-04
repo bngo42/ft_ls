@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/27 09:49:07 by lvalenti          #+#    #+#             */
-/*   Updated: 2017/01/04 17:50:28 by lvalenti         ###   ########.fr       */
+/*   Updated: 2017/01/04 18:41:05 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -312,8 +312,6 @@ int			main(int argc, char **argv)
 	opt->nb_dir = argc - opt->count;
 	free(arg);
 	errno = 0;
-	while (opt->count < argc)
-		opt->count++;
 	i = 0;
 	while (i++ < argc)
 	{
