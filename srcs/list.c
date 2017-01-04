@@ -6,11 +6,32 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/01 11:06:48 by lvalenti          #+#    #+#             */
-/*   Updated: 2017/01/03 15:38:34 by lvalenti         ###   ########.fr       */
+/*   Updated: 2017/01/04 10:58:32 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_ls.h"
+
+void		free_lst(t_rep *lst)
+{
+	while (lst)
+	{
+		if (lst->prev)
+		{
+			free(lst->prev->name);
+			free(lst->prev->name2);
+			free(lst->prev);
+		}
+		if (lst->next == NULL)
+		{
+			free(lst->name);
+			free(lst->name2);
+			free(lst);
+			return ;
+		}
+		lst = lst->next;
+	}
+}
 
 void		ft_printlst(t_rep *lst, t_opt *opt)
 {

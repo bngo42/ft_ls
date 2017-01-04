@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/27 09:49:07 by lvalenti          #+#    #+#             */
-/*   Updated: 2017/01/03 15:48:25 by lvalenti         ###   ########.fr       */
+/*   Updated: 2017/01/04 10:51:30 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,9 +187,7 @@ void		assign_opt(t_opt *opt, t_rep *r)
 	ft_putchar('\n');
 	if (opt->gr == 1)
 		funct_gr(lst, opt);
-	free(lst->name);
-	free(lst->name2);
-	free(lst);
+	free_lst(lst);
 }
 
 void		funct_l(t_rep *r, t_opt *opt)
@@ -262,7 +260,7 @@ int		read_arg(char *path, t_opt *opt)
 		r->argv = ft_strdup(path);
 		r->flag = 0;
 		assign_opt(opt, r);
-		if (r->type == 0 && !(closedir(r->dir)))
+		if (r->type != 1 && (closedir(r->dir) == -1))
 			return (-1);
 		free(r->name);
 		free(r->name2);

@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/28 11:02:05 by lvalenti          #+#    #+#             */
-/*   Updated: 2017/01/03 10:47:43 by lvalenti         ###   ########.fr       */
+/*   Updated: 2017/01/04 10:46:52 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,6 @@ int					ft_check_opt(char *arg, t_opt *opt);
 char				*get_date(t_rep *data);
 void				get_len(t_rep *data, t_opt *opt);
 int					read_arg(char *path, t_opt *opt);
+void				free_lst(t_rep *lst);
 
 #endif
