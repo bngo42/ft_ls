@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/02 10:06:24 by lvalenti          #+#    #+#             */
-/*   Updated: 2017/01/04 13:05:09 by lvalenti         ###   ########.fr       */
+/*   Updated: 2017/01/04 13:40:39 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void		get_len(t_rep *data, t_opt *opt)
 	struct passwd	*usr;
 	struct group	*gid;
 
+	usr = NULL;
 	len[0] = int_len(data->filestat.st_nlink);
 	usr = getpwuid(data->filestat.st_uid);
 	len[1] = ft_strlen(usr->pw_name);
@@ -124,15 +125,12 @@ char				*get_date(t_rep *data)
 	time_t			diff;
 	char			*lol[2];
 
-	date = NULL;
-	if (!(date = (char *)malloc(sizeof(char))))
-		return NULL;
 	t = data->filestat.st_mtime;
 	time(&t_now);
 	diff = t_now - t;
 	if (diff > 15778432)
 	{
-		diff = data->filestat.st_mtime;
+		diff = data->filestat.st_mtime;;
 		date_tmp = ctime(&diff);
 		lol[0] = ft_strsub(date_tmp, 4, 6);
 		lol[1] = ft_strjoin(lol[0], " ");
@@ -176,23 +174,26 @@ void				aff_stat2(t_rep *data)
 		ft_putendl(data->name);
 }
 
-char				*modif_time(char *time)
+char				*modif_time(char *time_char)
 {
 	char			*rslt;
 	int				i;
+	int				j;
 
 	i = 0;
+	j = 0;
 	if ((rslt = (char *)malloc(sizeof(char) * 13)) == 0)
 		return (NULL);
-	while (*time != ' ')
-		time++;
-	time++;
+	while (time_char[j] != ' ')
+		j++;
+	j++;
 	while (i < 12)
 	{
-		rslt[i] = *time;
+		rslt[i] = time_char[j];
 		i++;
-		time++;
+		j++;
 	}
+	// free(time_char);
 	rslt[12] = '\0';
 	return (rslt);
 }

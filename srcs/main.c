@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/27 09:49:07 by lvalenti          #+#    #+#             */
-/*   Updated: 2017/01/04 12:35:20 by lvalenti         ###   ########.fr       */
+/*   Updated: 2017/01/04 15:07:12 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,8 +220,8 @@ void		funct_l(t_rep *r, t_opt *opt)
 		errno = 0;
 		if (lstat(tmp->name2, &tmp->filestat) < 0)
 		{
-			perror("STAT ERROR ");
-			exit (0);
+			perror("ls");
+			return ;
 		}
 		if (opt->a == 0)
 		{
