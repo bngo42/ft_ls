@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 18:43:07 by lvalenti          #+#    #+#             */
-/*   Updated: 2017/01/04 18:44:40 by lvalenti         ###   ########.fr       */
+/*   Updated: 2017/01/04 18:47:12 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void		display_long(t_rep *data, int len[6])
 	ft_putchar(' ');
 }
 
-void	ft_get_mode(t_rep *data)
+void		ft_get_mode(t_rep *data)
 {
 	char	*mod;
 

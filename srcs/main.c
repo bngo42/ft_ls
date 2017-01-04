@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/27 09:49:07 by lvalenti          #+#    #+#             */
-/*   Updated: 2017/01/04 18:41:05 by lvalenti         ###   ########.fr       */
+/*   Updated: 2017/01/04 18:51:07 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,13 +126,13 @@ void		funct_gr(t_rep *lst, t_opt *opt)
 			{
 				if (tmp->name[0] != '.')
 					read_arg(tmp->name2, opt);
-
 			}
 			else if (opt->a == 1)
 			{
 				if (tmp->name[0] != '.')
 					read_arg(tmp->name2, opt);
-				if ((tmp->name[0] == '.' && tmp->name[1] != '.') && (tmp->name[0] == '.' && tmp->name[1] != '\0'))
+				if ((tmp->name[0] == '.' && tmp->name[1] != '.') &&
+						(tmp->name[0] == '.' && tmp->name[1] != '\0'))
 					read_arg(tmp->name2, opt);
 			}
 		}
@@ -147,15 +147,7 @@ void		assign_opt(t_opt *opt, t_rep *r)
 	t_rep			*new;
 	char			*temp;
 
-	opt->len[0] = 0;
-	opt->len[1] = 0;
-	opt->len[2] = 0;
-	opt->len[3] = 0;
-	opt->len[4] = 0;
-	opt->len[5] = 0;
-	opt->len[6] = 0;
-	opt->len[7] = 0;
-
+	ft_memset(opt->len, 0, 8);
 	lst = NULL;
 	if (ft_strcmp(r->argv, "/dev/fd/4") == 0)
 	{
@@ -247,8 +239,8 @@ void		funct_l(t_rep *r, t_opt *opt)
 
 int		read_arg(char *path, t_opt *opt)
 {
-	t_rep *r;
-	struct stat statfile;
+	t_rep		*r;
+	struct stat	statfile;
 
 	if (path != NULL)
 	{
@@ -297,10 +289,10 @@ int		read_arg(char *path, t_opt *opt)
 
 int			main(int argc, char **argv)
 {
-	char	*arg;
-	t_opt	*opt;
-	int		i;
-	int		bol;
+	char		*arg;
+	t_opt		*opt;
+	int			i;
+	int			bol;
 	struct stat statfile;
 
 	bol = 0;
@@ -311,7 +303,6 @@ int			main(int argc, char **argv)
 	ft_check_opt(arg, opt);
 	opt->nb_dir = argc - opt->count;
 	free(arg);
-	errno = 0;
 	i = 0;
 	while (i++ < argc)
 	{

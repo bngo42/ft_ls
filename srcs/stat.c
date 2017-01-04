@@ -6,13 +6,13 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/02 10:06:24 by lvalenti          #+#    #+#             */
-/*   Updated: 2017/01/04 18:44:35 by lvalenti         ###   ########.fr       */
+/*   Updated: 2017/01/04 18:48:07 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_ls.h"
 
-void		aff_stat(t_rep *data, int len[6])
+void				aff_stat(t_rep *data, int len[6])
 {
 	char			*size;
 	char			*major;
@@ -56,7 +56,7 @@ void				aff_stat2(t_rep *data)
 		ft_putstr(" -> ");
 		errno = 0;
 		if ((i = readlink(data->name2, buf, 1023)) < 0)
-		perror("ls :\n");
+			perror("ls :\n");
 		else
 		{
 			buf[i] = '\0';
@@ -64,7 +64,7 @@ void				aff_stat2(t_rep *data)
 		}
 	}
 	else
-	ft_putendl(data->name);
+		ft_putendl(data->name);
 }
 
 char				*get_date(t_rep *data)
@@ -95,7 +95,6 @@ char				*get_date(t_rep *data)
 	}
 	return (date);
 }
-
 
 char				*modif_time(char *time_char)
 {
