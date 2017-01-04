@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/27 09:49:07 by lvalenti          #+#    #+#             */
-/*   Updated: 2017/01/04 19:06:22 by lvalenti         ###   ########.fr       */
+/*   Updated: 2017/01/04 19:10:40 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,9 +148,32 @@ void		funct_gr(t_rep *lst, t_opt *opt)
 	}
 }
 
-void		assign_opt(t_opt *opt, t_rep *r)
+void		check_type(t_rep *r, t_rep *lst)
 {
 	struct dirent	*file;
+	char			*temp;
+
+	if (!r->type)
+	{
+		if (!(file = readdir(r->dir)))
+			return ;
+		temp = ft_strjoin(r->argv, "/");
+		lst->name = ft_strdup(file->d_name);
+		lst->name2 = ft_strjoin(temp, lst->name);
+		free(temp);
+		lst->argv = r->argv;
+		while ((file = readdir(r->dir)))
+			add_list(lst, file->d_name);
+	}
+	else
+	{
+		lst->name = ft_strdup(r->argv);
+		lst->name2 = ft_strdup(r->argv);
+	}
+}
+
+void		assign_opt(t_opt *opt, t_rep *r)
+{
 	t_rep			*lst;
 	t_rep			*new;
 	char			*temp;
@@ -165,25 +188,7 @@ void		assign_opt(t_opt *opt, t_rep *r)
 	}
 	if (!(lst = (t_rep*)ft_memalloc(sizeof(t_rep))))
 		return ;
-	if (!r->type)
-	{
-		if (!(file = readdir(r->dir)))
-			return ;
-		temp = ft_strjoin(r->argv, "/");
-		lst->name = ft_strdup(file->d_name);
-		lst->name2 = ft_strjoin(temp, lst->name);
-		free(temp);
-		lst->argv = r->argv;
-		lst->next = NULL;
-		lst->prev = NULL;
-		while ((file = readdir(r->dir)))
-			add_list(lst, file->d_name);
-	}
-	else
-	{
-		lst->name = ft_strdup(r->argv);
-		lst->name2 = ft_strdup(r->argv);
-	}
+	check_type(r, lst);
 	if ((r->type == 0 && opt->nb_dir > 1) || (opt->gr == 1))
 	{
 		ft_putstr(r->argv);
