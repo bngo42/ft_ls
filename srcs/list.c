@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/01 11:06:48 by lvalenti          #+#    #+#             */
-/*   Updated: 2017/01/04 10:58:32 by lvalenti         ###   ########.fr       */
+/*   Updated: 2017/01/04 12:56:03 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,9 @@ void		ft_printlst(t_rep *lst, t_opt *opt)
 
 void		add_list(t_rep *begin, char *str)
 {
-	t_rep *tmp;
-	t_rep *new;
-	char  *tmp2;
+	t_rep	*tmp;
+	t_rep	*new;
+	char	*tmp2;
 
 	new = NULL;
 	if (!(new = (t_rep *)malloc(sizeof(t_rep))))
@@ -92,7 +92,7 @@ void		add_list(t_rep *begin, char *str)
 	else
 	{
 		while (tmp->next && ft_strcmp(tmp->name2, new->name2) < 0)
-						tmp = tmp->next;
+			tmp = tmp->next;
 		if (ft_strcmp(tmp->name2, new->name2) < 0)
 		{
 			if (tmp->next)

@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/02 10:06:24 by lvalenti          #+#    #+#             */
-/*   Updated: 2017/01/04 12:46:08 by lvalenti         ###   ########.fr       */
+/*   Updated: 2017/01/04 13:05:09 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,9 +100,11 @@ void		aff_stat(t_rep *data, int len[6])
 	{
 		major = ft_itoa(data->major);
 		show_info(major, len[4], 0, 0);
+		free(major);
 		ft_putstr(", ");
 		minor = ft_itoa(data->minor);
 		show_info(minor, len[5], 0, 1);
+		free(minor);
 	}
 	else
 	{
@@ -120,6 +122,7 @@ char				*get_date(t_rep *data)
 	time_t			t;
 	time_t			t_now;
 	time_t			diff;
+	char			*lol[2];
 
 	date = NULL;
 	if (!(date = (char *)malloc(sizeof(char))))
@@ -131,9 +134,12 @@ char				*get_date(t_rep *data)
 	{
 		diff = data->filestat.st_mtime;
 		date_tmp = ctime(&diff);
-		date = ft_strsub(date_tmp, 4, 6);
-		date = ft_strjoin(date, " ");
-		date = ft_strjoin(date, ft_strsub(date_tmp, 19, 5));
+		lol[0] = ft_strsub(date_tmp, 4, 6);
+		lol[1] = ft_strjoin(lol[0], " ");
+		free(lol[0]);
+		date = ft_strjoin(lol[1], (lol[0] = ft_strsub(date_tmp, 19, 5)));
+		free(lol[0]);
+		free(lol[1]);
 	}
 	else
 	{
