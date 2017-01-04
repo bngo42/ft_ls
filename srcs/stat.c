@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/02 10:06:24 by lvalenti          #+#    #+#             */
-/*   Updated: 2017/01/04 12:29:11 by lvalenti         ###   ########.fr       */
+/*   Updated: 2017/01/04 12:46:08 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ void		aff_stat(t_rep *data, int len[6])
 	ft_get_mode(data);
 	link = ft_itoa(data->filestat.st_nlink);
 	show_info(link, len[0], 0, 1);
+	free(link);
 	data->user = getpwuid(data->filestat.st_uid);
 	show_info(data->user->pw_name, len[1], 1, 1);
 	ft_putchar(' ');
@@ -120,6 +121,7 @@ char				*get_date(t_rep *data)
 	time_t			t_now;
 	time_t			diff;
 
+	date = NULL;
 	if (!(date = (char *)malloc(sizeof(char))))
 		return NULL;
 	t = data->filestat.st_mtime;
@@ -150,6 +152,7 @@ void				aff_stat2(t_rep *data)
 	date = get_date(data);
 	ft_putstr(date);
 	ft_putchar(' ');
+	free(date);
 	if (S_ISLNK(data->mode))
 	{
 		ft_putstr(data->name);
@@ -165,7 +168,6 @@ void				aff_stat2(t_rep *data)
 	}
 	else
 		ft_putendl(data->name);
-	free(date);
 }
 
 char				*modif_time(char *time)
