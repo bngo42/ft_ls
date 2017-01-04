@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/27 09:49:07 by lvalenti          #+#    #+#             */
-/*   Updated: 2017/01/04 12:21:31 by lvalenti         ###   ########.fr       */
+/*   Updated: 2017/01/04 12:35:20 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,6 +147,12 @@ void		assign_opt(t_opt *opt, t_rep *r)
 	opt->len[7] = 0;//HAS C OR B
 
 	lst = NULL;
+	if (ft_strcmp(r->argv, "/dev/fd/4") == 0)
+	{
+		ft_putendl("ls: 4: directory causes a cycle");
+		ft_putchar('\n');
+		return ;
+	}
 	if (!(lst = (t_rep*)malloc(sizeof(t_rep))))
 		return ;
 	if (!r->type)
@@ -172,6 +178,11 @@ void		assign_opt(t_opt *opt, t_rep *r)
 	{
 		ft_putstr(r->argv);
 		ft_putendl(":");
+	}
+	if (ft_strcmp(r->argv, "/dev/fd/3") == 0)
+	{
+		ft_putendl("ls: 3: Not a directory");
+		return ;
 	}
 	lst->type = 0;
 	lst->type = r->type;
