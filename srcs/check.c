@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/13 12:58:46 by lvalenti          #+#    #+#             */
-/*   Updated: 2017/01/04 18:36:01 by lvalenti         ###   ########.fr       */
+/*   Updated: 2017/01/04 20:15:18 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,42 +47,41 @@ int			ft_check_opt(char *arg, t_opt *opt)
 	return (0);
 }
 
+void		init_arg(char **arg, int (*i)[4])
+{
+	*arg = NULL;
+	if (!(*arg = (char *)ft_memalloc(sizeof(char) * 6)))
+		return ;
+	(*i)[0] = 0;
+	(*i)[1] = 0;
+	(*i)[2] = 0;
+}
+
 char		*ft_check_arg(char **argv)
 {
 	char	*arg;
-	int		i;
-	int		j;
-	int		k;
-	int		bol;
+	int		i[4];
 
-	if (!(arg = (char *)ft_memalloc(sizeof(char) * 6)))
-		return (NULL);
-	bol = 0;
-	i = 1;
-	k = 0;
-	while (argv[i] && !bol)
+	init_arg(&arg, &i);
+	while (argv[++i[1]] && !i[0])
 	{
-		j = 0;
-		if (argv[i][0] == '-')
+		i[3] = 0;
+		if (argv[i[1]][0] == '-')
 		{
-			j++;
-			while (argv[i][j] && !bol)
+			while (argv[i[1]][++i[3]] && !i[0])
 			{
-				if (argv[i][j] == '-')
+				if (argv[i[1]][i[3]] == '-')
 				{
-					bol = 1;
-					arg[k++] = '-';
+					i[0] = 1;
+					arg[i[2]++] = '-';
 				}
-				else if (!ft_strchr(arg, argv[i][j]))
-					arg[k++] = argv[i][j];
-				j++;
+				else if (!ft_strchr(arg, argv[i[1]][i[3]]))
+					arg[i[2]++] = argv[i[1]][i[3]];
 			}
-			argv[i] = 0;
+			argv[i[1]] = 0;
 		}
 		else
-			bol = 1;
-		i++;
+			i[0] = 1;
 	}
-	arg[k] = '\0';
 	return (arg);
 }
