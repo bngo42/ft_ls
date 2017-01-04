@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/02 10:06:24 by lvalenti          #+#    #+#             */
-/*   Updated: 2016/12/27 14:25:49 by lvalenti         ###   ########.fr       */
+/*   Updated: 2017/01/04 12:29:11 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ void		aff_stat(t_rep *data, int len[6])
 	{
 		size = ft_itoa(data->filestat.st_size);
 		show_info(size, len[3] + ((!len[7]) ? 0 : (len[4] + len[5] - 2)), 0 , 1);
+		free(size);
 	}
 	aff_stat2(data);
 }
@@ -164,6 +165,7 @@ void				aff_stat2(t_rep *data)
 	}
 	else
 		ft_putendl(data->name);
+	free(date);
 }
 
 char				*modif_time(char *time)
@@ -239,4 +241,5 @@ void	ft_get_mode(t_rep *data)
 		mod[8] = 'x';
 	ft_putstr(mod);
 	ft_putstr("  ");
+	free(mod);
 }

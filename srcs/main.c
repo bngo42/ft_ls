@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/27 09:49:07 by lvalenti          #+#    #+#             */
-/*   Updated: 2017/01/04 10:51:30 by lvalenti         ###   ########.fr       */
+/*   Updated: 2017/01/04 12:21:31 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,6 +198,12 @@ void		funct_l(t_rep *r, t_opt *opt)
 	tmp = r;
 	if (!(lst = (t_rep *)malloc(sizeof(t_rep))))
 		return ;
+	lst->name = NULL;
+	lst->name2 = NULL;
+	lst->argv = NULL;
+	lst->next = NULL;
+	lst->prev = NULL;
+	lst->type = 0;
 	while (tmp)
 	{
 		errno = 0;
@@ -221,6 +227,7 @@ void		funct_l(t_rep *r, t_opt *opt)
 		ft_putnbr(opt->len[6]);
 		ft_putchar('\n');
 	}
+	free_lst(lst);
 }
 
 int		read_arg(char *path, t_opt *opt)
