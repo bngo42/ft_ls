@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/28 11:02:05 by lvalenti          #+#    #+#             */
-/*   Updated: 2017/01/04 18:45:23 by lvalenti         ###   ########.fr       */
+/*   Updated: 2017/01/04 19:24:00 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,6 @@ typedef struct		s_rep
 	struct s_rep	*prev;
 }					t_rep;
 
-void				funct_l();
-void				funct_gr();
-void				funct_a();
-void				funct_t();
 void				ft_printlst(t_rep *lst, t_opt *opt);
 void				add_list(t_rep *begin, char *str);
 void				aff_stat(t_rep *data, int len[6]);
@@ -74,5 +70,14 @@ void				free_lst(t_rep *lst);
 void				sort_ascii(t_rep *tmp, t_rep *new);
 void				display_long(t_rep *data, int len[6]);
 void				show_info(char *str, int len, int state, int state2);
+void				funct_l(t_rep *r, t_opt *opt);
+void				funct_l_2(t_rep *tmp, t_opt *opt);
+void				funct_t(t_rep *lst);
+void				funct_t_2(t_rep *tmp, t_rep *lst);
+void				funct_gr(t_rep *lst, t_opt *opt);
+void				funct_gr_2(t_rep *tmp, t_opt *opt);
+t_rep				*funct_pr(t_rep *r);
+void				swap_link(t_rep *lst);
+void				reverse_link(t_rep *lst);
 
 #endif

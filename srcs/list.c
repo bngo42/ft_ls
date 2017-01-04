@@ -6,11 +6,40 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/01 11:06:48 by lvalenti          #+#    #+#             */
-/*   Updated: 2017/01/04 18:17:52 by lvalenti         ###   ########.fr       */
+/*   Updated: 2017/01/04 19:23:25 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_ls.h"
+
+void		swap_link(t_rep *lst)
+{
+	t_rep	*tmp;
+
+	if (!lst->prev)
+	{
+		tmp = lst;
+		lst = lst->next;
+		tmp->next = lst->next;
+		lst->prev = NULL;
+		lst->next = tmp;
+		tmp->prev = lst;
+		if (tmp->next)
+			tmp->next->prev = tmp;
+	}
+	else
+	{
+		tmp = lst;
+		lst->prev->next = lst->next;
+		lst = lst->next;
+		lst->prev->next = lst->next;
+		lst->prev = lst->prev->prev;
+		lst->next = tmp;
+		tmp->prev = lst;
+		if (tmp->next)
+			tmp->next->prev = tmp;
+	}
+}
 
 void		free_lst(t_rep *lst)
 {
