@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/01 11:06:48 by lvalenti          #+#    #+#             */
-/*   Updated: 2017/01/04 12:56:03 by lvalenti         ###   ########.fr       */
+/*   Updated: 2017/01/04 17:32:36 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,26 @@ void		ft_printlst(t_rep *lst, t_opt *opt)
 	}
 }
 
+void		sort_ascii(t_rep *tmp, t_rep *new)
+{
+	if (ft_strcmp(tmp->name2, new->name2) < 0)
+	{
+		if (tmp->next)
+			tmp->next->prev = new;
+		new->next = tmp->next;
+		tmp->next = new;
+		new->prev = tmp;
+	}
+	else
+	{
+		if (tmp->prev)
+			tmp->prev->next = new;
+		new->next = tmp;
+		new->prev = tmp->prev;
+		tmp->prev = new;
+	}
+}
+
 void		add_list(t_rep *begin, char *str)
 {
 	t_rep	*tmp;
@@ -93,21 +113,6 @@ void		add_list(t_rep *begin, char *str)
 	{
 		while (tmp->next && ft_strcmp(tmp->name2, new->name2) < 0)
 			tmp = tmp->next;
-		if (ft_strcmp(tmp->name2, new->name2) < 0)
-		{
-			if (tmp->next)
-				tmp->next->prev = new;
-			new->next = tmp->next;
-			tmp->next = new;
-			new->prev = tmp;
-		}
-		else
-		{
-			if (tmp->prev)
-				tmp->prev->next = new;
-			new->next = tmp;
-			new->prev = tmp->prev;
-			tmp->prev = new;
-		}
+		sort_ascii(tmp, new);
 	}
 }

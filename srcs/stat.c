@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/02 10:06:24 by lvalenti          #+#    #+#             */
-/*   Updated: 2017/01/04 13:40:39 by lvalenti         ###   ########.fr       */
+/*   Updated: 2017/01/04 17:37:46 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,10 @@ void		show_info(char *str, int len, int state, int state2)
 void		aff_stat(t_rep *data, int len[6])
 {
 	struct group	*gid;
-	char			*link;//Ces chaines de caractere
-	char			*size;//peuvent etre remplacee par
-	char			*major;//un seul char* tmp; mais il faut
-	char			*minor;//penser a le free a chaque fois
+	char			*link;
+	char			*size;
+	char			*major;
+	char			*minor;
 
 	data->mode = data->filestat.st_mode;
 	file_type(data->filestat, data);
@@ -135,7 +135,8 @@ char				*get_date(t_rep *data)
 		lol[0] = ft_strsub(date_tmp, 4, 6);
 		lol[1] = ft_strjoin(lol[0], " ");
 		free(lol[0]);
-		date = ft_strjoin(lol[1], (lol[0] = ft_strsub(date_tmp, 19, 5)));
+		lol[0] = ft_strsub(date_tmp, 19, 5);
+		date = ft_strjoin(lol[1], lol[0]);
 		free(lol[0]);
 		free(lol[1]);
 	}
@@ -193,7 +194,6 @@ char				*modif_time(char *time_char)
 		i++;
 		j++;
 	}
-	// free(time_char);
 	rslt[12] = '\0';
 	return (rslt);
 }

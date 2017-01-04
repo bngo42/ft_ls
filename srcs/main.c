@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/27 09:49:07 by lvalenti          #+#    #+#             */
-/*   Updated: 2017/01/04 16:08:49 by lvalenti         ###   ########.fr       */
+/*   Updated: 2017/01/04 17:50:28 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,11 +126,14 @@ void		funct_gr(t_rep *lst, t_opt *opt)
 			{
 				if (tmp->name[0] != '.')
 					read_arg(tmp->name2, opt);
+
 			}
-			else
+			else if (opt->a == 1)
 			{
+				if (tmp->name[0] != '.')
+					read_arg(tmp->name2, opt);
 				if ((tmp->name[0] == '.' && tmp->name[1] != '.') && (tmp->name[0] == '.' && tmp->name[1] != '\0'))
-				 read_arg(tmp->name2, opt);
+					read_arg(tmp->name2, opt);
 			}
 		}
 		tmp = tmp->next;
@@ -144,14 +147,14 @@ void		assign_opt(t_opt *opt, t_rep *r)
 	t_rep			*new;
 	char			*temp;
 
-	opt->len[0] = 0;//LIEN
-	opt->len[1] = 0;//UID
-	opt->len[2] = 0;//GROUP
-	opt->len[3] = 0;//SIZE
-	opt->len[4] = 0;//MAJOR
-	opt->len[5] = 0;//MINOR
-	opt->len[6] = 0;//TOTAL_BLOCK
-	opt->len[7] = 0;//HAS C OR B
+	opt->len[0] = 0;
+	opt->len[1] = 0;
+	opt->len[2] = 0;
+	opt->len[3] = 0;
+	opt->len[4] = 0;
+	opt->len[5] = 0;
+	opt->len[6] = 0;
+	opt->len[7] = 0;
 
 	lst = NULL;
 	if (ft_strcmp(r->argv, "/dev/fd/4") == 0)
@@ -267,7 +270,7 @@ int		read_arg(char *path, t_opt *opt)
 			perror("");
 			return (-1);
 		}
-		if (S_ISLNK(statfile.st_mode))
+		if (S_ISLNK(statfile.st_mode) && opt->l == 1)
 			r->type = 1;
 		else if (!(r->dir = opendir(path)))
 		{
