@@ -6,7 +6,7 @@
 #    By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/12/28 11:03:48 by lvalenti          #+#    #+#              #
-#    Updated: 2017/01/03 12:09:10 by lvalenti         ###   ########.fr        #
+#    Updated: 2017/01/04 18:45:50 by lvalenti         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,8 @@ INC = $(addprefix -I , $(HPATH))
 CFILES = main.c\
 		 list.c\
 		 check.c\
-		 stat.c
+		 stat.c \
+		 stat2.c
 OFILES = $(CFILES:.c=.o)
 HFILES = includes/ft_ls.h libft/includes/libft.h
 OBJ = $(addprefix $(OPATH), $(OFILES))

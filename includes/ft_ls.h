@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/28 11:02:05 by lvalenti          #+#    #+#             */
-/*   Updated: 2017/01/04 17:31:23 by lvalenti         ###   ########.fr       */
+/*   Updated: 2017/01/04 18:45:23 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,5 +72,7 @@ void				get_len(t_rep *data, t_opt *opt);
 int					read_arg(char *path, t_opt *opt);
 void				free_lst(t_rep *lst);
 void				sort_ascii(t_rep *tmp, t_rep *new);
+void				display_long(t_rep *data, int len[6]);
+void				show_info(char *str, int len, int state, int state2);
 
 #endif
