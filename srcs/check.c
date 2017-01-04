@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/13 12:58:46 by lvalenti          #+#    #+#             */
-/*   Updated: 2017/01/04 15:12:25 by lvalenti         ###   ########.fr       */
+/*   Updated: 2017/01/04 16:03:54 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,10 @@ int			ft_check_opt(char *arg, t_opt *opt)
 			opt->count++;
 			opt->t = 1;
 		}
-		else
+		else if (arg[i] == '-')
 		{
-			ft_putstr("ls: ");
-			ft_putstr(arg);
-			ft_putendl(": No such file or directory");
+			ft_putendl("ls: illegal option -- -");
+			ft_putendl("usage: ls [-lRart] [file ...]");
 			exit (0);
 		}
 		i++;
@@ -64,9 +63,8 @@ char		*ft_check_arg(char **argv)
 	int k;
 	int	bol;
 
-	if (!(arg = (char*)malloc(sizeof(char) * 6)))
+	if (!(arg = (char *)ft_memalloc(sizeof(char) * 6)))
 		return (NULL);
-	ft_bzero(arg, sizeof(char) * 6);
 	bol = 0;
 	i = 1;
 	k = 0;
@@ -79,13 +77,18 @@ char		*ft_check_arg(char **argv)
 			while (argv[i][j] && !bol)
 			{
 				if (argv[i][j] == '-')
+				{
 					bol = 1;
+					arg[k++] = '-';
+				}
 				else if (!ft_strchr(arg, argv[i][j]))
 					arg[k++] = argv[i][j];
 				j++;
 			}
 			argv[i] = 0;
 		}
+		else
+			bol = 1;
 		i++;
 	}
 	arg[k] = '\0';

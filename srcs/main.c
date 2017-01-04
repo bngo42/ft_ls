@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/27 09:49:07 by lvalenti          #+#    #+#             */
-/*   Updated: 2017/01/04 15:07:12 by lvalenti         ###   ########.fr       */
+/*   Updated: 2017/01/04 16:08:49 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,14 +73,15 @@ void		funct_t(t_rep *lst)
 {
 	t_rep			*tmp;
 
+	tmp = NULL;
 	tmp = lst;
 	while (tmp)
 	{
 		errno = 0;
 		if (lstat(tmp->name2, &tmp->filestat) < 0)
 		{
-			perror("STAT ERROR ");
-			exit (0);
+			perror("ls ");
+			return ;
 		}
 		tmp->time_s = tmp->filestat.st_mtimespec.tv_sec;
 		tmp->time_ns = tmp->filestat.st_mtimespec.tv_nsec;
@@ -116,15 +117,21 @@ void		funct_gr(t_rep *lst, t_opt *opt)
 		errno = 0;
 		if (lstat(tmp->name2, &tmp->filestat) < 0)
 		{
-			perror("STAT ERROR ");
-			exit (0);
+			perror("ls ");
+			return ;
 		}
 		if (S_ISDIR(tmp->filestat.st_mode))
 		{
-			if (tmp->name[0] != '.')
-				read_arg(tmp->name2, opt);
-			 else if ((tmp->name[0] == '.' && tmp->name[1] != '.') && (tmp->name[0] == '.' && tmp->name[1] != '\0'))
+			if (opt->a == 0)
+			{
+				if (tmp->name[0] != '.')
+					read_arg(tmp->name2, opt);
+			}
+			else
+			{
+				if ((tmp->name[0] == '.' && tmp->name[1] != '.') && (tmp->name[0] == '.' && tmp->name[1] != '\0'))
 				 read_arg(tmp->name2, opt);
+			}
 		}
 		tmp = tmp->next;
 	}
@@ -153,7 +160,7 @@ void		assign_opt(t_opt *opt, t_rep *r)
 		ft_putchar('\n');
 		return ;
 	}
-	if (!(lst = (t_rep*)malloc(sizeof(t_rep))))
+	if (!(lst = (t_rep*)ft_memalloc(sizeof(t_rep))))
 		return ;
 	if (!r->type)
 	{
@@ -207,14 +214,8 @@ void		funct_l(t_rep *r, t_opt *opt)
 	t_rep	*lst;
 
 	tmp = r;
-	if (!(lst = (t_rep *)malloc(sizeof(t_rep))))
+	if (!(lst = (t_rep *)ft_memalloc(sizeof(t_rep))))
 		return ;
-	lst->name = NULL;
-	lst->name2 = NULL;
-	lst->argv = NULL;
-	lst->next = NULL;
-	lst->prev = NULL;
-	lst->type = 0;
 	while (tmp)
 	{
 		errno = 0;
@@ -249,7 +250,7 @@ int		read_arg(char *path, t_opt *opt)
 	if (path != NULL)
 	{
 		r = NULL;
-		if (!(r = (t_rep*)malloc(sizeof(t_rep))))
+		if (!(r = (t_rep*)ft_memalloc(sizeof(t_rep))))
 			return (-1);
 		r->name = NULL;
 		r->name2 = NULL;
@@ -260,7 +261,10 @@ int		read_arg(char *path, t_opt *opt)
 		errno = 0;
 		if (lstat(path, &statfile) < 0)
 		{
-			perror("ls");
+			ft_putstr("ls: ");
+			ft_putstr(path);
+			ft_putstr(": ");
+			perror("");
 			return (-1);
 		}
 		if (S_ISLNK(statfile.st_mode))
@@ -298,29 +302,15 @@ int			main(int argc, char **argv)
 
 	bol = 0;
 	arg = ft_check_arg(argv);
-	opt = (t_opt *)malloc(sizeof(t_opt));
+	opt = (t_opt *)ft_memalloc(sizeof(t_opt));
 	opt->count = 1;
-	opt->l = 0;
-	opt->gr = 0;
-	opt->a = 0;
-	opt->pr = 0;
-	opt->t = 0;
 	opt->nb_ac = argc;
-	opt->nb_dir = 0;
 	ft_check_opt(arg, opt);
+	opt->nb_dir = argc - opt->count;
 	free(arg);
 	errno = 0;
 	while (opt->count < argc)
-	{
-		if (lstat(argv[opt->count], &statfile) < 0)
-		{
-			perror("ls");
-			return (-1);
-		}
-		if (S_ISDIR(statfile.st_mode))
-			opt->nb_dir++;
 		opt->count++;
-	}
 	i = 0;
 	while (i++ < argc)
 	{
