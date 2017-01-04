@@ -6,7 +6,7 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/27 09:49:07 by lvalenti          #+#    #+#             */
-/*   Updated: 2017/01/04 18:56:25 by lvalenti         ###   ########.fr       */
+/*   Updated: 2017/01/04 18:59:13 by lvalenti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,19 +144,6 @@ void		funct_gr(t_rep *lst, t_opt *opt)
 		}
 		if (S_ISDIR(tmp->filestat.st_mode))
 			funct_gr_2(tmp, opt);
-			// if (opt->a == 0)
-			// {
-			// 	if (tmp->name[0] != '.')
-			// 		read_arg(tmp->name2, opt);
-			// }
-			// else if (opt->a == 1)
-			// {
-			// 	if (tmp->name[0] != '.')
-			// 		read_arg(tmp->name2, opt);
-			// 	if ((tmp->name[0] == '.' && tmp->name[1] != '.') &&
-			// 			(tmp->name[0] == '.' && tmp->name[1] != '\0'))
-			// 		read_arg(tmp->name2, opt);
-			// }
 		tmp = tmp->next;
 	}
 }
@@ -224,6 +211,23 @@ void		assign_opt(t_opt *opt, t_rep *r)
 	free_lst(lst);
 }
 
+void		funct_l_2(t_rep *tmp, t_opt *opt)
+{
+	errno = 0;
+	if (lstat(tmp->name2, &tmp->filestat) < 0)
+	{
+		perror("ls");
+		return ;
+	}
+	if (opt->a == 0)
+	{
+		if (tmp->name[0] != '.')
+			get_len(tmp, opt);
+	}
+	else if (opt->a == 1)
+		get_len(tmp, opt);
+}
+
 void		funct_l(t_rep *r, t_opt *opt)
 {
 	t_rep	*tmp;
@@ -234,19 +238,7 @@ void		funct_l(t_rep *r, t_opt *opt)
 		return ;
 	while (tmp)
 	{
-		errno = 0;
-		if (lstat(tmp->name2, &tmp->filestat) < 0)
-		{
-			perror("ls");
-			return ;
-		}
-		if (opt->a == 0)
-		{
-			if (tmp->name[0] != '.')
-				get_len(tmp, opt);
-		}
-		else if (opt->a == 1)
-			get_len(tmp, opt);
+		funct_l_2(tmp, opt);
 		tmp = tmp->next;
 	}
 	if (r->type == 0)
