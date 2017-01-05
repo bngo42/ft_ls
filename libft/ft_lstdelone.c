@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstdelone.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lvalenti <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: bngo <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/12/01 12:32:41 by lvalenti          #+#    #+#             */
-/*   Updated: 2016/02/19 10:18:16 by lvalenti         ###   ########.fr       */
+/*   Created: 2015/12/17 13:38:47 by bngo              #+#    #+#             */
+/*   Updated: 2015/12/17 15:25:21 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/libft.h"
+#include <stdlib.h>
+#include "libft.h"
 
 void	ft_lstdelone(t_list **alst, void (*del)(void *, size_t))
 {

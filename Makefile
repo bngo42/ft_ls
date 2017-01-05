@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+         #
+#    By: bngo <marvin@42.fr>                        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2016/12/28 11:03:48 by lvalenti          #+#    #+#              #
-#    Updated: 2017/01/04 19:26:35 by lvalenti         ###   ########.fr        #
+#    Created: 2017/01/05 11:40:59 by bngo              #+#    #+#              #
+#    Updated: 2017/01/05 12:06:04 by bngo             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = ft_ls
 CC = clang
-CFLAGS = -Weverything -Wstrict -pedantic -W -Wall -Werror -Wextra -g
+CFLAGS = -Wall -Werror -Wextra
 CPATH = srcs/
 OPATH = obj/
 HPATH = includes/ libft/
@@ -26,7 +26,7 @@ CFILES = main.c\
 		 funct_1.c \
 		 read.c
 OFILES = $(CFILES:.c=.o)
-HFILES = includes/ft_ls.h libft/includes/libft.h
+HFILES = includes/ft_ls.h libft/libft.h
 OBJ = $(addprefix $(OPATH), $(OFILES))
 
 .PHONY: all clean fclean re

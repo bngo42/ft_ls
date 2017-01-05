@@ -3,50 +3,57 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strsplit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lvalenti <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: bngo <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/11/27 10:40:29 by lvalenti          #+#    #+#             */
-/*   Updated: 2016/02/19 10:02:12 by lvalenti         ###   ########.fr       */
+/*   Created: 2015/12/05 14:41:04 by bngo              #+#    #+#             */
+/*   Updated: 2015/12/10 17:57:24 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include "includes/libft.h"
+#include "libft.h"
+#include <unistd.h>
 
-static char	**ft_finalize(char **final, int size, char const *s, char c)
+static int		count_words(char *s, char c)
 {
-	int		i;
-	int		y;
+	int words;
 
-	i = 0;
-	while (i != size)
+	while (*s && *s == c)
+		++s;
+	words = (*s) ? 1 : 0;
+	while (*s)
 	{
-		y = 0;
-		if (*s == c)
-			s++;
-		else
-		{
-			y = 0;
-			while (s[y] && s[y] != c)
-				y++;
-			final[i] = ft_strsub(s, 0, y);
-			i++;
-			s += y;
-		}
+		if (*s == c && s[1] && s[1] != c)
+			++words;
+		++s;
 	}
-	final[i] = NULL;
-	return (final);
+	return (words);
 }
 
-char		**ft_strsplit(char const *s, char c)
+char			**ft_strsplit(char const *s, char c)
 {
-	int		i;
-	char	**final;
+	int		words;
+	char	*start;
+	char	**result;
 
-	i = ft_word_number(s, c);
-	final = (char **)malloc(sizeof(char *) * (i + 1));
-	if (final == NULL)
+	if (!s || !c)
 		return (NULL);
-	final = ft_finalize(final, i, s, c);
-	return (final);
+	words = count_words((char*)s, c);
+	result = (char**)malloc(sizeof(char*) * (count_words((char*)s, c) + 1));
+	if (result == NULL)
+		return (NULL);
+	start = (char*)s;
+	while (*s)
+	{
+		if (*s == c)
+		{
+			if (start != s)
+				*(result++) = ft_strsub(start, 0, s - start);
+			start = (char*)s + 1;
+		}
+		++s;
+	}
+	if (start != s)
+		*(result++) = ft_strsub(start, 0, s - start);
+	*result = NULL;
+	return (result - words);
 }

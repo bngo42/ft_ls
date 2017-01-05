@@ -3,25 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lvalenti <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: bngo <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/11/23 17:17:13 by lvalenti          #+#    #+#             */
-/*   Updated: 2016/01/13 16:21:04 by lvalenti         ###   ########.fr       */
+/*   Created: 2015/11/25 11:15:08 by bngo              #+#    #+#             */
+/*   Updated: 2015/12/07 16:14:15 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <string.h>
-
-char	*ft_strcpy(char *dst, const char *src)
+char		*ft_strcpy(char *restrict dest, const char *restrict src)
 {
-	int c;
+	int i;
 
-	c = 0;
-	while (src[c])
+	i = 0;
+	while (src[i] != '\0')
 	{
-		dst[c] = src[c];
-		c++;
+		dest[i] = src[i];
+		i++;
 	}
-	dst[c] = '\0';
-	return (dst);
+	dest[i] = '\0';
+	return (dest);
 }

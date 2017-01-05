@@ -3,68 +3,69 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lvalenti <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: bngo <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/11/27 09:30:20 by lvalenti          #+#    #+#             */
-/*   Updated: 2016/02/19 10:02:30 by lvalenti         ###   ########.fr       */
+/*   Created: 2015/12/05 14:07:09 by bngo              #+#    #+#             */
+/*   Updated: 2015/12/23 12:24:38 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include <stdlib.h>
-#include "includes/libft.h"
 
-static int		get_size(int n)
+static char		*ft_writenbr(int n, int bol, int i, char *res)
 {
-	int i;
+	int k;
 
-	i = 0;
-	if (n == 0)
-		return (1);
-	while (n != 0)
+	k = n;
+	res[i] = '\0';
+	if (bol == 1)
+		res[0] = '-';
+	while ((--i >= 0 && bol == 0) || (i > 0 && bol == 1))
 	{
-		n = n / 10;
+		res[i] = (k % 10) + 48;
+		k = (k - (k % 10)) / 10;
+	}
+	return (res);
+}
+
+static int		ft_length(int i, int n)
+{
+	int k;
+
+	k = n;
+	while (k != 0)
+	{
+		k = (k - (k % 10)) / 10;
 		i++;
 	}
 	return (i);
 }
 
-static int		ft_sign(int a)
-{
-	if (a < 0)
-		return (1);
-	return (0);
-}
-
-static int		calcul(int b)
-{
-	if (b < 0)
-		return (-b);
-	return (b);
-}
-
 char			*ft_itoa(int n)
 {
-	char	*p;
 	int		i;
-	int		sign;
+	int		boul;
+	char	*res;
 
-	sign = ft_sign(n);
-	i = get_size(n);
-	p = NULL;
-	p = (char *)malloc(sizeof(char) * (sign + i + 1));
-	if (p)
+	i = 0;
+	boul = 0;
+	if (n == -2147483648)
+		return (ft_strdup("-2147483648"));
+	if (n < 0)
 	{
-		p = p + i + sign;
-		*p = '\0';
-		if (!n)
-			*--p = '0';
-		while (n != 0)
-		{
-			*--p = calcul(n % 10) + '0';
-			n = n / 10;
-		}
-		if (sign)
-			*--p = '-';
+		boul = 1;
+		n = -n;
+		i++;
 	}
-	return (p);
+	i = ft_length(i, n);
+	if (n == 0)
+	{
+		if (!(res = (char*)malloc(sizeof(char) * 2)))
+			return (0);
+		return (ft_strdup("0"));
+	}
+	if ((res = (char*)malloc(sizeof(char) * i + 1)) == NULL)
+		return (NULL);
+	return (ft_writenbr(n, boul, i, res));
 }

@@ -3,33 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lvalenti <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: bngo <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/11/30 11:44:45 by lvalenti          #+#    #+#             */
-/*   Updated: 2016/02/19 09:58:45 by lvalenti         ###   ########.fr       */
+/*   Created: 2015/11/27 11:30:56 by bngo              #+#    #+#             */
+/*   Updated: 2015/12/10 16:16:58 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <string.h>
-#include "includes/libft.h"
+#include "libft.h"
+#include <stdlib.h>
 
-size_t	ft_strlcat(char *dst, const char *src, size_t size)
+size_t		ft_strlcat(char *dest, const char *src, size_t n)
 {
 	char		*d;
 	const char	*s;
-	size_t		n;
+	size_t		size;
 	size_t		dlen;
 
-	d = dst;
+	d = dest;
 	s = src;
-	n = size;
-	while (n-- && *d)
+	size = n;
+	while (n-- != 0 && *d != '\0')
 		d++;
-	dlen = d - dst;
+	dlen = d - dest;
 	n = size - dlen;
 	if (n == 0)
 		return (dlen + ft_strlen(s));
-	while (*s)
+	while (*s != '\0')
 	{
 		if (n != 1)
 		{

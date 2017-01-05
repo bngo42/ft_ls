@@ -3,34 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strstr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lvalenti <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: bngo <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/12/02 20:26:09 by lvalenti          #+#    #+#             */
-/*   Updated: 2016/02/19 09:59:01 by lvalenti         ###   ########.fr       */
+/*   Created: 2015/11/26 10:34:17 by bngo              #+#    #+#             */
+/*   Updated: 2015/12/07 17:50:52 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/libft.h"
+#include <stdlib.h>
 
-char	*ft_strstr(const char *s1, const char *s2)
+char		*ft_strstr(const char *s1, const char *s2)
 {
-	const char *c1;
-	const char *c2;
+	int i;
+	int j;
 
-	if (*s2 == '\0')
-		return ((char*)s1);
-	while (*s1 != '\0')
+	i = 0;
+	if (s1[0] == '\0' && s2[0] == '\0')
+		return (char*)&s1[0];
+	while (s1[i] != '\0')
 	{
-		c1 = s1;
-		c2 = s2;
-		while (*c2 != '\0' && *c1 == *c2)
-		{
-			c1++;
-			c2++;
-		}
-		if (*c2 == '\0')
-			return ((char*)s1);
-		s1++;
+		j = 0;
+		while (s2[j] == s1[i + j] && s2[j] != '\0')
+			j++;
+		if (s2[j] == '\0')
+			return (char*)&s1[i];
+		i++;
 	}
 	return (NULL);
 }

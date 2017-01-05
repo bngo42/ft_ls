@@ -3,35 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memccpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lvalenti <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: bngo <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/11/30 12:48:01 by lvalenti          #+#    #+#             */
-/*   Updated: 2015/12/11 13:31:20 by lvalenti         ###   ########.fr       */
+/*   Created: 2015/11/26 14:31:47 by bngo              #+#    #+#             */
+/*   Updated: 2015/12/10 16:02:22 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <string.h>
+#include <stdlib.h>
 
-void	*ft_memccpy(void *dst, const void *src, int c, size_t n)
+void		*ft_memccpy(void *dest, const void *src, int c, size_t n)
 {
+	size_t			i;
 	unsigned char	*d;
 	unsigned char	*s;
-	size_t			count;
-	unsigned char	a;
 
-	d = (unsigned char *)dst;
-	s = (unsigned char *)src;
-	a = (unsigned char)c;
-	count = 0;
-	while (count < n)
+	i = 0;
+	d = (unsigned char*)dest;
+	s = (unsigned char*)src;
+	while (i < n && s[i] != (unsigned char)c)
 	{
-		if (s[count] == a)
-		{
-			d[count] = s[count];
-			return (dst + count + 1);
-		}
-		d[count] = s[count];
-		count++;
+		d[i] = s[i];
+		i++;
 	}
-	return (NULL);
+	if (s[i] == (unsigned char)c && i != n)
+	{
+		d[i] = s[i];
+		return (&d[i + 1]);
+	}
+	return (0);
 }

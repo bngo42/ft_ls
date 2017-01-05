@@ -3,38 +3,70 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lvalenti <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: bngo <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/11/27 10:32:46 by lvalenti          #+#    #+#             */
-/*   Updated: 2016/02/19 10:01:54 by lvalenti         ###   ########.fr       */
+/*   Created: 2015/12/07 11:57:01 by bngo              #+#    #+#             */
+/*   Updated: 2015/12/10 17:45:11 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <string.h>
-#include "includes/libft.h"
+#include "libft.h"
+#include <stdlib.h>
 
-char	*ft_strtrim(char const *s)
+static int			ft_start(const char *s)
 {
-	char		*p;
-	size_t		len;
+	int i;
+	int start;
 
-	if (!s)
-		return (NULL);
-	len = ft_strlen(s);
-	p = (char *)s + len - 1;
-	while (*s && ft_isspace(*s))
+	i = 0;
+	start = 0;
+	while (s[i] == ' ' || s[i] == '\t' || s[i] == '\n')
 	{
-		s++;
-		len--;
+		start++;
+		i++;
 	}
-	while (p >= s && ft_isspace(*p))
+	return (start);
+}
+
+static int			ft_end(const char *s, int len)
+{
+	int i;
+	int end;
+
+	i = len - 1;
+	end = 0;
+	while (s[i] == ' ' || s[i] == '\t' || s[i] == '\n')
 	{
-		p--;
-		len--;
+		i--;
+		end++;
 	}
-	p = ft_strnew(len);
-	if (!p)
-		return (NULL);
-	ft_strncpy(p, s, len);
-	return (p);
+	return (end);
+}
+
+char				*ft_strtrim(char const *s)
+{
+	char	*copie;
+	int		i;
+	int		start;
+	int		end;
+	int		len;
+
+	i = 0;
+	if (s)
+	{
+		len = ft_strlen((char*)s);
+		start = ft_start(s);
+		end = ft_end(s, len);
+		if (start == len)
+			return (ft_strdup(""));
+		if (!(copie = (char*)malloc(sizeof(char) * (len - start - end + 1))))
+			return (NULL);
+		while (i < (len - start - end))
+		{
+			copie[i] = (char)s[i + start];
+			i++;
+		}
+		copie[i] = '\0';
+	}
+	return (copie);
 }

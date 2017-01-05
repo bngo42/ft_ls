@@ -3,36 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lvalenti <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: bngo <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/12/01 12:37:17 by lvalenti          #+#    #+#             */
-/*   Updated: 2016/02/19 10:19:52 by lvalenti         ###   ########.fr       */
+/*   Created: 2015/12/17 14:08:14 by bngo              #+#    #+#             */
+/*   Updated: 2015/12/23 13:16:26 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/libft.h"
+#include <stdlib.h>
+#include "libft.h"
 
-t_list	*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem))
+t_list		*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem))
 {
-	t_list	*result;
+	t_list	*new;
+	t_list	*new2;
+	t_list	*newlst;
 	t_list	*tmp;
-	t_list	*tmp2;
 
 	if (!lst || !f)
 		return (NULL);
-	tmp2 = f(lst);
-	if ((result = ft_lstnew(tmp2->content, tmp2->content_size)))
+	tmp = lst;
+	if ((new = (t_list*)malloc(sizeof(t_list))) == NULL)
+		return (NULL);
+	new = f(tmp);
+	tmp = tmp->next;
+	if (!(newlst = new))
+		return (NULL);
+	while (tmp != NULL)
 	{
-		tmp = result;
-		lst = lst->next;
-		while (lst)
-		{
-			tmp2 = f(lst);
-			if (!(tmp->next = ft_lstnew(tmp2->content, tmp2->content_size)))
-				return (NULL);
-			tmp = tmp->next;
-			lst = lst->next;
-		}
+		if ((new2 = (t_list*)malloc(sizeof(t_list))) == NULL)
+			return (NULL);
+		new2 = f(tmp);
+		new->next = new2;
+		new = new2;
+		free(new2);
+		tmp = tmp->next;
 	}
-	return (result);
+	return (newlst);
 }

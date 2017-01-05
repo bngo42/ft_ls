@@ -3,38 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lvalenti <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: bngo <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/11/30 09:30:51 by lvalenti          #+#    #+#             */
-/*   Updated: 2016/02/19 09:59:44 by lvalenti         ###   ########.fr       */
+/*   Created: 2015/11/23 15:09:45 by bngo              #+#    #+#             */
+/*   Updated: 2015/12/10 16:01:36 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/libft.h"
-#include <stdlib.h>
+#include "libft.h"
 
-int		ft_atoi(char const *str)
+int		ft_atoi(const char *str)
 {
-	int		i;
-	long	sum;
-	char	sign;
+	int	i;
+	int sign;
+	int nb;
 
-	sum = 0;
-	sign = 1;
 	i = 0;
-	while (ft_isspace(str[i]))
+	sign = 0;
+	nb = 0;
+	while (str[i] != 0 && (str[i] == ' ' || str[i] == '\t' || str[i] == '\n' ||
+			str[i] == '\r' || str[i] == '\v' || str[i] == '\f'))
 		i++;
-	if (str[i] == '+')
-		i++;
-	else if (str[i] == '-')
+	if (str[i] == '-')
 	{
-		sign = 0;
+		nb = -nb;
+		sign = 1;
 		i++;
 	}
-	while (str[i] && ft_isdigit(str[i]))
-		sum = sum * 10 + (str[i++] - '0');
-	if (sign)
-		return (sum);
-	else
-		return (-sum);
+	else if (str[i] == '+')
+		i++;
+	while (str[i] != '\0' && ft_isdigit(str[i]))
+	{
+		nb = nb * 10 + str[i] - '0';
+		i++;
+	}
+	nb = (sign == 1) ? nb * -1 : nb * 1;
+	return (nb);
 }

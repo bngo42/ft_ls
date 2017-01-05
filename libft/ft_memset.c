@@ -3,26 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lvalenti <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: bngo <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/11/24 08:39:52 by lvalenti          #+#    #+#             */
-/*   Updated: 2015/12/02 14:57:35 by lvalenti         ###   ########.fr       */
+/*   Created: 2015/11/26 11:49:45 by bngo              #+#    #+#             */
+/*   Updated: 2015/12/02 17:02:20 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <string.h>
+#include <stdlib.h>
 
-void	*ft_memset(void *b, int c, size_t len)
+void		*ft_memset(void *b, int c, size_t len)
 {
-	unsigned char	*var;
-	size_t			count;
+	size_t				i;
+	char				*str;
 
-	count = 0;
-	var = (unsigned char *)b;
-	while (count < len)
+	i = 0;
+	str = (char*)b;
+	while (i < len)
 	{
-		var[count] = (unsigned char)c;
-		count++;
+		str[i] = (char)c;
+		i++;
 	}
 	return (b);
 }

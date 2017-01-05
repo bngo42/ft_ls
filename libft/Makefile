@@ -6,7 +6,7 @@
 #    By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/01 10:44:47 by lvalenti          #+#    #+#              #
-#    Updated: 2016/12/31 12:48:44 by lvalenti         ###   ########.fr        #
+#    Updated: 2017/01/05 12:01:07 by bngo             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,8 +26,6 @@ SRCS = ft_memset.c ft_bzero.c ft_memcpy.c ft_memccpy.c ft_memmove.c \
 	   ft_putendl_fd.c ft_striter.c ft_striteri.c ft_strmap.c ft_strmapi.c \
 	   ft_strequ.c ft_strnequ.c ft_putnbr_fd.c  ft_memdel.c ft_lstnew.c \
 	   ft_lstdelone.c ft_lstdel.c ft_lstadd.c ft_lstiter.c ft_lstmap.c \
-	   ft_isspace.c ft_word_number.c ft_change.c ft_puttab.c ft_swap.c \
-	   ft_strpbrk.c get_next_line.c
 
 OBJS = $(SRCS:.c=.o)
 

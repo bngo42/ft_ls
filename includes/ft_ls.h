@@ -6,13 +6,13 @@
 /*   By: lvalenti <lvalenti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/28 11:02:05 by lvalenti          #+#    #+#             */
-/*   Updated: 2017/01/04 19:26:56 by lvalenti         ###   ########.fr       */
+/*   Updated: 2017/01/05 12:08:56 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_LS_H
 # define FT_LS_H
-# include "../libft/includes/libft.h"
+# include "../libft/libft.h"
 # include <dirent.h>
 # include <errno.h>
 # include <sys/types.h>
@@ -21,6 +21,7 @@
 # include <time.h>
 # include <grp.h>
 # include <stdio.h>
+# include <unistd.h>
 
 typedef struct		s_opt
 {

@@ -3,22 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   ft_striteri.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lvalenti <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: bngo <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/11/30 09:20:46 by lvalenti          #+#    #+#             */
-/*   Updated: 2015/12/02 11:24:24 by lvalenti         ###   ########.fr       */
+/*   Created: 2015/12/03 14:47:23 by bngo              #+#    #+#             */
+/*   Updated: 2015/12/10 17:28:41 by bngo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-void	ft_striteri(char *s, void (*f)(unsigned int, char *))
+void		ft_striteri(char *s, void (*f)(unsigned int, char*))
 {
 	unsigned int i;
 
 	i = 0;
-	while (*s)
+	if (s)
 	{
-		(*f)(i, s);
-		i++;
-		s++;
+		while (s[i] != '\0')
+		{
+			f(i, &(s[i]));
+			i++;
+		}
 	}
 }
